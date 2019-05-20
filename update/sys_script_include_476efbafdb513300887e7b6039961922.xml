@@ -95,6 +95,7 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
     var html = this.newItem("html");
 
     var r = this.getPhoneNumbers();
+	  gs.info(r + 'r numbers');
     var phs = r.phs;
     error = r.error;
     var self = this;
@@ -102,6 +103,7 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
     var showNotifyGrp = "";
     var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
     phs.forEach(function (ph, i) {
+		gs.info(ph.numbers + 'ph numbers');
       var btn;
       self.getDocument().setCurrentElement(html);
       var row = self.getDocument().createElement("tr");
@@ -211,7 +213,7 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
     });
 
     status.setAttribute("error", error);
-    status.setAttribute("showTerritory", showTerritory);
+    status.setAttribute("showTerritory", showTerrritory);
     status.setAttribute("showNotifyGrp", showNotifyGrp);
   },
 
@@ -233,7 +235,7 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
     var phs = [];
     var error = '';
     var request = new sn_ws.RESTMessageV2();
-    request.setEndpoint('https://rest.nexmo.com/account/numbers?api_key=8af12cdf&api_secret=V8BtkSIpqfwq9KWF');
+    request.setEndpoint('http://mmalaikannan-dev.sirahu.net/sample');
     request.setHttpMethod('GET');
     request.setRequestHeader("Content-type", "application/json");
 
@@ -801,13 +803,13 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:18</sys_created_on>
         <sys_id>476efbafdb513300887e7b6039961922</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>NexmoDirectClient</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_476efbafdb513300887e7b6039961922</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:38:48</sys_updated_on>
+        <sys_updated_on>2019-05-20 13:26:17</sys_updated_on>
     </sys_script_include>
 </record_update>
