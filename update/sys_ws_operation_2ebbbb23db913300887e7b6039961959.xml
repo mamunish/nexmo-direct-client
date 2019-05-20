@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>GET</http_method>
+        <name>Nexmo Event Call</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+// 		gs.info(JSON.stringify(request.pathParams) + " ereq pp");
+// 	gs.info(JSON.stringify(request.queryParams) + 'ereq qp');
+// 	gs.info(JSON.stringify(request.queryString) +  "  erequest.queryString");
+// 	gs.info(JSON.stringify(request.body) +  "  erequest.body");
+	
+// 				response.setContentType('application/json');
+// 			response.setStatus(200);
+// 	return true;
+	
+	if(request.queryParams.dtmf) {
+		gs.info(JSON.stringify(request.queryParams) + " ereq qp");
+		gs.info('dtmf');
+		gs.info(request.queryParams.dtmf);
+		var addInput = new NotifyNexmoOutboundCallRecipe();
+		addInput.addInputCallStatus(request.queryParams);
+	}
+
+
+	var helper = new NexmoHelper();
+
+	// Extracting url for crypto signature verification.
+	// Note: The instance could be behind a reverse proxy and the url we 'see' here
+	// could be different from the one used by Twilio to reach us. We need to use
+	// that url as that is the one which is encoded into the signature.
+	var url;
+	if (request.pathParams.type == 'twiml')
+		url = helper.getTwimlCallbackEndPoint(request.pathParams.callback_name);
+	else if (request.pathParams.type == 'xml')
+		url = helper.getXmlCallbackEndPoint(request.pathParams.callback_name);
+	else
+		return new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
+	url += (request.queryString ? "?" + request.queryString : "");
+
+	// Validating crypto signatures
+	
+	var urlForValidation = url;
+	if (url.startsWith('https://')) {
+		// In case of https we need to remove the port number (if any) from url
+		var firstSlashPos = url.indexOf('/', 8);
+		var firstColonPos = url.indexOf(':', 8);
+		if (firstColonPos !== -1 && firstColonPos < firstSlashPos)
+			urlForValidation = url.substring(0, firstColonPos) + url.substring(firstSlashPos);
+	}
+
+	// request.queryParams contains both the form data and the query string params, we need to remove query string part
+	var queryStringArr = request.queryString ? request.queryString.split('&') : [];
+	var queryKeys = [];
+	for (var i = 0; i < queryStringArr.length; i++) {
+		var pairs = queryStringArr[i].split('=');
+		queryKeys.push(pairs[0]);
+	}
+	var formData = {};
+	for (var k in request.queryParams) {
+		if (queryKeys.indexOf(k) === -1) {
+			var valsArr = request.queryParams[k];
+			if (valsArr.length > 0)
+				formData[k] = valsArr[0];
+			else
+				formData[k] = "";
+		}
+	}
+
+	var resp;
+	
+		var cApi  = new NexmoCallbackApi();
+		if (request.pathParams.type == 'twiml') {
+			resp = cApi.getTwimlResponse(request.pathParams.callback_name, request.queryParams);
+			if (!resp)
+				resp = cApi.getDefaultTwimlResponse();
+			response.setContentType('application/xml');
+			if (resp instanceof TwimlModel)
+				response.getStreamWriter().writeString(resp.toXml());
+			else
+				response.getStreamWriter().writeString(resp.toString());
+		} else if (request.pathParams.type == 'xml') {
+			resp = cApi.getXmlResponse(request.pathParams.callback_name, request.queryParams);
+			if (!resp)
+				resp = cApi.getDefaultXmlResponse();
+			response.setContentType('application/xml');
+			response.getStreamWriter().writeString(resp.toString());
+		} else
+			resp = new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
+	return resp;
+
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}/{callback_name}</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/process/{type}/{callback_name}</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>false</requires_authentication>
+        <requires_snc_internal_role>true</requires_snc_internal_role>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:25:37</sys_created_on>
+        <sys_id>2ebbbb23db913300887e7b6039961959</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>Nexmo Event Call</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_ws_operation_2ebbbb23db913300887e7b6039961959</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-20 05:43:13</sys_updated_on>
+        <web_service_definition display_value="Nexmo Event Call">92abfbafdb513300887e7b6039961936</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

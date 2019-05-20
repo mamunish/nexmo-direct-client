@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="update_synch=true" extends="sys_metadata" label="Nexmo Config" max_length="40" name="x_341272_nexmo_dir_nexmo_config" type="collection">
+        <element label="Answer URL" max_length="1024" name="answer_url" type="url"/>
+        <element label="API Key" max_length="50" name="api_key" type="string"/>
+        <element label="API Secret" max_length="255" name="api_secret" type="password2"/>
+        <element label="Application ID" max_length="40" name="application_id" type="string"/>
+        <element label="Application Name" max_length="20" name="application_name" type="string"/>
+        <element default="voice" label="Application Type" max_length="10" name="application_type" type="string"/>
+        <element label="Event URL" max_length="1024" name="event_url" type="url"/>
+        <element label="Expire" max_length="40" name="expire" type="glide_date_time"/>
+        <element default="main_and_only" label="Internal name" max_length="40" name="internal_name" type="string"/>
+        <element label="JWT_Token" max_length="20000" name="jwt_token" type="string"/>
+        <element label="Private Key" max_length="20000" name="private_key" type="string"/>
+        <element label="Public Key" max_length="20000" name="public_key" type="string"/>
+    </element>
+</database>

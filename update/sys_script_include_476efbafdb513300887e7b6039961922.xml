@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NexmoDirectClient</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NexmoDirectClient</name>
+        <script><![CDATA[var NexmoDirectClient = Class.create();
+NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+  CONFIG: {
+    OK: 'ok',
+    NONE: 'none',
+    BAD: 'bad',
+    SOME: 'some'
+  },
+
+  LONG_NUM: 'long_number',
+  SHORT_CODE: 'short_code',
+
+  SUPPORT_DIRECTION: {
+    NA: 'na',
+    IN: 'in',
+    OUT: 'out',
+    BOTH: 'both'
+  },
+
+  initialize: function (configId) {
+    
+  },
+
+  setConfigGr: function (configGr) {
+    this._configGr = configGr;
+    return this;
+  },
+
+  _formatErr: function (resp) {
+    var msg = resp.error;
+    if (resp.errorJSON)
+      msg = "<b>" + resp.errorJSON.message + "</b>";
+    if (resp.errorJSON.code)
+      msg += " (" + resp.errorJSON.code + ")";
+    if (resp.errorJSON.detail)
+      msg += " - <i>" + resp.errorJSON.detail + "</i>";
+    return msg;
+  },
+
+  _getConfigRecord: function (id) {
+    if (!id)
+      return;
+    var gr = new GlideRecord('sn_twilio_direct_twilio_config');
+    if (gr.get(id))
+      return gr;
+    else
+      gs.error("No Twilio Config found with sys_id " + id);
+  },
+	/**
+	 * @param {{number:string, sid: string, type: 'short_code'| 'long_number'}} inputData
+	*/
+  removeNumberFromMSGService: function (inputData) {
+    inputData = inputData || JSON.parse(this.getParameter('sysparm_data'));
+    var helper = this._getHelper();
+    var config = helper.getConfig();
+    var msg_service_numbers = config.msg_service_numbers;
+    var isShortCode = false;
+    var resp;
+    var api = new TwilioApi(this._configGr);
+    if (inputData.type != this.SHORT_CODE)
+      resp = api.removePhonenumberFromMsgService({ msg_service_id: config.msg_service_id, phone_number_sid: inputData.sid });
+    else
+      resp = api.removeShortcodeFromMsgService({ msg_service_id: config.msg_service_id, short_code_id: inputData.sid });
+    var status = false;
+    if (!!resp.error) {
+      this.logError(resp);
+    } else {
+      delete msg_service_numbers[inputData.number];
+      helper.saveConfig("msg_service_numbers", JSON.stringify(msg_service_numbers));
+      status = true;
+    }
+    return JSON.stringify({ status: status });
+  },
+	/**
+	 * @param {{number:string, sid: string, type: 'short_code'| 'long_number'}} inputData
+	*/
+  addNumberToMSGService: function (inputData) {
+    inputData = inputData || JSON.parse(this.getParameter('sysparm_data'));
+    var status = this.updateNumber(inputData.number, inputData.sid, inputData.type, true);
+    return JSON.stringify({ status: status });
+  },
+
+  fetchNumbersHtml: function () {
+    var status = this.newItem("status");
+    var error = '';
+
+    var html = this.newItem("html");
+
+    var r = this.getPhoneNumbers();
+    var phs = r.phs;
+    error = r.error;
+    var self = this;
+    var showTerritory = "";
+    var showNotifyGrp = "";
+    var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
+    phs.forEach(function (ph, i) {
+      var btn;
+      self.getDocument().setCurrentElement(html);
+      var row = self.getDocument().createElement("tr");
+      row.setAttribute("class", "data_row");
+      html.appendChild(row);
+
+      self.getDocument().setCurrentElement(row);
+      var item = self.getDocument().createElementWithTextValue("td", i + 1);
+      item.setAttribute("scope", "row");
+      item.setAttribute("class", "col-center col-small decoration_cell col-control");
+      row.appendChild(item);
+
+      var nPhInfo = self._getNotifyPhoneNumberInfo(ph.number, ph.type);
+
+      self.getDocument().setCurrentElement(row);
+      if (nPhInfo && nPhInfo.url)
+        item = self.getDocument().createElement("td");
+      else
+        item = self.getDocument().createElementWithTextValue("td", ph.number);
+      item.setAttribute("class", "vt grid-field");
+      row.appendChild(item);
+
+      if (nPhInfo && nPhInfo.url) {
+        self.getDocument().setCurrentElement(item);
+        var aItem = self.getDocument().createElementWithTextValue("a", ph.number);
+        aItem.setAttribute("href", nPhInfo.url);
+        aItem.setAttribute("title", gs.getMessage('Goto number record'));
+        item.appendChild(aItem);
+        showNotifyGrp = "true"; // Number is synced with Notify so wheather it has group or not, the column must be shown.
+      }
+
+      self.getDocument().setCurrentElement(row);
+      var capItem = self.getDocument().createElement("td");
+      capItem.setAttribute("class", "vt grid-field");
+      row.appendChild(capItem);
+
+      if (ph.hasSms)
+        self._addIcon(capItem, 'icon-comment', gs.getMessage("SMS capable"));
+      if (ph.hasVoice)
+        self._addIcon(capItem, 'icon-phone', gs.getMessage("Voice capable"));
+
+      self.getDocument().setCurrentElement(row);
+      var tItem;
+      if (nPhInfo && nPhInfo.territory) {
+        tItem = self.getDocument().createElementWithTextValue("td", nPhInfo.territory);
+        showTerritory = "true";
+      } else
+        tItem = self.getDocument().createElement("td");
+      tItem.setAttribute('class', 'territory vt grid-field');
+      row.appendChild(tItem);
+
+      self.getDocument().setCurrentElement(row);
+      if (nPhInfo && nPhInfo.notifyGroup) {
+        item = self.getDocument().createElementWithTextValue("td", nPhInfo.notifyGroup);
+      } else
+        item = self.getDocument().createElement("td");
+      item.setAttribute('class', 'ngrp vt grid-field');
+      row.appendChild(item);
+
+      self.getDocument().setCurrentElement(row);
+      item = self.getDocument().createElement("td");
+      item.setAttribute('class', 'advSms vt grid-field');
+      if (ph.hasSms) {
+        if (self._getHelper().isAnyAdvancedSMSFeatureEnabled()) {
+          if (msgSvcNums[ph.number]) {
+            self._addIcon(item, 'icon-check', gs.getMessage("Enrolled for Advanced SMS features"));
+            btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Disable"));
+          } else {
+            self._addIcon(item, 'icon-cross', gs.getMessage("Not enrolled for Advanced SMS features"));
+            btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Enable"));
+          }
+          btn.setAttribute("class", "btn btn-default btn-sm");
+          if (msgSvcNums[ph.number]) {
+            btn.setAttribute("onClick", "javascript:disableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+          } else {
+            btn.setAttribute("onClick", "javascript:enableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+          }
+          item.appendChild(btn);
+        } else {
+          tItem = self.getDocument().createElementWithTextValue("span", gs.getMessage("Not Enabled"));
+          item.appendChild(tItem);
+        }
+      }
+      row.appendChild(item);
+
+      self.getDocument().setCurrentElement(row);
+      var cItem = self.getDocument().createElement("td");
+      cItem.setAttribute('class', 'configStatus vt grid-field');
+      row.appendChild(cItem);
+
+      if (ph.configState === self.CONFIG.OK)
+        self._addIcon(cItem, 'icon-check-circle color-green', gs.getMessage("Configured correctly"));
+      else if (ph.configState === self.CONFIG.NONE)
+        self._addIcon(cItem, 'icon-cross-circle color-red', gs.getMessage("Not configured"));
+      else if (ph.configState === self.CONFIG.BAD)
+        self._addIcon(cItem, 'icon-warning-circle color-orange', gs.getMessage("Incorrectly configured"));
+      else if (ph.configState === self.CONFIG.SOME)
+        self._addIcon(cItem, 'icon-warning-circle color-red', gs.getMessage("Has some other configuration"));
+
+      if (ph.configState !== self.CONFIG.OK && self._getHelper().isFullyConfigured()) {
+        self.getDocument().setCurrentElement(cItem);
+        btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Fix"));
+        btn.setAttribute("class", "btn btn-default btn-sm");
+        btn.setAttribute("onClick", "javascript:fix('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+        cItem.appendChild(btn);
+      }
+    });
+
+    status.setAttribute("error", error);
+    status.setAttribute("showTerritory", showTerritory);
+    status.setAttribute("showNotifyGrp", showNotifyGrp);
+  },
+
+  _addIcon: function (parentItem, iconClass, srText) {
+    this.getDocument().setCurrentElement(parentItem);
+    var iitem = this.getDocument().createElement("i");
+    iitem.setAttribute("class", "icon " + iconClass);
+    iitem.setAttribute("title", srText);
+    parentItem.appendChild(iitem);
+
+    this.getDocument().setCurrentElement(iitem);
+    var item = this.getDocument().createElementWithTextValue("span", srText);
+    item.setAttribute("class", "sr-only");
+    iitem.appendChild(item);
+  },
+
+  getPhoneNumbers: function () {
+    var self = this;
+    var phs = [];
+    var error = '';
+    var request = new sn_ws.RESTMessageV2();
+    request.setEndpoint('https://rest.nexmo.com/account/numbers?api_key=8af12cdf&api_secret=V8BtkSIpqfwq9KWF');
+    request.setHttpMethod('GET');
+    request.setRequestHeader("Content-type", "application/json");
+
+    var resp = request.execute();
+
+
+    var nexmoreqbody = resp.getBody();
+
+
+    if (nexmoreqbody) {
+
+      var nexmores = JSON.parse(nexmoreqbody);
+      gs.info(JSON.stringify(nexmores) + '  chack phone no in nexmo');
+
+      nexmores.numbers.forEach(function (ph) {
+        phs.push({
+          number: ph.msisdn,
+          hasVoice: ph.features['VOICE'],
+          hasSms: ph.features['SMS'],
+          voiceDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+          smsDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+          type: self.LONG_NUM,
+          hasRecordingSupport: true
+
+        });
+      });
+    }
+
+    return { error: error, phs: phs };
+  },
+
+  getPhoneNumber: function (phNumber) {
+	  gs.info('check munish get phonenumber ' + phNumber);
+    var self = this;
+    var phObj, ph, incomingList;
+    var error = '';
+	phNumber = phNumber.substr(1);
+
+    var request = new sn_ws.RESTMessageV2();
+    request.setEndpoint('https://rest.nexmo.com/account/numbers?api_key=8af12cdf&api_secret=V8BtkSIpqfwq9KWF&pattern=' + phNumber);
+    request.setHttpMethod('GET');
+
+    var resp = request.execute();
+
+
+    var nexmoreqbody = resp.getBody();
+
+
+
+    incomingList = JSON.parse(nexmoreqbody);
+    gs.info(JSON.stringify(incomingList.numbers) + ' incomingList');
+    gs.info(incomingList.numbers[0].features[0] + ' incomingList msisdn');
+    if (incomingList.numbers.length != 1)
+      error = "found" + incomingList.length + " incoming phone numbers while we expected one";
+    else {
+      ph = incomingList.numbers[0];
+      phObj = {
+        number: ph.msisdn,
+        hasVoice: ph.features['0'] == 'VOICE',
+        hasSms: ph.features['0'] == 'SMS' || ph.features['1'] == 'SMS',
+        voiceDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+        smsDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+        type: self.LONG_NUM,
+        hasRecordingSupport: true
+      };
+    }
+    return { error: error, ph: phObj };
+  },
+
+  _getConfigState: function (ph, isMSGServiceConfigured, isAddedToMsgService) {
+    var voiceStatus = this.CONFIG.OK;
+    var smsStatus = this.CONFIG.OK;
+    var isFixable = this._getHelper().isFullyConfigured();
+    if (ph.capabilities && ph.capabilities.voice) {
+      if (isFixable) {
+        if (ph.voice_application_sid !== this._getHelper().getConfig().twiml_app_id)
+          voiceStatus = this.CONFIG.BAD;
+      } else {
+        if (!ph.voice_application_sid)
+          voiceStatus = this.CONFIG.NONE;
+        else
+          voiceStatus = this.CONFIG.SOME;
+      }
+    }
+    if (ph.capabilities && ph.capabilities.sms) {
+      if (isFixable) {
+        if (!isAddedToMsgService || !isMSGServiceConfigured) {
+          if (ph.sms_application_sid !== this._getHelper().getConfig().twiml_app_id)
+            smsStatus = this.CONFIG.BAD;
+        }
+      } else {
+        if (!ph.sms_application_sid)
+          smsStatus = this.CONFIG.NONE;
+        else
+          smsStatus = this.CONFIG.SOME;
+      }
+    } else if (ph.short_code) {
+      if (isFixable) {
+        if (!isAddedToMsgService || !isMSGServiceConfigured) {
+          if (ph.sms_method !== 'POST' || ph.sms_url !== this._getHelper().getTwimlCallbackEndPoint('getNewShortCodeTwiml'))
+            smsStatus = this.CONFIG.BAD;
+        }
+      } else {
+        if (!ph.sms_url)
+          smsStatus = this.CONFIG.NONE;
+        else
+          smsStatus = this.CONFIG.SOME;
+      }
+    }
+    if (voiceStatus === smsStatus)
+      return smsStatus;
+    else if (voiceStatus === this.CONFIG.SOME || smsStatus === this.CONFIG.SOME)
+      return this.CONFIG.SOME;
+    else if (voiceStatus === this.CONFIG.BAD || smsStatus === this.CONFIG.BAD)
+      return this.CONFIG.BAD;
+    return this.CONFIG.NONE;
+  },
+
+  validateTwimlAppForUi: function () {
+    var status = this.newItem("status");
+    var error = '';
+    var twimlAppId = this._getHelper().getConfig().twiml_app_id;
+    if (twimlAppId) {
+      var api = new TwilioApi(this._configGr);
+      var resp = api.getApplication({ application_sid: twimlAppId });
+      if (resp.error)
+        error = gs.getMessage("Unexpected error from Twilio: {0}", [this._formatErr(resp)]);
+      else {
+        var out = this.analyzeApp(resp.result);
+        if (out.error)
+          error = out.error;
+      }
+    }
+    // If disconnect was not successful then no need to reload form.
+    // This would also be the case when current scope is global and user is admin.
+    if (error && this.disconnect()) {
+      status.setAttribute("hasError", "true");
+      gs.addErrorMessage(error);
+    }
+  },
+
+  _extractHostname: function (url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("://") > -1) {
+      hostname = url.split('/')[2];
+    }
+    else {
+      hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+  },
+
+  _extractDomainDescription: function (url) {
+    var domain = this._extractHostname(url),
+      splitArr = domain.split('.'),
+      arrLen = splitArr.length;
+
+    if (arrLen == 3 && arrLen[1] === 'service-now' && arrLen[2] === 'com') {
+      domain = gs.getMessage("{0} (ServiceNow Instance)", [splitArr[0]]);
+    }
+    return domain;
+  },
+
+  analyzeApp: function (appInfo, skipSelfNameCheck) {
+    var error = '';
+    var domain;
+    var api = new TwilioApi(this._configGr);
+    if (appInfo.friendly_name === "Notify") {
+      error = gs.getMessage("From Twiml app's name it looks like it is configured with legacy Notify Twilio Driver.");
+    } else if (!skipSelfNameCheck && appInfo.friendly_name !== api.TWIML_APP_NAME) {
+      error = gs.getMessage("Twiml app has some other name: {0}", [appInfo.friendly_name]);
+    } else if (appInfo.voice_method !== "POST" || appInfo.voice_url !== this._getHelper().getTwimlCallbackEndPoint("getTwimlOnNewCall")) {
+      if (!appInfo.voice_url)
+        error = gs.getMessage("Twmil app has no voice url configured");
+      else {
+        domain = this._extractDomainDescription(appInfo.voice_url);
+        error = gs.getMessage("Twiml app's voice url seems to be bound to instance <b>{0}</b>", [domain]);
+      }
+    } else if (appInfo.sms_method !== "POST" || appInfo.sms_url !== this._getHelper().getTwimlCallbackEndPoint("getTwimlOnNewSms")) {
+      if (!appInfo.sms_url)
+        error = gs.getMessage("Twmil app has no SMS url configured");
+      else {
+        domain = this._extractDomainDescription(appInfo.sms_url);
+        error = gs.getMessage("Twiml app's SMS url seems to be bound to instance <b>{0}</b>", [domain]);
+      }
+    } else if (appInfo.status_callback_method !== "POST" || appInfo.status_callback !== this._getHelper().getXmlCallbackEndPoint("onColdStatusForVoice")) {
+      if (!appInfo.status_callback)
+        error = gs.getMessage("Twmil app has no voice status url configured");
+      else {
+        domain = this._extractDomainDescription(appInfo.status_callback);
+        error = gs.getMessage("Twiml app's voice status url seems to be bound to instance <b>{0}</b>", [domain]);
+      }
+    }
+    return { error: error };
+  },
+
+  deleteNotifyServices: function (api) {
+    api = api || new TwilioApi(this._configGr);
+    var notifyServiceResponse;
+    do {
+      notifyServiceResponse = api.getNotifyServices();
+      if (!!notifyServiceResponse.error) {
+        return false;
+      }
+      notifyServiceResponse.result.services.forEach(function (item) {
+        var apiDelRes = api.deleteNotifyService({
+          notify_service_id: item.sid
+        });
+        if (!!apiDelRes.error) {
+          this.logError(apiDelRes);
+          return false;
+        }
+      });
+    } while (notifyServiceResponse.fetchMore());
+    return true;
+  },
+
+  deleteMessagingServices: function (api) {
+    api = api || new TwilioApi(this._configGr);
+    var self = this;
+    var msgServiceResponse;
+    do {
+      msgServiceResponse = api.getMessagingServices();
+      if (!!msgServiceResponse.error) {
+        this.logError(msgServiceResponse);
+      } else {
+        msgServiceResponse.result.services.forEach(function (item) {
+          var phoneResp;
+          do {
+            phoneResp = api.getMsgservicePhonenumbers({
+              z_msg_service_id: item.sid,
+            });
+            if (!!phoneResp.error)
+              self.logError(phoneResp);
+            else {
+              phoneResp.result.phone_numbers.forEach(function (itemNumber) {
+                var removeResp = api.removePhonenumberFromMsgService({ z_msg_service_id: item.sid, phone_number_sid: itemNumber.sid });
+                if (!!removeResp.error)
+                  self.logError(removeResp);
+                else {
+                  gs.debug('Successfully removed number from msg service');
+                }
+              });
+            }
+          } while (phoneResp.fetchMore());
+          var shortCodeResp;
+          do {
+            shortCodeResp = api.getMsgserviceShortcodes({ z_msg_service_id: item.sid });
+            if (!!shortCodeResp.error)
+              self.logError(shortCodeResp);
+            else {
+              shortCodeResp.result.short_codes.forEach(function (itemShortCode) {
+                var removeShortCodeResp = api.removeShortcodeFromMsgService({
+                  z_msg_service_id: item.sid,
+                  short_code_id: itemShortCode.sid
+                });
+                if (!!removeShortCodeResp.error)
+                  self.logError(removeShortCodeResp);
+              });
+            }
+          } while (shortCodeResp.fetchMore());
+          var delRes = api.deleteMessagingService({ msg_service_id: item.sid });
+          if (!!delRes.error) {
+            self.logError(delRes);
+          }
+        });
+      }
+    } while (msgServiceResponse.fetchMore());
+  },
+
+  logError: function (resp) {
+    gs.addErrorMessage(gs.getMessage("Twilio responded with error: {0}", [this._formatErr(resp)]));
+  },
+
+  disconnect: function () {
+    var api = new TwilioApi(this._configGr);
+    this.deleteMessagingServices();
+    this.deleteNotifyServices();
+    var appId = this._getHelper().getConfig().twiml_app_id;
+    if (appId) {
+      var resp = api.getIncomingPhoneNumbers();
+      var params;
+      if (!!resp.error)
+        this.logError(resp);
+      else {
+        var numbers = resp.result.incoming_phone_numbers;
+        for (var i in numbers) {
+          params = {};
+          if (numbers[i].sms_application_sid == appId || numbers[i].voice_application_sid == appId) {
+            params.phone_sid = numbers[i].sid;
+            params.z_application_sid = '';
+            api.updateIncomingPhoneNumber(params);
+          }
+        }
+      }
+      resp = api.getShortCodes();
+      if (!!resp.error)
+        this.logError(resp);
+      else {
+        var shortCodes = resp.result.short_codes;
+        for (var j in shortCodes) {
+          params = {};
+          if (shortCodes[j].sms_url + '' == api.getEnvValue('z_twiml_callback_endpoint') + 'getNewShortCodeTwiml') {
+            params.short_code_sid = shortCodes[j].sid;
+            api.resetShortCode(params);
+          }
+        }
+      }
+      var res = api.deleteApplication({ application_sid: appId });
+      if (res.error) {
+        if (res.code !== 404)
+          gs.addErrorMessage(gs.getMessage("Twilio responded with error: {0}", [this._formatErr(res)]));
+      }
+      var twilioHelper = this._getHelper();
+      var toBeUpdated = {
+        'twiml_app_id': '',
+        'msg_service_id': '',
+        'notify_service_id': '',
+        'msg_service_numbers': JSON.stringify({})
+      };
+      if (twilioHelper.saveConfig(toBeUpdated, null, false, true)) {
+        new global.NotifyDatabase().unsyncNotifyNumbersForDriver(twilioHelper.DRIVER_NAME);
+        twilioHelper.saveCredentials('', ''); // Clear out credentials on disconnect
+        gs.getSession().putClientData("sn_twilio_direct.suppress_form_msg", true);
+        gs.addInfoMessage(gs.getMessage("Disconnected from Twilio"));
+        return true;
+      }
+      return false;
+    }
+  },
+
+  connect: function (errorArr) {
+    var self = this;
+    function err(m) {
+      if (errorArr && errorArr.push)
+        errorArr.push(m);
+      else
+        gs.addErrorMessage(m);
+    }
+    function commErr(resp) {
+      var e = self._formatErr(resp);
+      var msg = gs.getMessage("Twilio responded with error: {0}", [e]);
+      err(msg);
+    }
+    var msgServiceId, notifyServiceId;
+    if (!this._getHelper().isPartiallyConfigured()) {
+      err(gs.getMessage('Not enough information provided to connect Twilio Direct'));
+      return false;
+    }
+
+    var conf = this._getHelper().getConfig(true);
+    if (typeof sn_twilio_driver !== 'undefined'
+      && sn_twilio_driver.AjaxNotifyTwilio
+      && sn_twilio_driver.AjaxNotifyTwilio.prototype.hasSameCredentials
+      && new sn_twilio_driver.AjaxNotifyTwilio().hasSameCredentials(conf.acc_sid, conf.auth_token)) {
+      err(gs.getMessage("Seems like the old Notify Twilio driver too is connected to this same account. Please disconnect that or blank out value of 'sn_twilio_driver.account.token' property."));
+      return false;
+    }
+    var twilioHelpers = this._getHelper();
+    var api = new TwilioApi(this._configGr);
+    this.deleteMessagingServices(api);
+    if (!this.deleteNotifyServices(api))
+      return false;
+
+		/**
+		 * @type {{[key: string]: {isShortCode: boolean;}}}
+		 */
+    var msgServiceNumbers = {};
+    function createMessagingService() {
+      if (!!msgServiceId)
+        return true;
+      var msgResp = api.createMessagingService();
+      if (!!msgResp.error) {
+        commErr(msgResp);
+        return false;
+      }
+      msgServiceId = msgResp.result.sid;
+      if (!msgServiceId || !twilioHelpers.saveConfig('msg_service_id', msgServiceId, true, true)) {
+        err(gs.getMessage("Failed to save Twilio Messaging Service Id"));
+        return false;
+      }
+      var notifyResp = api.createNotifyService();
+      if (!!notifyResp.error) {
+        commErr(notifyResp);
+        return false;
+      }
+      notifyServiceId = notifyResp.result.sid;
+      if (!notifyServiceId || !twilioHelpers.saveConfig("notify_service_id", notifyServiceId, true, true)) {
+        err(gs.getMessage("Failed to save Twilio Notify Service Id"));
+        return false;
+      }
+      return true;
+    }
+    function addNumberToMSGService(num) {
+      if (!!num.phone_number && !num.capabilities.sms)
+        return;
+      if (!msgServiceId) {
+        createMessagingService();
+        if (!msgServiceId)
+          return;
+      }
+      var resp = null;
+      if (num.phone_number) {
+        resp = api.addPhonenumberToMessagingService({
+          phone_number_sid: num.sid
+        });
+      } else if (num.short_code) {
+        resp = api.addShortCodeToMessagingService({
+          short_code_sid: num.sid
+        });
+      }
+      var isInformation = false;
+      if (!!resp.error) {
+        switch (resp.code) {
+          case 409:
+            switch (resp.error.code) {
+              case 21710:
+                // already added number to messaging service
+                isInformation = true;
+                break;
+              default:
+                break;
+            }
+            break;
+        }
+        if (!isInformation)
+          commErr(resp);
+      }
+      msgServiceNumbers[!!num.short_code ? num.short_code : num.phone_number] = { isShortCode: !!num.short_code };
+    }
+    function processNumber(num) {
+      self.updateNumber(num.phone_number, num.sid, self.LONG_NUM, false);
+      addNumberToMSGService(num);
+    }
+    function processShortCode(num) {
+      self.updateNumber(num.short_code, num.sid, self.SHORT_CODE, false);
+      addNumberToMSGService(num);
+    }
+
+    var resp = api.createApplication();
+    if (resp.error) {
+      if (resp.errorJSON && resp.errorJSON.status === 401)
+        err(gs.getMessage("Failed to create application. The given Account sid or Auth token or both are incorrect. Click on the lock icon next to the Auth token input field to see the actual value being used by the system."));
+      else
+        err(gs.getMessage('Failed to create application due to {0}', [this._formatErr(resp)]));
+    } else {
+      if (!twilioHelpers.saveConfig('twiml_app_id', resp.result.sid, true, true)) {
+        err(gs.getMessage("Failed to save configuration"));
+        return false;
+      }
+
+      api = new TwilioApi(this._configGr); // Creating new instance to get fresh config
+      resp = api.getIncomingPhoneNumbers();
+      do {
+        if (!resp.error)
+          resp.result.incoming_phone_numbers.forEach(processNumber);
+        else
+          err(gs.getMessage('Failed to retrive purchased numbers due to {0}', [this._formatErr(resp)]));
+      } while (resp.fetchMore());
+
+      resp = api.getShortCodes();
+      do {
+        if (!resp.error)
+          resp.result.short_codes.forEach(processShortCode);
+        else
+          err(gs.getMessage('Failed to retrive purchased short codes due to {0}', [this._formatErr(resp)]));
+      } while (resp.fetchMore());
+      if (typeof sn_notify != 'undefined') {
+        if (typeof sn_notify.NotifyScoped != 'undefined')
+          // Refetching all numbers again but via NotifyApi, as it syncs the numbers to DB.
+          new sn_notify.NotifyScoped().getPhoneNumbers();
+      }
+      twilioHelpers.saveConfig("msg_service_numbers", JSON.stringify(msgServiceNumbers));
+      gs.info("Twilio Direct is now connected to this account");
+      return true;
+    }
+    return false;
+  },
+
+  updateNumberAjax: function () {
+    var status = this.newItem("status");
+    var stateOk = this.updateNumber(this.getParameter('sysparm_num_number'), this.getParameter('sysparm_num_sid'), this.getParameter('sysparm_num_type'), true);
+    if (!stateOk)
+      status.setAttribute('hasError', "true");
+  },
+
+  updateNumber: function (num, sid, type, updateMSGService) {
+    if (!num || !sid || !type)
+      return false;
+    var resp;
+    var addedNumToMsgService = false;
+    var helpers = new sn_twilio_direct.TwilioHelper(this._configGr);
+    var api = new TwilioApi(this._configGr);
+    if (type === this.SHORT_CODE) {
+      if (helpers.isMsgServiceConfigured() && !!updateMSGService) {
+        resp = api.addShortCodeToMessagingService({ short_code_sid: sid });
+        if (!resp.error)
+          addedNumToMsgService = true;
+      } else
+        resp = api.updateShortCode({ short_code_sid: sid });
+    } else {
+      resp = api.updateIncomingPhoneNumber({ phone_sid: sid });
+      if (!!resp.error) {
+        gs.addErrorMessage(gs.getMessage('Failed to update number {0} due to {1}', [num, this._formatErr(resp)]));
+        return false;
+      }
+      if (helpers.isMsgServiceConfigured() && !!updateMSGService) {
+        resp = api.addPhonenumberToMessagingService({ phone_number_sid: sid });
+        if (!resp.error)
+          addedNumToMsgService = true;
+      }
+    }
+    if (resp.error)
+      gs.addErrorMessage(gs.getMessage('Failed to update number {0} due to {1}', [num, this._formatErr(resp)]));
+    if (resp.error)
+      return false;
+    if (addedNumToMsgService) {
+      var msgServiceNumbers = helpers.getConfig().msg_service_numbers;
+      msgServiceNumbers[num] = { isShortCode: type == this.SHORT_CODE };
+      helpers.saveConfig("msg_service_numbers", JSON.stringify(msgServiceNumbers));
+    }
+    return true;
+  },
+
+  _getNotifyPhoneNumberInfo: function (number, type) {
+    var gr = new GlideRecord("notify_number");
+    if (gr.isValid()) {
+      var numCol = "number";
+      if (type === this.SHORT_CODE)
+        numCol = "short_code";
+      gr.addActiveQuery();
+      gr.addQuery(numCol, number);
+      gr.addQuery("owner", this._getHelper().DRIVER_NAME);
+      gr.query();
+      if (gr.next()) {
+        var territory = "";
+        // It is possible that Notify is not installed or NotifyUtils is updated by customers
+        if (global.NotifyUtils && global.NotifyUtils.prototype.getGlidePhoneElementProps)
+          territory = new global.NotifyUtils().getGlidePhoneElementProps(gr.getElement('phone_number')).territory;
+        return { url: gr.getLink(true), territory: territory, notifyGroup: gr.getDisplayValue('notify_group') };
+      }
+    }
+    return "";
+  },
+
+  _getHelper: function () {
+    if (this._helper
+      && (!this._configGr || (this._configGr && this._helper._configGr && this._helper._configGr.getUniqueValue() === this._configGr.getUniqueValue())))
+      return this._helper;
+    this._helper = new TwilioHelper(this._configGr);
+    return this._helper;
+  },
+
+  type: 'NexmoDirectClient'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:36:18</sys_created_on>
+        <sys_id>476efbafdb513300887e7b6039961922</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>NexmoDirectClient</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_476efbafdb513300887e7b6039961922</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:38:48</sys_updated_on>
+    </sys_script_include>
+</record_update>

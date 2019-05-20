@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NexmoNotifyJsTelephonyDriver</api_name>
+        <client_callable>false</client_callable>
+        <description>Implements extension point global.NotifyJsTelephonyDriver</description>
+        <name>NexmoNotifyJsTelephonyDriver</name>
+        <script><![CDATA[var NexmoNotifyJsTelephonyDriver = Class.create();
+NexmoNotifyJsTelephonyDriver.prototype = Object.extendsObject(global.BaseNotifyJsTelephonyDriver, {
+    initialize: function() {
+		global.BaseNotifyJsTelephonyDriver.prototype.initialize.apply(this, arguments);
+    },
+	
+	isActive: function () {
+		return true;
+	},
+
+	supportsCallOverWebRtc: function () {
+		return this.supportsCall();
+	},
+	
+	supportsCall: function () {
+		return true;
+	},
+	
+	supportsSms: function () {
+		return true;
+	},
+	
+	supportsAutonomousBulkSms: function () {
+		return false;
+	},
+	
+	getClientSessionTTL: function () {
+		throw 'Not implemented';
+		//return 0;
+	},
+
+	getPhoneNumber: function (/*String*/ phoneNumber) {
+		gs.info(phoneNumber +  ' munish phone number');
+		
+// 		var phonenumber = {		 	
+// 		 	number: '12013898921',
+// 		 	hasVoice: 'true',
+// 			hasSms:  'true',
+// 			hasRecordingSupport:  'false',
+// 		 	voiceDirectionSupport: 'both',
+// 		 	smsDirectionSupport:  'both',
+// 		 };
+// 		return phonenumber;
+		var client = new NexmoDirectClient();
+		var resp = client.getPhoneNumber(phoneNumber);
+		gs.info(resp +  ' munish phone number resp');
+		if (resp.error) {
+			this.logger.error("Got error while trying to fetch phone number {0}: {1}", [phoneNumber, resp.error]);
+			return;
+		}
+		return resp.ph;
+	},
+
+	getPhoneNumbers: function () {
+		
+		//throw 'Not implemented';
+// 		var ps = [];
+// 		var phonenumbers = this.getPhoneNumber("12013898921");
+// 		ps.push(phonenumbers);
+// 		return ps;
+		//return [array of getPhoneNumber() objects];
+		var client = new NexmoDirectClient();
+		var resp = client.getPhoneNumbers();
+		gs.info(resp   + '  siva munish getphonenos');
+		if (resp.error) {
+			this.logger.error("Got error while trying to fetch phone numbers: {0}", resp.error);
+			return [];
+		}
+		return resp.phs;
+	},
+
+	getToken: function (/*GlideRecord*/gr) {
+		throw 'Not implemented';
+		//return "token";
+	},
+	
+	sendSMS: function (/*NotifyPhoneNumber*/ notifyPhoneNumber, /*E.164 formatted String*/ toPhoneNumber, /*String*/ messageBody) {
+		var recipe = new NotifyNexmoOutboundSMSRecipe();
+		return recipe.start(notifyPhoneNumber.getNumber(), toPhoneNumber, messageBody);
+		//return "smsSid";
+	},
+	
+	sendAutonomousBulkSMS: function (/*NotifyPhoneNumber*/ notifyPhoneNumber, /*Array of E.164 formatted Strings*/ toPhoneNumbers, /*String*/ messageBody, /*GlideRecord - Optional*/ source) {
+		throw 'Not implemented';
+	},
+	
+	call: function (/*NotifyPhoneNumber*/ notifyPhoneNumber, /*E.164 formatted String*/ toPhoneNumber ) {
+		
+		var recipe = new NotifyNexmoOutboundCallRecipe();
+		return recipe.start(notifyPhoneNumber.getNumber(), toPhoneNumber);
+// 		var response = new sn_ws.RESTMessageV2();
+// 		response.setEndpoint('https://dev67584.service-now.com//api/x_342228_nexmo_dir/jwt');
+// 		response.setHttpMethod('GET');
+// 		response.setRequestHeader("Content-type","application/json");
+// 		response = response.execute();
+// 		var responsebody = response.getBody();	
+// 		var obj = JSON.parse(responsebody);
+// 		var JWToken = obj.result.token;
+		
+// 		var request = new sn_ws.RESTMessageV2();
+// 		request.setEndpoint('https://api.nexmo.com/v1/calls');
+// 		request.setHttpMethod('POST');
+// 		request.setRequestHeader("Content-type","application/json");
+// 		request.setRequestHeader("Authorization","Bearer "+JWToken);
+// 		request.setRequestBody('{"to": [{"number": "919566521569","type":"phone"}],"from":{"number":"18883518698","type": "phone"},"answer_url": ["https://dev57338.service-now.com/api/x_341317_my_first/nexmo_answer_call"],"event_url": ["https://vonage-server.apptivo.net/event"]};');
+// 		var responseres = request.execute();
+// 		var nexmoreqbody = responseres.getBody();
+// 		var requestString = nexmoreqbody.dataString;
+// 		return responseres;
+		//throw 'Not implemented';
+		//return "callSid";
+	},
+	
+	kick: function (/*GlideRecord*/ participantRecord) {
+		throw 'Not implemented';
+	},
+	
+	mute: function (/*GlideRecord*/ participantRecord) {
+		throw 'Not implemented';
+	},
+	
+	unmute: function (/*GlideRecord*/ participantRecord) {
+		throw 'Not implemented';
+	},
+	
+	modifyCall: function (/*String*/ callID, /*JSON as String*/ notifyActionJson, /*GlideRecord*/ actionRecord) {
+		throw 'Not implemented';
+	},
+	
+	getParentCallID: function (/*String*/ callID) {
+		throw 'Not implemented';
+		//return "parentCallSid";
+	},
+	
+	dequeueCall: function (/*String*/ callID, /*String*/ queueID) {
+		throw 'Not implemented';
+	},
+
+	getCapabilities: function () {
+		return [];
+		//reference BaseNexmoNotifyJsTelephonyDriver.CAPABILITIES for valid values.
+	},
+	
+	getName: function(){
+		return "NexmoDriver";
+	},
+    type: 'NexmoNotifyJsTelephonyDriver'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:42:54</sys_created_on>
+        <sys_id>aeff3be3db913300887e7b603996196a</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>NexmoNotifyJsTelephonyDriver</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_aeff3be3db913300887e7b603996196a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:39:13</sys_updated_on>
+    </sys_script_include>
+</record_update>

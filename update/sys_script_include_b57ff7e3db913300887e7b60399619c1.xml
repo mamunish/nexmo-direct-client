@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NotifyNexmoUtilSNC</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NotifyNexmoUtilSNC</name>
+        <script><![CDATA[var NotifyNexmoUtilSNC = Class.create();
+NotifyNexmoUtilSNC.prototype = {
+	CALL_STATUS_MAP: {
+		"started": "initiated",
+		"ringing": "ringing",
+		"answered": "in_progress",
+		"queued": "initiated",
+		"completed": "completed",
+		"no-answer": "no_answer",
+		"busy": "busy",
+		"failed": "failed",
+		"canceled": "failed",
+		"invalid": "invalid",
+		"input": "input"
+	},
+
+	CALL_OVER_STATUS: ["completed", "no-answer", "busy", "failed", "canceled", "invalid"],
+	
+	MSG_OVER_STATUS: ["undelivered", "failed"],
+
+	TWIML_URL_NAMES: {
+		CATCH_ALL: 'catchAll',
+		ENQ_WAIT: 'enqWait',
+		DIAL_ACTION: 'dialAction',
+		DIAL_RECORD_STATUS: 'dialRecordStatus',
+		GATHER_ACTION: 'gatherAction',
+		RECORD_ACTION: 'recordAction',
+		CONF_STATUS: 'confStatus',
+		CONF_RECORD_STATUS: 'confRecordStatus',
+		CONF_IMMEDIATE_GATHER_ACTION: 'confImmediateGather',
+		REJECT: 'reject',
+		HANGUP: 'hangup',
+		SMS_STATUS: 'smsStatus',
+		GATHER_ACTION_FAILED: 'gatherActionFailed',
+		CLIENT_ACTION: 'client',
+		NUMBER_ACTION: 'number',
+		CLIENT_STATUS: 'clientStatus',
+		NUMBER_STATUS: 'numberStatus',
+		CONF_END: 'confEnd',
+		MESSAGE_ACTION: 'messageAction',
+		LEFT_Q: 'leftQ'
+	},
+
+    initialize: function() {
+    },
+
+	getNormalizedCallStatus: function (actualStatus) {
+		var s = this.CALL_STATUS_MAP[actualStatus];
+		if (!s) {
+			gs.error("NotifyTwilioUtilSNC: Unknown status provided " + actualStatus);
+			s = 'unknown';
+		}
+		return s;
+	},
+
+	isCallOver: function (actualStatus) {
+		return this.CALL_OVER_STATUS.indexOf(actualStatus) > -1;
+	},
+	
+	isFinalMessageStatus: function(messageStatus) {
+		return this.MSG_OVER_STATUS.indexOf(messageStatus) > -1;
+	},
+
+	getClientIdentifier: function (/*GlideRecord or String*/grOrTableName, /* String */sysId) {
+		if (typeof grOrTableName === 'string')
+			return grOrTableName + '-' + sysId;
+		else
+			return grOrTableName.getTableName() + '-' + grOrTableName.getUniqueValue();
+	},
+
+	addCallStatusFromPayload: function (payload) {
+// 		var seq = payload.SequenceNumber && (parseInt(payload.SequenceNumber[0]) + 1);
+// 		var status = payload.CallStatus && payload.CallStatus[0];
+// 		var callId = payload.CallSid && payload.CallSid[0];
+// 		var notifyStatus = this.getNormalizedCallStatus(status);
+// 		var db = new global.NotifyDatabase();
+// 		var gr = db.addCallStatus(callId, notifyStatus, seq * 10);
+// 		if (gr)
+// 			new global.NotifyWorkflow().broadcastEvent(callId, notifyStatus);
+// 		if (this.isCallOver(status))
+// 			db.deleteQueueRecordsForCallSid(callId);
+// 		return gr;
+		var seq = 10;
+		var status = payload.status[0];
+		var callId = payload.uuid[0];
+		
+		
+		var notifyStatus = this.getNormalizedCallStatus(status);
+		var db = new global.NotifyDatabase();
+		var gr = db.addCallStatus(callId, notifyStatus, seq * 10);
+		if (gr)
+			new global.NotifyWorkflow().broadcastEvent(callId, notifyStatus);
+		if (this.isCallOver(status))
+			db.deleteQueueRecordsForCallSid(callId);
+		return gr;
+	},
+
+	addInputCallStatus: function (callId, digits) {
+		var db = new global.NotifyDatabase();
+		var gr = db.addInputDigitsCallStatus(callId, digits);
+		if (gr)
+			new global.NotifyWorkflow().broadcastEvent(callId, 'input');
+	},
+
+	updateMessageStatusFromPayload: function (p, ctxId) {
+		var messageStatus = p.payload.MessageStatus[0];
+		var messageId = p.payload.SmsSid[0];
+		var fromNumber = p.payload.From[0];
+		var toNumber = p.payload.To[0];
+
+		/**
+		 * @type {NotifyMessageGR}
+		 */
+		var msgGr = new GlideRecord("notify_message");
+		if (!!ctxId) {
+			msgGr.addQuery("meta_id", ctxId);
+			msgGr.addQuery("phone_number", toNumber);
+		} else {
+			msgGr.addQuery('message_id', messageId);
+		}
+		if (messageStatus == 'queued')
+			msgGr.addNullQuery('status');
+		else if (messageStatus == 'sent')
+			msgGr.addNullQuery('status').addOrCondition('status', 'queued');
+		msgGr.setValue("message_id", messageId);
+		msgGr.setValue('status', messageStatus);
+		msgGr.updateMultiple();
+
+		if (!!ctxId && messageStatus == 'sent') {
+			var gr = new GlideRecord("notify_message");
+			gr.addQuery("meta_id", ctxId);
+			gr.addQuery("phone_number", toNumber);
+			gr.query();
+			gr.next();
+			try {
+				(new global.NotifyUtils()).messageSent(fromNumber, gr);
+			} catch (ex) {
+				gs.debug("[Twilio Direct] " + ex);
+			}
+		}
+	},
+
+	getTwimlFromAction: function (actionJ, getUrlCallback) {
+		var h = new TwimlHelper().api();
+		this._getTwimlFromActions(h, actionJ.fActions, getUrlCallback);
+		var lastChildModel = h.getLastChild();
+		if (lastChildModel) {
+			var lastChildTagName = lastChildModel.getTagName();
+			var withChildTagName;
+			if (lastChildTagName === 'Dial')
+				withChildTagName = lastChildModel.getLastChild().getTagName();
+			if (lastChildTagName !== 'Redirect')
+				h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.CATCH_ALL, {lastTagName: lastChildTagName, withChildTagName: withChildTagName}));
+		}
+		return h;
+	},
+
+	_invokeTCB: function (cb, name, args) {
+		return this._invokeCB(cb, name, 'twiml', args);
+	},
+
+	_invokeXCB: function (cb, name, args) {
+		return this._invokeCB(cb, name, 'xml', args);
+	},
+
+	_invokeCB: function (cb, name, type, args) {
+		if (!cb)
+			throw 'No Call back provided';
+		var ret = cb(name, type, args);
+		if (!ret)
+			throw 'No url provided for ' + name;
+		return ret;
+	},
+
+	_getTwimlFromActions: function (h, js, getUrlCallback) {
+		js.forEach(this._getTwimlFromAction.bind(this, h, getUrlCallback));
+	},
+
+	_getTwimlFromAction: function (h, getUrlCallback, j) {
+		var type = j.type;
+		var props = j.properties;
+		var f = this['get_' + type];
+		var newH;
+		if (f) {
+			newH = f.call(this, h, props, getUrlCallback);
+		} else
+			throw 'Unknown type provided ' + type;
+
+		if (newH && props.fActions && props.fActions.length)
+			this._getTwimlFromActions(newH, props.fActions, getUrlCallback);
+	},
+	
+	get_SayAction: function (h, props, getUrlCallback) {
+		return h.say({textToSay: props.fText, lang: props.fLanguage});
+	},
+	
+	get_PlayAction: function (h, props, getUrlCallback) {
+		return h.play({audioUrl: props.fURL, loop: props.fLoop});
+	},
+	
+	get_QueueAction: function (h, props, getUrlCallback) {
+		var newH;
+		if (props.fDequeue)
+			newH = h.leave();
+		else {
+			newH = h.enqueue({queueUniqName: props.fQueueName, waitUrl: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.ENQ_WAIT)});
+			h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.LEFT_Q));
+		}
+		return newH;
+	},
+	
+	get_DialAction: function (h, props, getUrlCallback) {
+		var d = h.dial({timeout: props.fTimeout, hangupOnStar: props.fHangupOnStar, callerId: props.fCallerID, record: props.fRecord,
+						actionUrl: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.DIAL_ACTION),
+						recordStatusUrl: props.fRecord ? this._invokeXCB(getUrlCallback, this.TWIML_URL_NAMES.DIAL_RECORD_STATUS) : null});
+		if (props.fPhoneNumber)
+			d.number({number: props.fPhoneNumber, sendDigits: props.fDTMF,
+					  url: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.NUMBER_ACTION),
+					  statusUrl: this._invokeXCB(getUrlCallback, this.TWIML_URL_NAMES.NUMBER_STATUS)});
+		if (props.fClientSysID && props.fClientTable) {
+			var client = new GlideRecord(props.fClientTable);
+			if (client.get(props.fClientSysID)) {
+				var clientId = this.getClientIdentifier(client);
+				d.client({clientId: clientId,
+						  url: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.CLIENT_ACTION, {table: props.fClientTable, sysid: props.fClientSysID}),
+						  statusUrl: this._invokeXCB(getUrlCallback, this.TWIML_URL_NAMES.CLIENT_STATUS, {table: props.fClientTable, sysid: props.fClientSysID})});
+			}
+		}
+		return d;
+	},
+	
+	get_GatherAction: function (h, props, getUrlCallback) {
+		var newH = h.gatherKeys({timeout: props.fTimeout, numDigits: props.fNumberOfDigits, finishOnKey: props.fFinishKey,
+							 actionUrl: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.GATHER_ACTION)});
+		h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.GATHER_ACTION_FAILED));
+		return newH;
+	},
+	
+	get_RecordAction: function (h, props, getUrlCallback) {
+		return h.record({timeout: props.fTimeout, finishOnKey: props.fFinishKey, maxLength: props.fMaxDuration, playBeep: props.fPlayBeep,
+						 actionUrl: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.RECORD_ACTION)});
+	},
+	
+	get_ConferenceAction: function (h, props, getUrlCallback) {
+		var maxParticipants = parseInt(gs.getProperty('sn_twilio_direct.max_conference_participants', gs.getProperty('sn_twilio_driver.max_conference_participants', '40')));
+		var extraProps = props.fExtraOptions;
+		if (!extraProps)
+			extraProps = {};
+		var beep = true;
+		if (extraProps.beepOnEnter !== true && extraProps.beepOnEnter !== false)
+			extraProps.beepOnEnter = true;
+		if (extraProps.beepOnExit !== true && extraProps.beepOnExit !== false)
+			extraProps.beepOnExit = true;
+		if (extraProps.beepOnEnter) {
+			if (extraProps.beepOnExit)
+				beep = true;
+			else
+				beep = 'onEnter';
+		} else {
+			if (extraProps.beepOnExit)
+				beep = 'onExit';
+			else
+				beep = false;
+		}
+		var enableImmediateInput = !!extraProps.enableImmediateInput;
+
+		var confStatusUrl = this._invokeXCB(getUrlCallback, this.TWIML_URL_NAMES.CONF_STATUS);
+		var recordStatusUrl = props.fRecord? this._invokeXCB(getUrlCallback, this.TWIML_URL_NAMES.CONF_RECORD_STATUS) : null;
+		var newH = h.dial({hangupOnStar: props.fHangupOnStar})
+			.conference({confUniqueName: props.fName, muted: props.fMuted,
+						 startConferenceOnEnter: props.fStartOnEnter, endConferenceOnExit: props.fEndOnExit,
+						 record: props.fRecord, maxParticipants: maxParticipants, beep: beep,
+						 confStatusUrl: confStatusUrl, recordStatusUrl: recordStatusUrl});
+		if (enableImmediateInput && props.fHangupOnStar) {
+			h.gatherKeys({timeout: 10, numDigits: 1, finishOnKey: '',
+						  actionUrl: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.CONF_IMMEDIATE_GATHER_ACTION)});
+			h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.CONF_IMMEDIATE_GATHER_ACTION));
+		} else
+			h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.CONF_END));
+		return newH;
+	},
+	
+	get_SMSAction: function (h, props, getUrlCallback) {
+		return h.message({to: props.fTo, messageText: props.fMessage, actionUrl: this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.MESSAGE_ACTION)});
+	},
+	
+	get_RejectAction: function (h, props, getUrlCallback) {
+		// The main reason we redirect instead of rejecting or hanging up from here itself, is
+		// because we need to identify the originator activity and finish that. Technically this
+		// Twiml document can have many say or play verbs after one of these two verbs. Let Twilio
+		// parse this document and as and when it arrives at this position, we will know because
+		// of these redirects.
+		return h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.REJECT));
+	},
+	
+	get_HangUpAction: function (h, props, getUrlCallback) {
+		return h.redirect(this._invokeTCB(getUrlCallback, this.TWIML_URL_NAMES.HANGUP));
+	},
+	
+    type: 'NotifyNexmoUtilSNC'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:40:49</sys_created_on>
+        <sys_id>b57ff7e3db913300887e7b60399619c1</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>NotifyNexmoUtilSNC</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_b57ff7e3db913300887e7b60399619c1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:40:08</sys_updated_on>
+    </sys_script_include>
+</record_update>

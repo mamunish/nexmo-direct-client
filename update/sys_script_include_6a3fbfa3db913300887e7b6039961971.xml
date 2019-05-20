@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NotifyNexmoOutboundSMSRecipe</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NotifyNexmoOutboundSMSRecipe</name>
+        <script><![CDATA[var NotifyNexmoOutboundSMSRecipe = Class.create();
+NotifyNexmoOutboundSMSRecipe.prototype = Object.extendsObject(BaseNotifyNexmoSMSRecipe, {
+    initialize: function() {
+		BaseNotifyNexmoSMSRecipe.prototype.initialize.apply(this, arguments);
+    },
+
+	onStart: function(from, to, body, validityPeriod) {
+		this.data.fromNo = from;
+		if (validityPeriod) {
+			validityPeriod = parseInt(validityPeriod);
+			if (validityPeriod <= 0)
+				validityPeriod = 100;
+		} else
+			validityPeriod = 100;
+		this.data.validityPeriod = validityPeriod;
+		this.saveData();
+
+		var smsStatusUrl = this.ctx.getTwimlUrl('SMSStatus', this.getCallback('onSMSStatus'));
+		
+		gs.info(smsStatusUrl.url +  '  smsStatusUrl');
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint('https://api.nexmo.com/v0.1/messages');
+		request.setHttpMethod('POST');
+		request.setRequestHeader("Content-type","application/json");
+		request.setBasicAuth("8af12cdf", "V8BtkSIpqfwq9KWF");
+
+// 		request.setRequestHeader("Authorization","Bearer "+JWToken);
+		
+		request.setRequestBody('{"to": { "type": "sms", "number":"'+to+'"},"from": { "type": "sms", "number":"'+from+'"},"message": {"content": {"type": "text","text":"'+body+'"}} , "event_url" : "http://mmalaikannan-dev.sirahu.net"};');
+		
+		
+		var resp = request.execute();
+		
+		
+		var nexmoreqbody = resp.getBody();
+		var requestString = nexmoreqbody.dataString;
+		gs.info(JSON.stringify(nexmoreqbody));
+		if (resp.error) {
+			gs.error("Could not send message to {0} due to error {1}", to, resp.error);
+			this.end();
+		}
+		else {
+			var nexmores = JSON.parse(nexmoreqbody);
+			var MessageSid = nexmores.message_uuid;
+			if (MessageSid)
+				return MessageSid;
+		}
+	},
+
+	onSMSStatus: function (p) {
+		gs.info('sms status');
+		var payload = p.payload;
+		this.nutil.updateMessageStatusFromPayload(p);
+		var messageStatus = payload.MessageStatus? payload.MessageStatus[0]: null;
+		if (messageStatus && this.nutil.isFinalMessageStatus(messageStatus))
+			this.end();
+	},
+    type: 'NotifyNexmoOutboundSMSRecipe'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:39:53</sys_created_on>
+        <sys_id>6a3fbfa3db913300887e7b6039961971</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>NotifyNexmoOutboundSMSRecipe</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_6a3fbfa3db913300887e7b6039961971</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:39:51</sys_updated_on>
+    </sys_script_include>
+</record_update>

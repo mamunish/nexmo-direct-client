@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NexmoHelper</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NexmoHelper</name>
+        <script><![CDATA[var NexmoHelper = Class.create();
+NexmoHelper.prototype = {
+	CONFIG_NAME: 'main_and_only',
+	DRIVER_NAME: 'NexmoDirect',
+	TWILIO_API_VERSION: 1,
+
+	initialize: function(/* Optional */configGr) {
+		this._configGr = configGr;
+	},
+
+	isDevInstance: function () {
+		return gs.getProperty('glide.installation.developer', 'false') === 'true';
+	},
+	
+	isPartiallyConfigured: function () {
+		var conf = this.getConfig(true);
+		return !!(conf.acc_sid && conf.auth_token && conf.outbound_rest_id && conf.callback_endpoint);
+	},
+	
+	isFullyConfigured: function () {
+		var conf = this.getConfig();
+		return !!(conf.twiml_app_id && this.isPartiallyConfigured());
+	},
+
+	_getConfigGr: function () {
+		if (this._configGr)
+			return this._configGr;
+		else {
+			var gr = new GlideRecord('sn_twilio_direct_twilio_config');
+			if (gr.get('internal_name', this.CONFIG_NAME)) {
+				return gr;
+			} else
+				throw "Error! Twilio Direct config missing";
+		}
+	},
+
+	_getCredentialsGr: function () {
+		var cgr = this._getConfigGr();
+		if (!cgr.credential_alias.getRefRecord().isValidRecord())
+			return false;
+		// This is workaround is for a current known limitation with
+		// StandardCredentialsProvider. That uses GlideRecordSecure
+		// to access the credential record so when this code runs
+		// in context of any normal user then we won't get the
+		// credentials. Consulted with Venkat Koya.
+		var credentialGr = new GlideRecord('sn_twilio_direct_basic_auth');
+		credentialGr.addActiveQuery();
+		credentialGr.addQuery('tag', 'CONTAINS', cgr.credential_alias + '');
+		credentialGr.orderBy('order');
+		if (cgr.isValidField('sys_domain')) {
+			credentialGr.addQuery('sys_domain', cgr.sys_domain + ''); // In case the user has access to multiple domains we want to be specific.
+			credentialGr.queryNoDomain();
+		} else {
+			credentialGr.query();
+		}
+		if (!credentialGr.next())
+			return false;
+		return credentialGr;
+	},
+	
+	getCredentials: function () {
+		var credentialGr = this._getCredentialsGr();
+		if (credentialGr)
+			return {
+				acc_sid: credentialGr.getValue('user_name'),
+				auth_token: credentialGr.getElement('password').getDecryptedValue()
+			};
+		else
+			return {
+				acc_sid: '',
+				auth_token: ''
+			};
+	},
+
+	saveCredentials: function (accSid, authToken) {
+		var credentialGr = this._getCredentialsGr();
+		if (credentialGr) {
+			if (accSid !== -1)
+				credentialGr.setValue('user_name', accSid);
+			if (authToken !== -1) // setValue does not encrypt the value
+				credentialGr.getElement('password').setDisplayValue(authToken);
+			return !!credentialGr.update();
+		} else {
+			var cgr = this._getConfigGr();
+			credentialGr = new GlideRecord('sn_twilio_direct_basic_auth');
+			credentialGr.setValue('tag', cgr.credential_alias + '');
+			credentialGr.setValue('name', 'Twilio Direct Auto Generated');
+			if (accSid !== -1)
+				credentialGr.setValue('user_name', accSid);
+			if (authToken !== -1)
+				credentialGr.getElement('password').setDisplayValue(authToken);
+			return !!credentialGr.insert();
+		}
+	},
+
+	getConfig: function (all) {
+		if (!all && this._config)
+			return this._config;
+		var configGr = this._getConfigGr();
+		var endpoint = configGr.getValue('callback_endpoint');
+		if (endpoint && !endpoint.startsWith('/'))
+			endpoint = '/' + endpoint;
+		if (endpoint && endpoint.endsWith('/'))
+			endpoint = endpoint.slice(0, endpoint.length - 1);
+
+		var creds = this.getCredentials();
+		var msgServiceNumbers = {};
+		if (!configGr.msg_service_numbers.nil()) {
+			try {
+				msgServiceNumbers = JSON.parse(configGr.msg_service_numbers + '');
+			} catch (ex) {
+				msgServiceNumbers = {};
+			}
+		}
+
+		this._config = {
+			callback_endpoint: endpoint,
+			outbound_rest_name: configGr.getValue('outbound_rest_name'),
+			outbound_rest_id: configGr.getValue('outbound_rest'),
+			acc_sid: creds.acc_sid,
+			twiml_app_id: configGr.getValue('twiml_app_id'),
+			msg_service_id: configGr.getValue("msg_service_id"),
+			notify_service_id: configGr.getValue('notify_service_id'),
+			auto_bulk_sms: !!configGr.auto_bulk_sms,
+			co_pilot: !!configGr.co_pilot,
+			msg_service_numbers: msgServiceNumbers
+		};
+		if (all) {
+			this._config.auth_token = creds.auth_token;
+			this._config.detect_machine = configGr.detect_machine;
+			var timeout = configGr.getValue('detect_machine_timeout');
+			if (!timeout)
+				timeout = 30;
+			else
+				timeout = parseInt(timeout);
+			this._config.detect_machine_timeout = timeout;
+			this._config.api_json = configGr.getValue('api_json');
+		}
+		return this._config;
+	},
+
+	isAnyAdvancedSMSFeatureEnabled: function () {
+		var conf = this.getConfig();
+		return conf.auto_bulk_sms || conf.co_pilot;
+	},
+
+	/**
+	 * @param {string} twilioNumber
+	 */
+	getTwilioServiceId: function (twilioNumber) {
+		var config = this.getConfig();
+		if(!config.co_pilot)
+			return twilioNumber;
+		if (config.msg_service_id && !!config.msg_service_numbers[twilioNumber])
+			return config.msg_service_id;
+		return twilioNumber;
+	},
+
+	/**
+	 * @returns {boolean}
+	 */
+	isMsgServiceConfigured: function () {
+		var config = this.getConfig();
+		// Copilot feature can work even if notify service is not created.
+		// Max 10 Notify Serivces can be created. In case of master account it
+		// seems Notify Services in sub accounts too are taken into count.
+		return !!config.msg_service_id;
+	},
+
+	/**
+	 * @returns {boolean}
+	 */
+	isAutoBulkSmsEnabled: function () {
+		// For fast bulk SMS both Messaging and Notify services are required.
+		var config = this.getConfig();
+		return config.auto_bulk_sms && !!config.msg_service_id && !!config.notify_service_id;
+	},
+
+	saveConfig: function (fieldName, value, checkCanWrite, disableWorkflow) {
+		var gr = this._getConfigGr();
+		if (typeof fieldName == 'string') {
+			if (checkCanWrite && !gr.canWrite())
+				return false;
+			gr.setValue(fieldName, value);
+		} else if (typeof fieldName == 'object') {
+			for (var prop in fieldName) {
+				if (checkCanWrite && !gr.canWrite())
+					return false;
+				gr.setValue(prop, fieldName[prop]);
+			}
+		}
+		var origWorkflowFlag;
+		if (disableWorkflow) {
+			origWorkflowFlag = gr.isWorkflow();
+			gr.setWorkflow(false);
+		}
+		try {
+			return gr.update();
+		} finally {
+			if (disableWorkflow)
+				gr.setWorkflow(origWorkflowFlag);
+		}
+	},
+
+	getInstanceUrl: function () {
+		var url = gs.getProperty('glide.notify.endpoint', '');
+		if (!url)
+			url = gs.getProperty('glide.servlet.uri', '');
+		if (!url)
+			url = gs.getProperty('instance_name') + ".service-now.com";
+		if (url && (!url.startsWith('http://') && !url.startsWith('https://')))
+			url = "https://" + url;
+		if (url && url.endsWith('/'))
+			url = url.slice(0, url.length - 1);
+		return url;
+	},
+	
+	objectToQueryString: function (q) {
+		var out = '';
+		if (q) {
+			if (typeof q !== 'object')
+				throw ("Expected object got: " + (typeof q));
+			for (var k in q) {
+				if (out)
+					out += '&';
+				out += encodeURIComponent(k) + '=' + encodeURIComponent(q[k]);
+			}
+		}
+		return out;
+	},
+	
+	getTwimlUrl: function (url /*TwimlUrl*/) {
+		if (!url)
+			throw 'url object was null';
+		if (url instanceof ApiContext.TwimlUrl)
+			return url.url;
+		else
+			throw 'Expected TwimlUrl object but got: ' + (typeof url);
+	},
+
+	getXmlUrl: function (url /*XmlUrl*/) {
+		if (!url)
+			throw 'url object was null';
+		if (url instanceof ApiContext.XmlUrl)
+			return url.url;
+		else
+			throw 'Expected XmlUrl object but got: ' + (typeof url);
+	},
+	
+	getTwimlCallbackEndPoint: function (callbackName, ctx, extraArgs) {
+		
+		var d = this.getCtxData(ctx);
+		if (extraArgs) {
+			if (!d)
+				d = extraArgs;
+			else {
+				extraArgs.ctx = d.ctx;
+				d = extraArgs;
+			}
+		}
+		return this._getCallbackEndPoint('twiml', callbackName, d);
+	},
+	
+	getXmlCallbackEndPoint: function (callbackName, ctx, extraArgs) {
+		var d = this.getCtxData(ctx);
+		if (extraArgs) {
+			if (!d)
+				d = extraArgs;
+			else {
+				extraArgs.ctx = d.ctx;
+				d = extraArgs;
+			}
+		}
+		return this._getCallbackEndPoint('xml', callbackName, d);
+	},
+	
+	getCtxData: function (ctx) {
+		if (ctx && ctx instanceof ApiContext)
+			return {ctx: ctx.getCtxId()};
+	},
+	
+	_getCallbackEndPoint: function (type, callbackName, ctxData) {
+		
+		if (!callbackName)
+			callbackName = '';
+		if (ctxData && !callbackName)
+			throw 'Should not set ctxData if callbackName is not provided: ' + type;
+		if (ctxData)
+			ctxData = "?" + this.objectToQueryString(ctxData);
+		else
+			ctxData = '';
+		var url;
+		if(callbackName =="callAnswered")
+		 url ="https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_answer_call/process/{type}/{callback_name}";
+		else
+		 url = "https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}/{callback_name}";
+		return url.replace('{callback_name}', callbackName).replace('{type}', type) + ctxData;
+	},
+
+	isSignatureValid: function (expectedSignature, url, formData) {
+		// Sorting formData
+		var keys = [];
+		var i;
+		for (var k in formData) {
+			for (i = 0; i < keys.length; i++) {
+				if (keys[i] >= k)
+					break;
+			}
+			if (i >= keys.length)
+				keys.push(k);
+			else
+				keys.splice(i, 0, k);
+		}
+		var data = url;
+		for (i = 0; i < keys.length; i++) {
+			data += keys[i] + formData[keys[i]];
+		}
+		var actualSignature = new CertificateEncryption().generateMac(gs.base64Encode(this.getConfig(true).auth_token), "HmacSHA1", data);
+		return this._secureCompare(expectedSignature, actualSignature);
+	},
+
+	/**
+     * Securely compare two strings, using constant time to avoid timing
+     * attacks.
+     * See: http://codahale.com/a-lesson-in-timing-attacks/
+     */
+	_secureCompare: function (a, b) {
+		if (a.length != b.length)
+			return false;
+		var result = 0;
+		for (var i = 0; i < a.length; i++) {
+		  result |= a[i] ^ b[i];
+		}
+		return result === 0;
+	},
+
+	getClientToken: function (ttl, clientIdentifier, extraData) {
+		if (!this.isFullyConfigured())
+			throw 'Twilio Direct is not fully configured, so cannot get client token';
+		var conf = this.getConfig(true);
+		var token = new TwilioClientToken(conf.acc_sid, conf.auth_token, conf.twiml_app_id)
+			.getToken(ttl, clientIdentifier, extraData);
+		return token;
+	},
+
+	getTwilioApiMethods: function () {
+		var apis;
+		var version;
+		var config = this.getConfig(true);
+		if (config.api_json) {
+			try {
+				var res = JSON.parse(config.api_json);
+				apis = res.a;
+				version = res.v;
+			} catch (e) {
+				gs.error("TwilioHelper: Could not read api_json. Falling back to full read.");
+			}
+			if (version !== this.TWILIO_API_VERSION)
+				apis = undefined;
+		}
+		if (!apis)
+			apis = this.syncTwilioApiMethods().a;
+		return apis;
+	},
+
+	syncTwilioApiMethods: function (dontSave) {
+		var config = this.getConfig(true);
+		var apis = this._getTwilioApiMethodsDirectly(config.outbound_rest_id);
+		var o = {a: apis, v: this.TWILIO_API_VERSION};
+		var res = JSON.stringify(o);
+		if (dontSave) {
+			var gr = this._getConfigGr();
+			gr.api_json = res;
+		} else
+			this.saveConfig('api_json', res, false, true);
+		return o;
+	},
+
+	_getTwilioApiMethodsDirectly: function (restSysId) {
+		var apis = [];
+		var fnName, httpMethod;
+		var fnGr = new GlideRecord('sys_rest_message_fn');
+		fnGr.addQuery('rest_message', restSysId);
+		fnGr.query();
+		while (fnGr.next()) {
+			fnName = fnGr.getValue('function_name');
+			httpMethod = fnGr.getValue('http_method');
+
+			var fnParamsGr = new GlideRecord('sys_rest_message_fn_parameters');
+			fnParamsGr.addQuery('rest_message_function', fnGr.getUniqueValue());
+			fnParamsGr.orderBy('name');
+			fnParamsGr.query();
+			var params = [];
+			var name;
+			var pp;
+			while (fnParamsGr.next()) {
+				name = fnParamsGr.getValue('name');
+				var idx = name.indexOf('--');
+				pp = undefined;
+				if (idx > 0) {
+					pp = name.substring(0, idx);
+					name = name.substring(idx + 2);
+				}
+				params.push({
+					n: name, //name
+					p: pp, //processor
+					on: fnParamsGr.getValue('name') //paramOrigName
+				});
+			}
+			apis.push({
+				m: httpMethod, //method
+				n: fnName, //restName
+				p: params //params
+			});
+		}
+		return apis;
+	},
+	
+
+    type: 'NexmoHelper'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:36:57</sys_created_on>
+        <sys_id>809e3fa3db913300887e7b603996198c</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>NexmoHelper</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_809e3fa3db913300887e7b603996198c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:38:55</sys_updated_on>
+    </sys_script_include>
+</record_update>

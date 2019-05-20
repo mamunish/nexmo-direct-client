@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NotifyNexmoUtil</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NotifyNexmoUtil</name>
+        <script><![CDATA[var NotifyNexmoUtil = Class.create();
+NotifyNexmoUtil.prototype = Object.extendsObject(NotifyNexmoUtilSNC, {
+    initialize: function() {
+		NotifyNexmoUtilSNC.prototype.initialize.apply(this, arguments);
+    },
+
+    type: 'NotifyNexmoUtil'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:40:26</sys_created_on>
+        <sys_id>8c6ff3e3db913300887e7b603996198e</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>NotifyNexmoUtil</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_8c6ff3e3db913300887e7b603996198e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:39:58</sys_updated_on>
+    </sys_script_include>
+</record_update>

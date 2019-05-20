@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.TwimlHelperSNC</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>TwimlHelperSNC</name>
+        <script><![CDATA[var TwimlHelperSNC = Class.create();
+TwimlHelperSNC.prototype = {
+	NULL: '-1',
+	IGNORE_FN: ['initialize', 'setup', 'tag', 'forTag', 'done', 'addAttribute', 'addText', 'getHelper'],
+
+    initialize: function() {
+		this._tags = {};
+		this._allTags = {};
+		this._root = this._getNewModel('Response', 1);
+		this._parent = undefined;
+
+		this.tag('Say');
+		this.tag('Enqueue');
+		this.tag('Leave');
+		this.tag('Play');
+		this.tag('Redirect');
+		this.tag('Pause');
+		this.tag('Dial').addAllowedChild('Conference');
+		this.tag('Dial').addAllowedChild('Number');
+		this.tag('Dial').addAllowedChild('Client');
+		this.tag('Gather').addAllowedChild('Say');
+		this.tag('Gather').addAllowedChild('Play');
+		this.tag('Gather').addAllowedChild('Pause');
+		this.tag('Record');
+		this.tag('Reject');
+		this.tag('Hangup');
+		this.tag('Message').addAllowedChild('Body');
+		this.tag('Message').addAllowedChild('Media');
+		this.setup();
+    },
+
+	setup: function () { /* Do not write code here. Meant to be overridden by customer. */ },
+
+	tag: function (tagName) {
+		if (!this._allTags[tagName]) {
+			this._allTags[tagName] = true;
+		}
+		if (!this._tags[tagName]) {
+			this._tags[tagName] = this.NULL;
+		}
+		return {
+			addAllowedChild: this._addAllowedChild.bind(this, this._tags, tagName)
+		};
+	},
+
+	_addAllowedChild: function (parentMap, tagName, childTagName) {
+		if (!this._allTags[tagName])
+			this._allTags[tagName] = true;
+		if (!this._allTags[childTagName])
+			this._allTags[childTagName] = true;
+		var map = parentMap[tagName];
+		if (map === this.NULL) {
+			map = {};
+			parentMap[tagName] = map;
+		}
+		var childMap = map[childTagName];
+		if (!childMap) { // Means neither NULL nor map
+			map[childTagName] = this.NULL;
+		}
+		return {
+			addAllowedChild: this._addAllowedChild.bind(this, map, childTagName)
+		};
+	},
+
+	_getNewModel: function (tagName, level) {
+		var model = new TwimlModel(tagName, level);
+		for (var fnName in this) {
+			var fn = this[fnName];
+			if (typeof fn === 'function' && !fnName.startsWith('_') && this.IGNORE_FN.indexOf(fnName) === -1) {
+				model[fnName] = this._attachFn(fnName);
+			}
+		}
+		return model;
+	},
+
+	_setNewParent: function (parent) {
+		this._parent = parent;
+		this._ctx = undefined;
+	},
+
+	_attachFn: function (fn) {
+		var twl = this;
+		return function () {
+			var args = Array.prototype.slice.call(arguments);
+			twl._setNewParent(this); // Here this is the TwimlModel
+			return twl[fn].apply(twl, args);
+		};
+	},
+
+	forTag: function (tagName) {
+		if (!this._parent)
+			throw 'Make sure you invoked api() on TwimlHelper object';
+		if (!this._allTags[tagName])
+			throw 'Unexpected tag name. Check your spelling. : ' + tagName;
+		if (!this._isValidChild(this._parent, tagName, this._parent._level + 1))
+			throw 'The tag ' + tagName + ' cannot be nested under ' + this._parent._tagName + '. Please refer to Twilio doc - https://www.twilio.com/docs/voice/twiml .';
+		var newCtx = this._getNewModel(tagName, this._parent._level + 1);
+		this._parent._children.push(newCtx);
+		this._ctx = newCtx;
+	},
+
+	_isValidChild: function (parent, childTagNameToBeAdded, atLevel) {
+		if (atLevel === 2) { // Top level, whereas Response is at level 1.
+			if (!this._tags[childTagNameToBeAdded]) // Means neither NULL nor map, i.e. not present
+				return false;
+			else
+				return true;
+		} else {
+			var parentTagName = parent._tagName;
+			var maps = this._getMapsOf(parentTagName, atLevel - 1, this._tags, 2);
+			for (var i = 0; i < maps.length; i++) {
+				if (maps[i][childTagNameToBeAdded]) // It will return -1 or a map if it exists this will be true
+					return true;
+			}
+		}
+		return false;
+	},
+
+	_getMapsOf: function (tagWithName, atLevel, map, currentLevel) {
+		var m;
+		if (currentLevel === atLevel) {
+			m = map[tagWithName];
+			if (m && m !== this.NULL)
+				return [m];
+			else
+				return [];
+		} else {
+			var maps = [];
+			for (var t in map) {
+				m = map[t];
+				if (m !== this.NULL) {
+					maps = maps.concat(this._getMapsOf(tagWithName, atLevel, m, currentLevel + 1));
+				}
+			}
+			return maps;
+		}
+	},
+
+	api: function () {
+		return this._root;
+	},
+
+	addAttribute: function (attr, val) {
+		this._ctx._attributes[attr] = val;
+	},
+
+	addText: function (text) {
+		this._ctx._text = GlideStringUtil.escapeHTML(text);
+	},
+
+	done: function () {
+		var ctx = this._ctx;
+		this._ctx = undefined;
+		return ctx;
+	},
+
+	getHelper: function () {
+		if (this._helper)
+			return this._helper;
+		this._helper = new TwilioHelper();
+		return this._helper;
+	},
+
+	/* Verbs start here */
+
+	say: function (o /*textToSay, voice, loop, lang*/) {
+		this.forTag('Say');
+		if (typeof o === 'string')
+			this.addText(o);
+		else {
+			if (!o)
+				o = {};
+			if (!o.voice)
+				o.voice = 'alice';
+			this.addAttribute('voice', o.voice);
+			if (o.loop || o.loop === 0)
+				this.addAttribute('loop', o.loop);
+			if (o.lang)
+				this.addAttribute('language', o.lang);
+			if (!o.textToSay)
+				throw 'textToSay is required';
+			this.addText(o.textToSay);
+		}
+		return this.done();
+	},
+
+	play: function (o /*audioUrl, loop*/) {
+		this.forTag('Play');
+		if (!o)
+			o = {};
+		if (o.loop)
+			this.addAttribute('loop', o.loop);
+		if (o.audioUrl)
+			this.addText(o.audioUrl);
+		return this.done();
+	},
+
+	enqueue: function(o /*queueUniqName, waitUrl*/) {
+		this.forTag('Enqueue');
+		if (!o)
+			o = {};
+		if (o.waitUrl)
+			this.addAttribute('waitUrl', this.getHelper().getTwimlUrl(o.waitUrl));
+		if (o.queueUniqName)
+			this.addText(o.queueUniqName);
+		return this.done();
+	},
+
+	leave: function() {
+		this.forTag('Leave');
+		return this.done();
+	},
+
+	dial: function (o /*timeout, hangupOnStar, callerId, timeLimit, record, trim, ringTone, answerOnBridge, actionUrl, recordStatusUrl*/) {
+		this.forTag('Dial');
+		if (!o)
+			o = {};
+		if (o.actionUrl) {
+			this.addAttribute('method', 'POST');
+			this.addAttribute('action', this.getHelper().getTwimlUrl(o.actionUrl));
+		}
+		if (o.hangupOnStar || o.hangupOnStar === false)
+			this.addAttribute('hangupOnStar', o.hangupOnStar);
+		if (o.callerId)
+			this.addAttribute('callerId', o.callerId);
+		if (o.timeLimit)
+			this.addAttribute('timeLimit', o.timeLimit);
+		if (o.record || o.record === false)
+			this.addAttribute('record', o.record);
+		if (o.trim || o.trim === false) {
+			if (o.trim === true)
+				o.trim = 'trim-silence';
+			if (o.trim === false)
+				o.trim = 'do-not-trim';
+			this.addAttribute('trim', o.trim);
+		}
+		if (o.ringTone)
+			this.addAttribute('ringTone', o.ringTone);
+		if (o.record && o.record !== 'do-not-record' && o.recordStatusUrl) {
+			this.addAttribute('recordingStatusCallback', this.getHelper().getXmlUrl(o.recordStatusUrl));
+			this.addAttribute('recordingStatusCallbackMethod', 'POST');
+			this.addAttribute('recordingStatusCallbackEvent', 'in-progress completed failed');
+		}
+		if (o.answerOnBridge || o.answerOnBridge === false)
+			this.addAttribute('answerOnBridge', o.answerOnBridge);
+		return this.done();
+	},
+
+	conference: function (o /*confUniqueName, muted, beep, startConferenceOnEnter, endConferenceOnExit, waitUrl, maxParticipants, record, region, trim, coach, recordStatusUrl, confStatusUrl*/) {
+		this.forTag('Conference');
+		if (!o)
+			o = {};
+		if (o.trim || o.trim === false) {
+			if (o.trim === true)
+				o.trim = 'trim-silence';
+			if (o.trim === false)
+				o.trim = 'do-not-trim';
+			this.addAttribute('trim', o.trim);
+		}
+		if (o.muted || o.muted === false)
+			this.addAttribute('muted', o.muted);
+		if (o.beep || o.beep === false)
+			this.addAttribute('beep', o.beep);
+		if (o.startConferenceOnEnter || o.startConferenceOnEnter === false)
+			this.addAttribute('startConferenceOnEnter', o.startConferenceOnEnter);
+		if (o.endConferenceOnExit || o.endConferenceOnExit === false)
+			this.addAttribute('endConferenceOnExit', o.endConferenceOnExit);
+		if (o.waitUrl) {
+			this.addAttribute('waitUrl', this.getHelper().getTwimlUrl(o.waitUrl));
+			this.addAttribute('waitMethod', 'POST');
+		}
+		if (o.maxParticipants)
+			this.addAttribute('maxParticipants', o.maxParticipants);
+		if (o.record || o.record === false) {
+			if (o.record === true)
+				o.record = 'record-from-start';
+			if (o.record === false)
+				o.record = 'do-not-record';
+			if (o.record === 'record-from-start' && o.recordStatusUrl) {
+				this.addAttribute('recordingStatusCallbackEvent', 'in-progress completed failed');
+				this.addAttribute('recordingStatusCallbackMethod', 'POST');
+				this.addAttribute('recordingStatusCallback', this.getHelper().getXmlUrl(o.recordStatusUrl));
+			}
+			this.addAttribute('record', o.record);
+		}
+		if (o.coach)
+			this.addAttribute('coach', o.coach);
+		if (o.confStatusUrl) {
+			this.addAttribute('statusCallbackEvent', 'start end join leave mute hold speaker');
+			this.addAttribute('statusCallbackMethod', 'POST');
+			this.addAttribute('statusCallback', this.getHelper().getXmlUrl(o.confStatusUrl));
+		}
+		if (!o.confUniqueName)
+			throw 'confUniqueName is required';
+		this.addText(o.confUniqueName);
+		return this.done();
+	},
+
+	redirect: function (oOrUrl /*url TwimlUrl or object with url key*/, method) {
+		this.forTag('Redirect');
+		var url;
+		if (oOrUrl instanceof ApiContext.TwimlUrl)
+			url = oOrUrl;
+		else if (oOrUrl)
+			url = oOrUrl.url;
+		if (method)
+			this.addAttribute('method', method);
+		else
+			this.addAttribute('method', 'POST');
+		if (!url)
+			throw 'url is required';
+		else
+			this.addText(this.getHelper().getTwimlUrl(url));
+		return this.done();
+	},
+
+	gatherKeys: function (o /*actionUrl, numDigits, timeout, finishOnKey*/) {
+		this.forTag('Gather');
+		if (!o)
+			o = {};
+		if (o.numDigits)
+			this.addAttribute('numDigits', o.numDigits);
+		if (o.timeout)
+			this.addAttribute('timeout', o.timeout);
+		if (o.finishOnKey || o.finishOnKey === '' || o.finishOnKey === 0)
+			this.addAttribute('finishOnKey', o.finishOnKey);
+		this.addAttribute('input', 'dtmf');
+		if (o.actionUrl)
+			this.addAttribute('action', this.getHelper().getTwimlUrl(o.actionUrl));
+		return this.done();
+	},
+
+	hangup: function () {
+		this.forTag('Hangup');
+		return this.done();
+	},
+
+	reject: function (oOrReason /*reason text or object with reason key*/) {
+		this.forTag('Reject');
+		var reason = 'rejected';
+		if (oOrReason && oOrReason.reason)
+			reason = oOrReason.reason;
+		else if (oOrReason)
+			reason = oOrReason;
+		if (reason === 'rejected' || reason === 'busy')
+			this.addAttribute('reason', reason);
+		return this.done();
+	},
+
+	pause: function (oOrlength /*length number or object with length key*/) {
+		this.forTag('Pause');
+		var length = 1;
+		if (oOrlength && oOrlength.length)
+			length = parseInt(oOrlength.length);
+		else if (oOrlength)
+			length = parseInt(oOrlength);
+		if (length > 0)
+			this.addAttribute('length', length);
+		return this.done();
+	},
+
+	record: function (o /* actionUrl, timeout, finishOnKey, maxLength, playBeep, trim,
+		recordStatusUrl, transcribe, transcribeUrl */) {
+		this.forTag('Record');
+		if (!o)
+			o = {};
+		if (o.actionUrl) {
+			this.addAttribute('method', 'POST');
+			this.addAttribute('action', this.getHelper().getTwimlUrl(o.actionUrl));
+		}
+		if (o.timeout)
+			this.addAttribute('timeout', o.timeout);
+		if (o.finishOnKey)
+			this.addAttribute('finishOnKey', o.finishOnKey);
+		if (o.maxLength) {
+			var len = parseInt(o.maxLength);
+			if (len > 1)
+				this.addAttribute('maxLength', len);
+		}
+		if (o.playBeep === true || o.playBeep === false)
+			this.addAttribute('playBeep', o.playBeep);
+		if (o.trim)
+			this.addAttribute('trim', o.trim);
+		if (o.recordStatusUrl) {
+			this.addAttribute('recordingStatusCallbackMethod', 'POST');
+			this.addAttribute('recordingStatusCallback', this.getHelper().getXmlUrl(o.recordStatusUrl));
+		}
+		if (o.transcribe === true || o.transcribe === false) {
+			this.addAttribute('transcribe', o.transcribe);
+			if (o.transcribe && o.transcribeUrl) {
+				this.addAttribute('transcribeCallback', this.getHelper().getXmlUrl(o.transcribeUrl));
+			}
+		}
+		return this.done();
+	},
+
+	message: function (o /*to, from, actionUrl, messageText*/) {
+		this.forTag('Message');
+		if (o.to)
+			this.addAttribute('to', o.to);
+		if (o.from)
+			this.addAttribute('from', o.from);
+		if (o.actionUrl) {
+			this.addAttribute('action', o.actionUrl);
+			this.addAttribute('method', 'POST');
+		}
+		if (o.messageText)
+			this.addText(o.messageText);
+
+		return this.done();
+	},
+
+	body: function(o /*messageText string or o with messageText property*/) {
+		this.forTag('Body');
+		if (typeof o === 'string')
+			this.addText(o);
+		else if (o && o.messageText)
+			this.addText(o.messageText);
+		else
+			throw 'messageText is required';
+
+		return this.done();
+	},
+
+	media: function(o /*url string or o with url property*/) {
+		this.forTag('Media');
+		if (typeof o === 'string')
+			this.addText(o);
+		else if (o && o.url)
+			this.addText(o.url);
+		else
+			throw 'media url is required';
+
+		return this.done();
+	},
+
+	client: function (oOrClientId /* clientId, url, statusUrl */) {
+		this.forTag('Client');
+		var clientId;
+		if (typeof oOrClientId === 'string')
+			clientId = oOrClientId;
+		else {
+			if (!oOrClientId)
+				oOrClientId = {};
+			if (!oOrClientId.clientId)
+				throw 'clientId is required';
+			clientId = oOrClientId.clientId;
+			if (oOrClientId.url)
+				this.addAttribute('url', this.getHelper().getTwimlUrl(oOrClientId.url));
+			if (oOrClientId.statusUrl) {
+				this.addAttribute('statusCallback', this.getHelper().getXmlUrl(oOrClientId.statusUrl));
+				this.addAttribute('statusCallbackEvent', 'initiated ringing answered completed');
+			}
+		}
+		this.addText(clientId);
+		return this.done();
+	},
+
+	number: function (oOrNumber /* number, sendDigits, url, statusUrl */) {
+		this.forTag('Number');
+		var number;
+		if (typeof oOrNumber === 'string')
+			number = oOrNumber;
+		else {
+			if (!oOrNumber)
+				oOrNumber = {};
+			if (!oOrNumber.number)
+				throw 'number is required';
+			number = oOrNumber.number;
+			if (oOrNumber.url)
+				this.addAttribute('url', this.getHelper().getTwimlUrl(oOrNumber.url));
+			if (oOrNumber.statusUrl) {
+				this.addAttribute('statusCallback', this.getHelper().getXmlUrl(oOrNumber.statusUrl));
+				this.addAttribute('statusCallbackEvent', 'initiated ringing answered completed');
+			}
+		}
+		this.addText(number);
+		return this.done();
+	},
+
+    type: 'TwimlHelperSNC'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:41:40</sys_created_on>
+        <sys_id>deaf3fa3db913300887e7b6039961996</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>TwimlHelperSNC</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_deaf3fa3db913300887e7b6039961996</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 10:40:40</sys_updated_on>
+    </sys_script_include>
+</record_update>

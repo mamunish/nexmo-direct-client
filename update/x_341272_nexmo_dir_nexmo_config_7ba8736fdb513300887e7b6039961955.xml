@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="x_341272_nexmo_dir_nexmo_config">
+    <x_341272_nexmo_dir_nexmo_config action="INSERT_OR_UPDATE">
+        <answer_url>https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_answer_call/process/onCallAnswered</answer_url>
+        <api_key>8af12cdf</api_key>
+        <api_secret>QtEbMREDM/stYME5w05bwHsxpJr4TKMY</api_secret>
+        <application_id>b457722f-aec9-4754-8577-8e377bbb4b55</application_id>
+        <application_name>Test Nexmo</application_name>
+        <application_type>voice</application_type>
+        <event_url>https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_event_call/process/onPrimaryCallStatus</event_url>
+        <expire>2019-05-21 05:33:20</expire>
+        <internal_name>main_and_only</internal_name>
+        <jwt_token>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTgzMzA0MDA1NzcsImp0aSI6ImVmYzYzODU5ZGIyMTMzMDA4ODdlN2I2MDM5OTYxOTE0IiwiZXhwIjoxNTU4NDE2ODAxLCJhY2wiOnsicGF0aHMiOnsiL3YxL3VzZXJzLyoqIjp7fSwiL3YxL2NvbnZlcnNhdGlvbnMvKioiOnt9LCIvdjEvc2Vzc2lvbnMvKioiOnt9LCIvdjEvZGV2aWNlcy8qKiI6e30sIi92MS9pbWFnZS8qKiI6e30sIi92My9tZWRpYS8qKiI6e30sIi92MS9hcHBsaWNhdGlvbnMvKioiOnt9LCIvdjEvcHVzaC8qKiI6e30sIi92MS9rbm9ja2luZy8qKiI6e30sIi92MS9jYWxscy8qKiI6e319fSwiYXBwbGljYXRpb25faWQiOiJiNDU3NzIyZi1hZWM5LTQ3NTQtODU3Ny04ZTM3N2JiYjRiNTUifQ.Vwf5OF8hEcC2VrQeejnQh8gMjJtmcAMNJFZ9yH5iXAyU_5F3BLsX--DKIaSpXnEK4Q-GW1hCWWoQZb1W4X9qfkMDe3WnsTCwPJO4yVUDWhO1U08g1c03qWVAnAcmPot3k0ft4VXFmZZqpBoRjVtAXTO1W1A0ZE5fhQNMNLZ5OMoyNmDolR5nW5qlRvWuYxl9S8bHslLJxl1dIg7iR82uq94JJ4tm-l3pMMHnSk7bmmk70bRGSj78OYsFy9BJFtz0dBmSeribisrYIPeeTulnkpktyz3FzeLzQ791e6_ZKBmc5LWH46q0dFFmOHO06fMe3DaF_ZiG47sMk3BlhiRwwA</jwt_token>
+        <private_key>-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCanMcW3ppQImRm
+RCB1/m+32pvVaj+Qw6D1MY8y3sDCSFOTixeW83sGNIr1fzbagzj19C6d+b22PJlC
+O05awMHEjHAwu6nsZYOUQhB53PZs+Cv5g/kqdaSNJ9PfzyloHzi8sRnxbiTt1tyE
+6p7MVMRcHIzmRS3Kc/B1YNxfNlYUlUCVM39E4950XX3QuI/veRLFxUKppXG+/B9Q
+w8JDT7FVdciNL9tYti5qoyc7+UtD/jbvxYFy/BrbfJs/r76cnYgsdWXtZ57mXPVJ
+OcLDolIIqGljqTOePnsy1EKUdk+y9N2zbT86BXwTAPQduFywKG453hxF8m9y4UtC
+8BL/L/NNAgMBAAECggEACosu+4UGLnlN8fhq40kM6tOOZX0npRJmN1pgGta8e/NN
+OcZWPz3O8bMjF89LWRbySzmR9UV69cLHq8/aDc/P1vzByNz/X0bj9HgV4g2aw38g
+FpW0p/vaUyL4bK6WswpQBvQn4gJCI/MPWkQavLH6KxLqW+izUPdbmlGW7apJsAEL
+fnsiku0KhaTWQmbtxAqo+RXPxK9Cl3nqmT/RbQocz2kFmWKi8QXEXCNKEyqI6VG3
+/GcVABaBB9o215XvI4J6N6EqBKWW8JP6OTIz16g8Ea570Z+LqLwaABM1t+F5HEh5
+WpqVcG7TTe6t0IJi/rxU2Ui8vujuLUuwhMScdQFtaQKBgQDNjFcpDgYLA5Ge0WWr
+pgJyxQE1o5Fk87LEnx3Pzpvw+5kBPdFKKsmyM21gChKT+FsSBV/bOxGmzz74acxE
+H08QenAmJ9jXPYtEJtPlbSBxkvk+j4Bwu2cLoqz3czM05iAab3NI1Ye08Rm8ItTz
+nt0RUjgctba7kGn9Mo4S0DcYiQKBgQDAj+CWMWPAEbvEO9gPEA72DXc7aByno0pE
+N1wLo4MksMQpbBT8dM9+aX5eY4rrfHYXD6dtTPr8eBXmqrZJKPgMFpU29hxmh/WT
+OV8eHZv4JmBr0kqDB/kPaHI6Wx5cIMGYOq+uiJAQuQ10Fb3DP5Y5MsRBQWfKCgaW
+gv5G8lVLpQKBgQCqhj1hH/M/e+x5V7sDViw9ztacC2D54Xtzx5XR6tRQbkqXTxOs
+dibyoduhi3myLJ5RKwhFNpIEU3coW41NDrRnNUyJOxGYL8Sz+4pbkdcSoh4JGsAx
+xidM7d6VQ4s93ZTQmZmI2S1Gnab9/9+vZSJ91jobB13b6Ykkt6ZKUVcEEQKBgGmq
+ykhA5AcS9CGT4VUqr7sP2pzr3cWUEn3qjwUH/kAVDB/a4o1CoFYzF5g+MY5Vpwuy
+mGKfOp9uWj5Q8WSmKa+geNNHLICLHRRkCDEjeGIs1P510FOk/WQaIYyqUbemdfXO
+RneVEtFKavqHr7FD5HCQzics+AJjjAft7BEMjAfNAoGBALkRKcT6I4yl1paAlXjh
+uVxCEy6GmJvURjmeXp+AsIo4pnScS50gd8KSejnKMKyaKx+Id+0xiFVAA9wtKJUN
+nFDz3ogGOQ0Q70WST6eHufoeuZyYjhlZe+tr8hetzGGEpmNs2ol+b2zAWR1uYf5C
+HdShD09GqNBFe1+dhj4mhhv9
+-----END PRIVATE KEY-----</private_key>
+        <public_key/>
+        <sys_class_name>x_341272_nexmo_dir_nexmo_config</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:28:14</sys_created_on>
+        <sys_id>7ba8736fdb513300887e7b6039961955</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>x_341272_nexmo_dir_nexmo_config_7ba8736fdb513300887e7b6039961955</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-20 05:33:36</sys_updated_on>
+    </x_341272_nexmo_dir_nexmo_config>
+</record_update>

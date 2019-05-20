@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.JsrsasignMain</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>JsrsasignMain</name>
+        <script><![CDATA[var JsrsasignMain = Class.create();
+JsrsasignMain.prototype = {
+  initialize: function () {
+  },
+  _stringify: function (o) {
+    var keys = Object.getOwnPropertyNames(o);
+    keys.sort();
+    return JSON.stringify(o, keys);
+  },
+  assignTokenparams: function (key, appid) {
+    var alg = "RSASHA256";
+    var header = { "alg": "RS256", "typ": "JWT" };
+    sHeader = this._base64ToBase64Url(gs.base64Encode(this._stringify(header)));
+
+    var aclPaths = {
+      "paths": {
+        "/v1/users/**": {},
+        "/v1/conversations/**": {},
+        "/v1/sessions/**": {},
+        "/v1/devices/**": {},
+        "/v1/image/**": {},
+        "/v3/media/**": {},
+        "/v1/applications/**": {},
+        "/v1/push/**": {},
+        "/v1/knocking/**": {},
+        "/v1/calls/**": {}
+      }
+    };
+
+
+    var ts = Math.round(new Date().getTime() / 1000);
+    var tsTommorow = ts + (24 * 3600);
+
+    var payload = {
+      "iat": Math.round(new Date().getTime()),
+      "jti": gs.generateGUID(),
+      "exp": Math.round(tsTommorow),
+      "acl": aclPaths,
+      "application_id": '' + appid + ''
+    };
+    var pass = appid;
+    var obj1 = new jsrsasign();
+    gs.info("Calling signJWT" + payload);
+
+    return obj1.signJWT(alg, sHeader, payload, key, pass);
+  },
+  _base64ToBase64Url: function (str) {
+    str = str.split('=')[0]; // Remove traling == padding
+    return str.replace(/\+/g, '-').replace(/\//g, '_');
+  },
+  type: 'JsrsasignMain'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-15 09:35:25</sys_created_on>
+        <sys_id>1a3ebfebdb513300887e7b6039961962</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>JsrsasignMain</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_1a3ebfebdb513300887e7b6039961962</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-15 09:35:25</sys_updated_on>
+    </sys_script_include>
+</record_update>
