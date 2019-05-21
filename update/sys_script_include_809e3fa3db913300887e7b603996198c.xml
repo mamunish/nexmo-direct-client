@@ -34,11 +34,11 @@ NexmoHelper.prototype = {
 		if (this._configGr)
 			return this._configGr;
 		else {
-			var gr = new GlideRecord('sn_twilio_direct_twilio_config');
+			var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
 			if (gr.get('internal_name', this.CONFIG_NAME)) {
 				return gr;
 			} else
-				throw "Error! Twilio Direct config missing";
+				throw "Error! Nexmo Direct config missing";
 		}
 	},
 
@@ -237,13 +237,13 @@ NexmoHelper.prototype = {
 		return out;
 	},
 	
-	getTwimlUrl: function (url /*TwimlUrl*/) {
+	getNexmlUrl: function (url /*NexmlUrl*/) {
 		if (!url)
 			throw 'url object was null';
-		if (url instanceof ApiContext.TwimlUrl)
+		if (url instanceof ApiContext.NexmlUrl)
 			return url.url;
 		else
-			throw 'Expected TwimlUrl object but got: ' + (typeof url);
+			throw 'Expected NexmlUrl object but got: ' + (typeof url);
 	},
 
 	getXmlUrl: function (url /*XmlUrl*/) {
@@ -255,7 +255,7 @@ NexmoHelper.prototype = {
 			throw 'Expected XmlUrl object but got: ' + (typeof url);
 	},
 	
-	getTwimlCallbackEndPoint: function (callbackName, ctx, extraArgs) {
+	getNexmlCallbackEndPoint: function (callbackName, ctx, extraArgs) {
 		
 		var d = this.getCtxData(ctx);
 		if (extraArgs) {
@@ -266,7 +266,7 @@ NexmoHelper.prototype = {
 				d = extraArgs;
 			}
 		}
-		return this._getCallbackEndPoint('twiml', callbackName, d);
+		return this._getCallbackEndPoint('nexml', callbackName, d);
 	},
 	
 	getXmlCallbackEndPoint: function (callbackName, ctx, extraArgs) {
@@ -431,13 +431,13 @@ NexmoHelper.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:57</sys_created_on>
         <sys_id>809e3fa3db913300887e7b603996198c</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>NexmoHelper</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_809e3fa3db913300887e7b603996198c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:38:55</sys_updated_on>
+        <sys_updated_on>2019-05-21 11:37:27</sys_updated_on>
     </sys_script_include>
 </record_update>

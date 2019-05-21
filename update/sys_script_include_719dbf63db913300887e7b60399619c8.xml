@@ -25,7 +25,7 @@ ApiContext.runCallbackListener = function (id, callbackName, payload, lastRespon
 	return sn_context.BaseApiContext.runCallbackListener(ctx, callbackName, payload, lastResponse);
 };
 
-ApiContext.TwimlUrl = function (url) {
+ApiContext.NexmlUrl = function (url) {
 	this.url = url;
 };
 ApiContext.XmlUrl = function (url) {
@@ -43,9 +43,9 @@ ApiContext.prototype = Object.extendsObject(sn_context.BaseApiContext, {
 		return this._helper;
 	},
 
-	getTwimlUrl: function (name, callbackFunction, extraArgs) {		
+	getNexmlUrl: function (name, callbackFunction, extraArgs) {		
 		this.addUrlIfNotExists(name, callbackFunction);
-		return new ApiContext.TwimlUrl(this._getHelper().getTwimlCallbackEndPoint(name, this, extraArgs));
+		return new ApiContext.NexmlUrl(this._getHelper().getNexmlCallbackEndPoint(name, this, extraArgs));
 	},
 
 	getXmlUrl: function (name, callbackFunction, extraArgs) {
@@ -58,13 +58,13 @@ ApiContext.prototype = Object.extendsObject(sn_context.BaseApiContext, {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:32:56</sys_created_on>
         <sys_id>719dbf63db913300887e7b60399619c8</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>4</sys_mod_count>
         <sys_name>ApiContext</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_719dbf63db913300887e7b60399619c8</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:37:29</sys_updated_on>
+        <sys_updated_on>2019-05-21 07:14:56</sys_updated_on>
     </sys_script_include>
 </record_update>

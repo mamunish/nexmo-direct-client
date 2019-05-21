@@ -2,33 +2,33 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>public</access>
         <active>true</active>
-        <api_name>x_341272_nexmo_dir.TwimlHelper</api_name>
+        <api_name>x_341272_nexmo_dir.NexmlHelper</api_name>
         <client_callable>false</client_callable>
         <description/>
-        <name>TwimlHelper</name>
-        <script><![CDATA[var TwimlHelper = Class.create();
-TwimlHelper.prototype = Object.extendsObject(TwimlHelperSNC, {
+        <name>NexmlHelper</name>
+        <script><![CDATA[var NexmlHelper = Class.create();
+NexmlHelper.prototype = Object.extendsObject(NexmlHelperSNC, {
     initialize: function() {
-		TwimlHelperSNC.prototype.initialize.apply(this, arguments);
+		NexmlHelperSNC.prototype.initialize.apply(this, arguments);
     },
 	
 	setup: function () {
 		
 	},
 
-    type: 'TwimlHelper'
+    type: 'NexmlHelper'
 });]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:41:16</sys_created_on>
         <sys_id>689f3be3db913300887e7b6039961958</sys_id>
-        <sys_mod_count>1</sys_mod_count>
-        <sys_name>TwimlHelper</sys_name>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>NexmlHelper</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_689f3be3db913300887e7b6039961958</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:40:15</sys_updated_on>
+        <sys_updated_on>2019-05-21 10:30:26</sys_updated_on>
     </sys_script_include>
 </record_update>

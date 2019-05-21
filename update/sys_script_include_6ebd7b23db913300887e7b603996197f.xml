@@ -32,16 +32,16 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		return this.workflow.finishWaitingActivitiesJ(this.data.notifyPhoneNumber, this.getCallGr(), jsonArgs, getNext, actionSysId);
 	},
 
-	getTwimlFromAction: function (notifyAction) {
-		return this.nutil.getTwimlFromAction(notifyAction, this._resolveHandler.bind(this));
+	getNexmlFromAction: function (notifyAction) {
+		return this.nutil.getNexmlFromAction(notifyAction, this._resolveHandler.bind(this));
 	},
 
-	getTwimlUrl: function (methodName, args) {
+	getNexmlUrl: function (methodName, args) {
 		var url;
 		if (this._callbacksCache[methodName])
 			url = this._callbacksCache[methodName];
 		else {
-			url = this.ctx.getTwimlUrl(methodName, this.getCallback(methodName), args);
+			url = this.ctx.getNexmlUrl(methodName, this.getCallback(methodName), args);
 			this._callbacksCache[methodName] = url;
 		}
 		return url;
@@ -58,52 +58,13 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		return url;
 	},
 
-	_resolveHandler: function (name, type, args) {
-		if (name === this.nutil.TWIML_URL_NAMES.CONF_STATUS) {
-			return this.ctx.getXmlUrl('onStdConferenceStatus');
-		} else if (name === this.nutil.TWIML_URL_NAMES.CONF_END) {
-			return this.getTwimlUrl('onConferenceEnd');
-		} else if (name === this.nutil.TWIML_URL_NAMES.CONF_IMMEDIATE_GATHER_ACTION) {
-			return this.getTwimlUrl('onImmediateGatherPostConferenceEnd');
-		} else if (name === this.nutil.TWIML_URL_NAMES.CATCH_ALL) {
-			var lastTagName = args.lastTagName;
-			var childTagName = args.withChildTagName;
-			return this.getTwimlUrl('onCatchAllEvent');
-		} else if (name === this.nutil.TWIML_URL_NAMES.ENQ_WAIT) {
-			return this.getTwimlUrl('onEnQ');
-		} else if (name === this.nutil.TWIML_URL_NAMES.LEFT_Q) {
-			return this.getTwimlUrl('noopTwiml');
-		} else if (name === this.nutil.TWIML_URL_NAMES.DIAL_ACTION) {
-			return this.getTwimlUrl('onDialEnd');
-		} else if (name === this.nutil.TWIML_URL_NAMES.DIAL_RECORD_STATUS) {
-			return this.getXmlUrl('onDialRecordStatus');
-		} else if (name === this.nutil.TWIML_URL_NAMES.CLIENT_ACTION) {
-			return this.getTwimlUrl('onClientDialAction');
-		} else if (name === this.nutil.TWIML_URL_NAMES.NUMBER_ACTION) {
-			return this.getTwimlUrl('onNumberDialAction');
-		} else if (name === this.nutil.TWIML_URL_NAMES.CLIENT_STATUS) {
-			return this.getXmlUrl('onClientDialCallStatus', {dialedTable: args.table, dialedSysid: args.sysid});
-		} else if (name === this.nutil.TWIML_URL_NAMES.NUMBER_STATUS) {
-			return this.getXmlUrl('onNumberDialCallStatus');
-		} else if (name === this.nutil.TWIML_URL_NAMES.GATHER_ACTION || name === this.nutil.TWIML_URL_NAMES.GATHER_ACTION_FAILED) {
-			return this.getTwimlUrl('onInputReceived');
-		} else if (name === this.nutil.TWIML_URL_NAMES.RECORD_ACTION) {
-			return this.getTwimlUrl('onRecordAction');
-		} else if (name === this.nutil.TWIML_URL_NAMES.REJECT) {
-			return this.getTwimlUrl('onReject');
-		} else if (name === this.nutil.TWIML_URL_NAMES.HANGUP) {
-			return this.getTwimlUrl('onHangUp');
-		} else
-			return this.resolveHandler(name, type, args);
-	},
-
 	resolveHandler: function (name, type, args) {
 		// Meant to be implemented by subclass if required
 		throw 'Unhandled url ' + name;
 	},
 
 	onCatchAllEvent: function (p) {
-		return this.getTwimlFromAction(this.finishWaitingActivities(null, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(null, true));
 	},
 	
 	onEnQ: function (p) {
@@ -111,8 +72,8 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		var queueSid = p.payload.QueueSid && p.payload.QueueSid[0];
 		this.db.addQueueRecord(this.data.callId, queueSid);
 		//this.finishWaitingActivities(null, false); PRB1318974 -- Queue activity should not finish while the call is in queue in Twilio
-		var h = new TwimlHelper().api();
-        h.redirect(new ApiContext.TwimlUrl('http://s3.amazonaws.com/com.twilio.sounds.music/index.xml'), 'GET');
+		var h = new NexmlHelper().api();
+        h.redirect(new ApiContext.NexmlUrl('http://s3.amazonaws.com/com.twilio.sounds.music/index.xml'), 'GET');
         return h;
 	},
 
@@ -125,7 +86,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 			digits: digits
 		};
 		this.nutil.addInputCallStatus(this.data.callId, digits);
-		return this.getTwimlFromAction(this.finishWaitingActivities(args, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(args, true));
 	},
 
 	onDialEnd: function (p) {
@@ -148,7 +109,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 				recordingDuration: recordingDuration
 			};
 		}
-		return this.getTwimlFromAction(this.finishWaitingActivities(args, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(args, true));
 	},
 	
 	onDialRecordStatus: function (p) {
@@ -161,7 +122,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 			if (!this.db.addRecording(this.data.callId, recordingSid, recordingDuration, recordingUrl))
 				gs.error(this.type + ": Failed to record the recoding info in notify_record");
 		} else if (recordingStatus === 'failed') {
-			gs.error(this.type + ": Twilio reported that it failed to record the call. Please login into Twilio site for more details.");
+			gs.error(this.type + ": Nexmo reported that it failed to record the call. Please login into Twilio site for more details.");
 		}
 	},
 
@@ -174,7 +135,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		// on this child call record but that driver does not
 		// do that, so we too do not do that. Override this hook
 		// if you want to add that functionality.
-		var h = new TwimlHelper().api();
+		var h = new NexmlHelper().api();
 		return h;
 	},
 
@@ -190,7 +151,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 			recordingDuration: recordingDuration
 		};
 		if (this.db.addRecording(callId, recordingId, recordingDuration, recordingUrl))
-			return this.getTwimlFromAction(this.finishWaitingActivities(args, true));
+			return this.getNexmlFromAction(this.finishWaitingActivities(args, true));
 		else {
 			gs.error("RecordAction: Failed to record the recoding info in notify_record");
 			throw "RecordAction: Failed to record the recoding info in notify_record";
@@ -198,7 +159,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 	},
 
 	onConferenceEnd: function(p) {
-		return this.getTwimlFromAction(this.finishWaitingActivities(null, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(null, true));
 	},
 	
 	onImmediateGatherPostConferenceEnd: function (p) {
@@ -207,7 +168,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		var args = {
 			confDigits: digits
 		};
-		return this.getTwimlFromAction(this.finishWaitingActivities(args, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(args, true));
 	},
 	
 	onClientDialCallStatus: function (p) {
@@ -243,15 +204,15 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 	},
 	
 	onHangUp: function(p) {
-		return this.getTwimlFromAction(this.finishWaitingActivities(null, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(null, true));
 	},
 
 	onReject: function(p) {
-		return this.getTwimlFromAction(this.finishWaitingActivities(null, true));
+		return this.getNexmlFromAction(this.finishWaitingActivities(null, true));
 	},
 
 	noopTwiml: function () {
-		var h = new TwimlHelper().api();
+		var h = new NexmlHelper().api();
 		return h;
 	},
 	
@@ -261,13 +222,13 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:33:22</sys_created_on>
         <sys_id>6ebd7b23db913300887e7b603996197f</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>6</sys_mod_count>
         <sys_name>BaseNotifyNexmoCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_6ebd7b23db913300887e7b603996197f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:38:11</sys_updated_on>
+        <sys_updated_on>2019-05-21 10:32:17</sys_updated_on>
     </sys_script_include>
 </record_update>

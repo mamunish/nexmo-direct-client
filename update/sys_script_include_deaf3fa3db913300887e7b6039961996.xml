@@ -2,12 +2,12 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>public</access>
         <active>true</active>
-        <api_name>x_341272_nexmo_dir.TwimlHelperSNC</api_name>
+        <api_name>x_341272_nexmo_dir.NexmlHelperSNC</api_name>
         <client_callable>false</client_callable>
         <description/>
-        <name>TwimlHelperSNC</name>
-        <script><![CDATA[var TwimlHelperSNC = Class.create();
-TwimlHelperSNC.prototype = {
+        <name>NexmlHelperSNC</name>
+        <script><![CDATA[var NexmlHelperSNC = Class.create();
+NexmlHelperSNC.prototype = {
 	NULL: '-1',
 	IGNORE_FN: ['initialize', 'setup', 'tag', 'forTag', 'done', 'addAttribute', 'addText', 'getHelper'],
 
@@ -71,7 +71,7 @@ TwimlHelperSNC.prototype = {
 	},
 
 	_getNewModel: function (tagName, level) {
-		var model = new TwimlModel(tagName, level);
+		var model = new NexmlModel(tagName, level);
 		for (var fnName in this) {
 			var fn = this[fnName];
 			if (typeof fn === 'function' && !fnName.startsWith('_') && this.IGNORE_FN.indexOf(fnName) === -1) {
@@ -90,7 +90,7 @@ TwimlHelperSNC.prototype = {
 		var twl = this;
 		return function () {
 			var args = Array.prototype.slice.call(arguments);
-			twl._setNewParent(this); // Here this is the TwimlModel
+			twl._setNewParent(this); // Here this is the NexmlModel
 			return twl[fn].apply(twl, args);
 		};
 	},
@@ -208,7 +208,7 @@ TwimlHelperSNC.prototype = {
 		if (!o)
 			o = {};
 		if (o.waitUrl)
-			this.addAttribute('waitUrl', this.getHelper().getTwimlUrl(o.waitUrl));
+			this.addAttribute('waitUrl', this.getHelper().getNexmlUrl(o.waitUrl));
 		if (o.queueUniqName)
 			this.addText(o.queueUniqName);
 		return this.done();
@@ -225,7 +225,7 @@ TwimlHelperSNC.prototype = {
 			o = {};
 		if (o.actionUrl) {
 			this.addAttribute('method', 'POST');
-			this.addAttribute('action', this.getHelper().getTwimlUrl(o.actionUrl));
+			this.addAttribute('action', this.getHelper().getNexmlUrl(o.actionUrl));
 		}
 		if (o.hangupOnStar || o.hangupOnStar === false)
 			this.addAttribute('hangupOnStar', o.hangupOnStar);
@@ -274,7 +274,7 @@ TwimlHelperSNC.prototype = {
 		if (o.endConferenceOnExit || o.endConferenceOnExit === false)
 			this.addAttribute('endConferenceOnExit', o.endConferenceOnExit);
 		if (o.waitUrl) {
-			this.addAttribute('waitUrl', this.getHelper().getTwimlUrl(o.waitUrl));
+			this.addAttribute('waitUrl', this.getHelper().getNexmlUrl(o.waitUrl));
 			this.addAttribute('waitMethod', 'POST');
 		}
 		if (o.maxParticipants)
@@ -304,10 +304,10 @@ TwimlHelperSNC.prototype = {
 		return this.done();
 	},
 
-	redirect: function (oOrUrl /*url TwimlUrl or object with url key*/, method) {
+	redirect: function (oOrUrl /*url NexmlUrl or object with url key*/, method) {
 		this.forTag('Redirect');
 		var url;
-		if (oOrUrl instanceof ApiContext.TwimlUrl)
+		if (oOrUrl instanceof ApiContext.NexmlUrl)
 			url = oOrUrl;
 		else if (oOrUrl)
 			url = oOrUrl.url;
@@ -318,7 +318,7 @@ TwimlHelperSNC.prototype = {
 		if (!url)
 			throw 'url is required';
 		else
-			this.addText(this.getHelper().getTwimlUrl(url));
+			this.addText(this.getHelper().getNexmlUrl(url));
 		return this.done();
 	},
 
@@ -334,7 +334,7 @@ TwimlHelperSNC.prototype = {
 			this.addAttribute('finishOnKey', o.finishOnKey);
 		this.addAttribute('input', 'dtmf');
 		if (o.actionUrl)
-			this.addAttribute('action', this.getHelper().getTwimlUrl(o.actionUrl));
+			this.addAttribute('action', this.getHelper().getNexmlUrl(o.actionUrl));
 		return this.done();
 	},
 
@@ -374,7 +374,7 @@ TwimlHelperSNC.prototype = {
 			o = {};
 		if (o.actionUrl) {
 			this.addAttribute('method', 'POST');
-			this.addAttribute('action', this.getHelper().getTwimlUrl(o.actionUrl));
+			this.addAttribute('action', this.getHelper().getNexmlUrl(o.actionUrl));
 		}
 		if (o.timeout)
 			this.addAttribute('timeout', o.timeout);
@@ -454,7 +454,7 @@ TwimlHelperSNC.prototype = {
 				throw 'clientId is required';
 			clientId = oOrClientId.clientId;
 			if (oOrClientId.url)
-				this.addAttribute('url', this.getHelper().getTwimlUrl(oOrClientId.url));
+				this.addAttribute('url', this.getHelper().getNexmlUrl(oOrClientId.url));
 			if (oOrClientId.statusUrl) {
 				this.addAttribute('statusCallback', this.getHelper().getXmlUrl(oOrClientId.statusUrl));
 				this.addAttribute('statusCallbackEvent', 'initiated ringing answered completed');
@@ -476,7 +476,7 @@ TwimlHelperSNC.prototype = {
 				throw 'number is required';
 			number = oOrNumber.number;
 			if (oOrNumber.url)
-				this.addAttribute('url', this.getHelper().getTwimlUrl(oOrNumber.url));
+				this.addAttribute('url', this.getHelper().getNexmlUrl(oOrNumber.url));
 			if (oOrNumber.statusUrl) {
 				this.addAttribute('statusCallback', this.getHelper().getXmlUrl(oOrNumber.statusUrl));
 				this.addAttribute('statusCallbackEvent', 'initiated ringing answered completed');
@@ -486,19 +486,19 @@ TwimlHelperSNC.prototype = {
 		return this.done();
 	},
 
-    type: 'TwimlHelperSNC'
+    type: 'NexmlHelperSNC'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:41:40</sys_created_on>
         <sys_id>deaf3fa3db913300887e7b6039961996</sys_id>
-        <sys_mod_count>1</sys_mod_count>
-        <sys_name>TwimlHelperSNC</sys_name>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>NexmlHelperSNC</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_deaf3fa3db913300887e7b6039961996</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:40:40</sys_updated_on>
+        <sys_updated_on>2019-05-21 11:42:24</sys_updated_on>
     </sys_script_include>
 </record_update>

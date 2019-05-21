@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NexmoApplicationCreation</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NexmoApplicationCreation</name>
+        <script><![CDATA[	var NexmoApplicationCreation = Class.create();
+	NexmoApplicationCreation.prototype = {
+		initialize: function () {},
+		create: function () {
+			var ApplicationData = {};
+			ApplicationData.api_key = current.getElement('api_key').toString();
+			ApplicationData.api_secret = current.getElement('api_secret').toString();
+			ApplicationData.name = current.getElement('application_name').toString();
+			ApplicationData.type = current.getElement('application_type').toString();
+			ApplicationData.answer_url = current.getElement('answer_url').toString();
+			ApplicationData.event_url = current.getElement('event_url').toString();
+			ApplicationData.event_method = 'GET';
+			var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmoapi', 'Default POST');
+			var base_url = sm.getEndpoint();
+			var request = new sn_ws.RESTMessageV2();
+			request.setEndpoint(base_url);
+			request.setHttpMethod('POST');
+			request.setRequestHeader("Content-type","application/json");
+			request.setRequestBody(JSON.stringify(ApplicationData));
+			var responseres = request.execute();
+			
+			var responsebody = responseres.getBody();
+			var obj = JSON.parse(responsebody);	
+			
+			var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+			gr.initialize();
+			var app_id = JSON.stringify(obj.id);
+			var app_private_key = JSON.stringify(obj.keys.private_key);
+			var app_public_key = JSON.stringify(obj.keys.public_key);
+			var app_name = JSON.stringify(obj.name);
+			gr.application_id = app_id.replace(/\"/g, "");
+			gr.answer_url = current.getElement('answer_url').toString();
+			gr.event_url = current.getElement('event_url').toString();
+			gr.application_name = app_name.replace(/\"/g, "");
+			var tmpprivate_key = app_private_key.replace(/\\n/g, "");
+			tmpprivate_key = tmpprivate_key.replace(/\"/g, "");
+			gr.private_key = tmpprivate_key;
+			
+			var tmppublic_key = app_public_key.replace(/\\n/g, "");
+			tmppublic_key= tmppublic_key.replace(/^"(.*)"$/, '$1');
+			gr.public_key = tmppublic_key;
+			gr.api_key = current.getElement('api_key').toString();
+			gr.api_secret = current.getElement('api_secret').toString();
+			gr.insert();
+			var arrToken = [ApplicationData.api_key, ApplicationData.api_secret, app_id, tmpprivate_key];
+			this.getJwtToken(arrToken);
+			return arrToken;
+		},
+		getJwtToken: function (ARRToken) {
+
+			App_id = ARRToken[2].replace(/\"/g, "");
+			var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+			gr.addQuery('application_id', App_id);
+			gr.query();
+			if (gr.next()) {
+				var t_apikey = gr.getValue("api_key");
+				var t_apisecret = gr.getValue("api_secret");
+				var tempprivatekey = gr.getValue('private_key');
+			}
+		},
+
+		type: 'NexmoApplicationCreation'
+	};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-21 11:49:27</sys_created_on>
+        <sys_id>1e255725dbe13300887e7b6039961970</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>NexmoApplicationCreation</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_1e255725dbe13300887e7b6039961970</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-21 11:49:27</sys_updated_on>
+    </sys_script_include>
+</record_update>

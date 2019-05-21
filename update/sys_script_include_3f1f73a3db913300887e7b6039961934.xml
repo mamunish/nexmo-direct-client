@@ -27,8 +27,8 @@ NotifyNexmoOutboundCallRecipe.prototype = Object.extendsObject(BaseNotifyNexmoCa
     this.saveData();
 
 
-    var answerUrl = this.ctx.getTwimlUrl("callAnswered", this.getCallback('onCallAnswered'));
-    var eventUrl = this.ctx.getTwimlUrl("primaryCallStatus", this.getCallback('onPrimaryCallStatus'));
+    var answerUrl = this.ctx.getNexmlUrl("callAnswered", this.getCallback('onCallAnswered'));
+    var eventUrl = this.ctx.getNexmlUrl("primaryCallStatus", this.getCallback('onPrimaryCallStatus'));
 
 	gs.info(JSON.stringify(answerUrl) + 'answer');
 gs.info(JSON.stringify(eventUrl) + 'eventUrl');
@@ -61,8 +61,10 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
 
 
     gs.info(JWToken + 'JWToken');
+	var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmocall', 'Default POST');
+	var endpoint = sm.getEndpoint();
     var request = new sn_ws.RESTMessageV2();
-    request.setEndpoint('https://api.nexmo.com/v1/calls');
+    request.setEndpoint(endpoint);
     request.setHttpMethod('POST');
     request.setRequestHeader("Content-type", "application/json");
     request.setRequestHeader("Authorization", "Bearer " + JWToken);
@@ -102,7 +104,7 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
 
     var notifyAction = this.workflow.processAndWaitActivityJ(callRecord);
     gs.info(JSON.stringify(notifyAction) + ' notifyAction');
-    return this.getTwimlFromAction(notifyAction);
+    return this.getNexmlFromAction(notifyAction);
 
   },
   addInputCallStatus: function (p) {
@@ -145,13 +147,13 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:21</sys_created_on>
         <sys_id>3f1f73a3db913300887e7b6039961934</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>NotifyNexmoOutboundCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_3f1f73a3db913300887e7b6039961934</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 10:39:43</sys_updated_on>
+        <sys_updated_on>2019-05-21 11:59:44</sys_updated_on>
     </sys_script_include>
 </record_update>
