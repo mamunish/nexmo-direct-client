@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
     <sys_ui_action action="INSERT_OR_UPDATE">
-        <action_name>nexmo_connect</action_name>
+        <action_name>nexmo_disconnect</action_name>
         <active>true</active>
-        <client>false</client>
+        <client>true</client>
         <client_script_v2><![CDATA[function onClick(g_form) {
 
 }]]></client_script_v2>
         <comments/>
-        <condition>current.canWrite() &amp;&amp; !new NexmoHelper(current).isFullyConfigured()</condition>
+        <condition>current.canWrite() &amp;&amp; new NexmoHelper(current).isFullyConfigured()</condition>
         <form_action>true</form_action>
         <form_button>true</form_button>
         <form_button_v2>false</form_button_v2>
         <form_context_menu>false</form_context_menu>
         <form_link>false</form_link>
         <form_menu_button_v2>false</form_menu_button_v2>
-        <form_style>primary</form_style>
+        <form_style>destructive</form_style>
         <hint/>
-        <isolate_script>false</isolate_script>
+        <isolate_script>true</isolate_script>
         <list_action>false</list_action>
         <list_banner_button>false</list_banner_button>
         <list_button>false</list_button>
@@ -25,18 +25,31 @@
         <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
-        <name>Connect</name>
-        <onclick/>
+        <name>Disconnect</name>
+        <onclick>confirmDisconnect()</onclick>
         <order>-200</order>
-        <script><![CDATA[(function () {
-	current.update();
-	var appsMsg = "";
-// 	if(current.application_name)
-// 		if(current.api_key)
-// 			if(current.api_secret)
-	gs.addErrorMessage(gs.getMessage("Nexmo account not connected.") + "<div>" + appsMsg + "</div>");
-	action.setRedirectURL(current);
-}());
+        <script><![CDATA[function confirmDisconnect() {
+	getMessage(['Confirmation', 'Are you sure you want to disconnect?'], function () {
+
+		var gm = new GlideModal('glide_confirm_standard');
+		gm.setTitle(getMessage('Confirmation'));
+		gm.setPreference('title', getMessage('Are you sure you want to disconnect?'));
+		gm.setPreference('warning', 'true');
+		gm.setPreference('onPromptComplete', function () {
+			var ga = new GlideAjax('TwilioDirectClient');
+			// Need to do this else disabling session messages have no effect as all param get prefixed by 0. or some number.
+			ga.disableRunInBatch();
+			ga.addParam('sysparm_name', 'disconnect');
+			ga.addParam('sysparm_config_id', g_form.getUniqueValue());
+			ga.setWantSessionMessages('false');
+			ga.getXML(function (response) {
+				g_form.save();
+			});
+		});
+		gm.render();
+
+	});
+}
 ]]></script>
         <show_insert>false</show_insert>
         <show_multiple_update>false</show_multiple_update>
@@ -44,19 +57,19 @@
         <show_update>true</show_update>
         <sys_class_name>sys_ui_action</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2019-05-20 12:54:12</sys_created_on>
+        <sys_created_on>2019-05-23 11:23:50</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
-        <sys_id>8eda9ad9db253300887e7b603996194c</sys_id>
-        <sys_mod_count>16</sys_mod_count>
-        <sys_name>Connect</sys_name>
+        <sys_id>5053691edb613300887e7b6039961925</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Disconnect</sys_name>
         <sys_overrides/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
-        <sys_update_name>sys_ui_action_8eda9ad9db253300887e7b603996194c</sys_update_name>
+        <sys_update_name>sys_ui_action_5053691edb613300887e7b6039961925</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-23 12:04:05</sys_updated_on>
+        <sys_updated_on>2019-05-23 11:26:54</sys_updated_on>
         <table>x_341272_nexmo_dir_nexmo_config</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

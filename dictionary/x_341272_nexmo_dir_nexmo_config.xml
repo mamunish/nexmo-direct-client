@@ -6,6 +6,7 @@
         <element label="Application ID" max_length="40" name="application_id" type="string"/>
         <element label="Application Name" max_length="20" name="application_name" type="string"/>
         <element default="voice" label="Application Type" max_length="10" name="application_type" type="string"/>
+        <element label="Connected" max_length="12" name="connected" type="boolean"/>
         <element label="Event URL" max_length="1024" name="event_url" type="url"/>
         <element label="Expire" max_length="40" name="expire" type="glide_date_time"/>
         <element default="main_and_only" label="Internal name" max_length="40" name="internal_name" type="string"/>
