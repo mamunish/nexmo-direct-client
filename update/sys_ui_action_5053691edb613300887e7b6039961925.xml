@@ -28,7 +28,8 @@
         <name>Disconnect</name>
         <onclick>confirmDisconnect()</onclick>
         <order>-200</order>
-        <script><![CDATA[function confirmDisconnect() {
+        <script><![CDATA[// confirmDisconnect();
+function confirmDisconnect() {
 	getMessage(['Confirmation', 'Are you sure you want to disconnect?'], function () {
 
 		var gm = new GlideModal('glide_confirm_standard');
@@ -36,13 +37,16 @@
 		gm.setPreference('title', getMessage('Are you sure you want to disconnect?'));
 		gm.setPreference('warning', 'true');
 		gm.setPreference('onPromptComplete', function () {
-			var ga = new GlideAjax('TwilioDirectClient');
+			var ga = new GlideAjax('NexmoDirectClient');
 			// Need to do this else disabling session messages have no effect as all param get prefixed by 0. or some number.
 			ga.disableRunInBatch();
 			ga.addParam('sysparm_name', 'disconnect');
 			ga.addParam('sysparm_config_id', g_form.getUniqueValue());
 			ga.setWantSessionMessages('false');
 			ga.getXML(function (response) {
+				console.log('raja');
+				console.log(response);
+				console.log('h');
 				g_form.save();
 			});
 		});
@@ -61,7 +65,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>5053691edb613300887e7b6039961925</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>9</sys_mod_count>
         <sys_name>Disconnect</sys_name>
         <sys_overrides/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -69,7 +73,7 @@
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_action_5053691edb613300887e7b6039961925</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-23 11:26:54</sys_updated_on>
+        <sys_updated_on>2019-05-23 14:23:08</sys_updated_on>
         <table>x_341272_nexmo_dir_nexmo_config</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

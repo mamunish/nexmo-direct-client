@@ -8,499 +8,596 @@
         <name>NexmoDirectClient</name>
         <script><![CDATA[var NexmoDirectClient = Class.create();
 NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
-  CONFIG: {
-    OK: 'ok',
-    NONE: 'none',
-    BAD: 'bad',
-    SOME: 'some'
-  },
+	CONFIG: {
+		OK: 'ok',
+		NONE: 'none',
+		BAD: 'bad',
+		SOME: 'some'
+	},
 
-  LONG_NUM: 'long_number',
-  SHORT_CODE: 'short_code',
+	LONG_NUM: 'long_number',
+	SHORT_CODE: 'short_code',
 
-  SUPPORT_DIRECTION: {
-    NA: 'na',
-    IN: 'in',
-    OUT: 'out',
-    BOTH: 'both'
-  },
+	SUPPORT_DIRECTION: {
+		NA: 'na',
+		IN: 'in',
+		OUT: 'out',
+		BOTH: 'both'
+	},
 
-  initialize: function (configId) {
-    
-  },
+	initialize: function (configId) {
 
-  setConfigGr: function (configGr) {
-    this._configGr = configGr;
-    return this;
-  },
+	},
 
-  _formatErr: function (resp) {
-    var msg = resp.error;
-    if (resp.errorJSON)
-      msg = "<b>" + resp.errorJSON.message + "</b>";
-    if (resp.errorJSON.code)
-      msg += " (" + resp.errorJSON.code + ")";
-    if (resp.errorJSON.detail)
-      msg += " - <i>" + resp.errorJSON.detail + "</i>";
-    return msg;
-  },
+	setConfigGr: function (configGr) {
+		this._configGr = configGr;
+		return this;
+	},
 
-  _getConfigRecord: function (id) {
-    if (!id)
-      return;
-    var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
-    if (gr.get(id))
-      return gr;
-    else
-      gs.error("No Nexmo Config found with sys_id " + id);
-  },
-	
+	_formatErr: function (resp) {
+		var msg = resp.error;
+		if (resp.errorJSON)
+			msg = "<b>" + resp.errorJSON.message + "</b>";
+		if (resp.errorJSON.code)
+			msg += " (" + resp.errorJSON.code + ")";
+		if (resp.errorJSON.detail)
+			msg += " - <i>" + resp.errorJSON.detail + "</i>";
+		return msg;
+	},
+
+	_getConfigRecord: function (id) {
+		if (!id)
+			return;
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+		if (gr.get(id))
+			return gr;
+		else
+			gs.error("No Nexmo Config found with sys_id " + id);
+	},
+
 	/**
 	 * @param {{number:string, sid: string, type: 'short_code'| 'long_number'}} inputData
-	*/
-  addNumberToMSGService: function (inputData) {
-    inputData = inputData || JSON.parse(this.getParameter('sysparm_data'));
-    var status = this.updateNumber(inputData.number, inputData.sid, inputData.type, true);
-    return JSON.stringify({ status: status });
-  },
+	 */
+	addNumberToMSGService: function (inputData) {
+		inputData = inputData || JSON.parse(this.getParameter('sysparm_data'));
+		var status = this.updateNumber(inputData.number, inputData.sid, inputData.type, true);
+		return JSON.stringify({
+			status: status
+		});
+	},
 
-  fetchNumbersHtml: function () {
-    var status = this.newItem("status");
-    var error = '';
+	fetchNumbersHtml: function () {
+		var status = this.newItem("status");
+		var error = '';
 
-    var html = this.newItem("html");
+		var html = this.newItem("html");
 
-    var r = this.getPhoneNumbers();
-	  gs.info(r + 'r numbers');
-    var phs = r.phs;
-    error = r.error;
-    var self = this;
-    var showTerritory = "";
-    var showNotifyGrp = "";
-    var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
-    phs.forEach(function (ph, i) {
-		gs.info(ph.numbers + 'ph numbers');
-      var btn;
-      self.getDocument().setCurrentElement(html);
-      var row = self.getDocument().createElement("tr");
-      row.setAttribute("class", "data_row");
-      html.appendChild(row);
+		var r = this.getPhoneNumbers();
+		gs.info(r + 'r numbers');
+		var phs = r.phs;
+		error = r.error;
+		var self = this;
+		var showTerritory = "";
+		var showNotifyGrp = "";
+		var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
+		phs.forEach(function (ph, i) {
+			gs.info(ph.numbers + 'ph numbers');
+			var btn;
+			self.getDocument().setCurrentElement(html);
+			var row = self.getDocument().createElement("tr");
+			row.setAttribute("class", "data_row");
+			html.appendChild(row);
 
-      self.getDocument().setCurrentElement(row);
-      var item = self.getDocument().createElementWithTextValue("td", i + 1);
-      item.setAttribute("scope", "row");
-      item.setAttribute("class", "col-center col-small decoration_cell col-control");
-      row.appendChild(item);
+			self.getDocument().setCurrentElement(row);
+			var item = self.getDocument().createElementWithTextValue("td", i + 1);
+			item.setAttribute("scope", "row");
+			item.setAttribute("class", "col-center col-small decoration_cell col-control");
+			row.appendChild(item);
 
-      var nPhInfo = self._getNotifyPhoneNumberInfo(ph.number, ph.type);
+			var nPhInfo = self._getNotifyPhoneNumberInfo(ph.number, ph.type);
 
-      self.getDocument().setCurrentElement(row);
-      if (nPhInfo && nPhInfo.url)
-        item = self.getDocument().createElement("td");
-      else
-        item = self.getDocument().createElementWithTextValue("td", ph.number);
-      item.setAttribute("class", "vt grid-field");
-      row.appendChild(item);
+			self.getDocument().setCurrentElement(row);
+			if (nPhInfo && nPhInfo.url)
+				item = self.getDocument().createElement("td");
+			else
+				item = self.getDocument().createElementWithTextValue("td", ph.number);
+			item.setAttribute("class", "vt grid-field");
+			row.appendChild(item);
 
-      if (nPhInfo && nPhInfo.url) {
-        self.getDocument().setCurrentElement(item);
-        var aItem = self.getDocument().createElementWithTextValue("a", ph.number);
-        aItem.setAttribute("href", nPhInfo.url);
-        aItem.setAttribute("title", gs.getMessage('Goto number record'));
-        item.appendChild(aItem);
-        showNotifyGrp = "true"; // Number is synced with Notify so wheather it has group or not, the column must be shown.
-      }
+			if (nPhInfo && nPhInfo.url) {
+				self.getDocument().setCurrentElement(item);
+				var aItem = self.getDocument().createElementWithTextValue("a", ph.number);
+				aItem.setAttribute("href", nPhInfo.url);
+				aItem.setAttribute("title", gs.getMessage('Goto number record'));
+				item.appendChild(aItem);
+				showNotifyGrp = "true"; // Number is synced with Notify so wheather it has group or not, the column must be shown.
+			}
 
-      self.getDocument().setCurrentElement(row);
-      var capItem = self.getDocument().createElement("td");
-      capItem.setAttribute("class", "vt grid-field");
-      row.appendChild(capItem);
+			self.getDocument().setCurrentElement(row);
+			var capItem = self.getDocument().createElement("td");
+			capItem.setAttribute("class", "vt grid-field");
+			row.appendChild(capItem);
 
-      if (ph.hasSms)
-        self._addIcon(capItem, 'icon-comment', gs.getMessage("SMS capable"));
-      if (ph.hasVoice)
-        self._addIcon(capItem, 'icon-phone', gs.getMessage("Voice capable"));
+			if (ph.hasSms)
+				self._addIcon(capItem, 'icon-comment', gs.getMessage("SMS capable"));
+			if (ph.hasVoice)
+				self._addIcon(capItem, 'icon-phone', gs.getMessage("Voice capable"));
 
-      self.getDocument().setCurrentElement(row);
-      var tItem;
-      if (nPhInfo && nPhInfo.territory) {
-        tItem = self.getDocument().createElementWithTextValue("td", nPhInfo.territory);
-        showTerritory = "true";
-      } else
-        tItem = self.getDocument().createElement("td");
-      tItem.setAttribute('class', 'territory vt grid-field');
-      row.appendChild(tItem);
+			self.getDocument().setCurrentElement(row);
+			var tItem;
+			if (nPhInfo && nPhInfo.territory) {
+				tItem = self.getDocument().createElementWithTextValue("td", nPhInfo.territory);
+				showTerritory = "true";
+			} else
+				tItem = self.getDocument().createElement("td");
+			tItem.setAttribute('class', 'territory vt grid-field');
+			row.appendChild(tItem);
 
-      self.getDocument().setCurrentElement(row);
-      if (nPhInfo && nPhInfo.notifyGroup) {
-        item = self.getDocument().createElementWithTextValue("td", nPhInfo.notifyGroup);
-      } else
-        item = self.getDocument().createElement("td");
-      item.setAttribute('class', 'ngrp vt grid-field');
-      row.appendChild(item);
+			self.getDocument().setCurrentElement(row);
+			if (nPhInfo && nPhInfo.notifyGroup) {
+				item = self.getDocument().createElementWithTextValue("td", nPhInfo.notifyGroup);
+			} else
+				item = self.getDocument().createElement("td");
+			item.setAttribute('class', 'ngrp vt grid-field');
+			row.appendChild(item);
 
-      self.getDocument().setCurrentElement(row);
-      item = self.getDocument().createElement("td");
-      item.setAttribute('class', 'advSms vt grid-field');
-      if (ph.hasSms) {
-        if (self._getHelper().isAnyAdvancedSMSFeatureEnabled()) {
-          if (msgSvcNums[ph.number]) {
-            self._addIcon(item, 'icon-check', gs.getMessage("Enrolled for Advanced SMS features"));
-            btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Disable"));
-          } else {
-            self._addIcon(item, 'icon-cross', gs.getMessage("Not enrolled for Advanced SMS features"));
-            btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Enable"));
-          }
-          btn.setAttribute("class", "btn btn-default btn-sm");
-          if (msgSvcNums[ph.number]) {
-            btn.setAttribute("onClick", "javascript:disableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
-          } else {
-            btn.setAttribute("onClick", "javascript:enableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
-          }
-          item.appendChild(btn);
-        } else {
-          tItem = self.getDocument().createElementWithTextValue("span", gs.getMessage("Not Enabled"));
-          item.appendChild(tItem);
-        }
-      }
-      row.appendChild(item);
+			self.getDocument().setCurrentElement(row);
+			item = self.getDocument().createElement("td");
+			item.setAttribute('class', 'advSms vt grid-field');
+			if (ph.hasSms) {
+				if (self._getHelper().isAnyAdvancedSMSFeatureEnabled()) {
+					if (msgSvcNums[ph.number]) {
+						self._addIcon(item, 'icon-check', gs.getMessage("Enrolled for Advanced SMS features"));
+						btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Disable"));
+					} else {
+						self._addIcon(item, 'icon-cross', gs.getMessage("Not enrolled for Advanced SMS features"));
+						btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Enable"));
+					}
+					btn.setAttribute("class", "btn btn-default btn-sm");
+					if (msgSvcNums[ph.number]) {
+						btn.setAttribute("onClick", "javascript:disableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+					} else {
+						btn.setAttribute("onClick", "javascript:enableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+					}
+					item.appendChild(btn);
+				} else {
+					tItem = self.getDocument().createElementWithTextValue("span", gs.getMessage("Not Enabled"));
+					item.appendChild(tItem);
+				}
+			}
+			row.appendChild(item);
 
-      self.getDocument().setCurrentElement(row);
-      var cItem = self.getDocument().createElement("td");
-      cItem.setAttribute('class', 'configStatus vt grid-field');
-      row.appendChild(cItem);
+			self.getDocument().setCurrentElement(row);
+			var cItem = self.getDocument().createElement("td");
+			cItem.setAttribute('class', 'configStatus vt grid-field');
+			row.appendChild(cItem);
 
-      if (ph.configState === self.CONFIG.OK)
-        self._addIcon(cItem, 'icon-check-circle color-green', gs.getMessage("Configured correctly"));
-      else if (ph.configState === self.CONFIG.NONE)
-        self._addIcon(cItem, 'icon-cross-circle color-red', gs.getMessage("Not configured"));
-      else if (ph.configState === self.CONFIG.BAD)
-        self._addIcon(cItem, 'icon-warning-circle color-orange', gs.getMessage("Incorrectly configured"));
-      else if (ph.configState === self.CONFIG.SOME)
-        self._addIcon(cItem, 'icon-warning-circle color-red', gs.getMessage("Has some other configuration"));
+			if (ph.configState === self.CONFIG.OK)
+				self._addIcon(cItem, 'icon-check-circle color-green', gs.getMessage("Configured correctly"));
+			else if (ph.configState === self.CONFIG.NONE)
+				self._addIcon(cItem, 'icon-cross-circle color-red', gs.getMessage("Not configured"));
+			else if (ph.configState === self.CONFIG.BAD)
+				self._addIcon(cItem, 'icon-warning-circle color-orange', gs.getMessage("Incorrectly configured"));
+			else if (ph.configState === self.CONFIG.SOME)
+				self._addIcon(cItem, 'icon-warning-circle color-red', gs.getMessage("Has some other configuration"));
 
-      if (ph.configState !== self.CONFIG.OK && self._getHelper().isFullyConfigured()) {
-        self.getDocument().setCurrentElement(cItem);
-        btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Fix"));
-        btn.setAttribute("class", "btn btn-default btn-sm");
-        btn.setAttribute("onClick", "javascript:fix('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
-        cItem.appendChild(btn);
-      }
-    });
+			if (ph.configState !== self.CONFIG.OK && self._getHelper().isFullyConfigured()) {
+				self.getDocument().setCurrentElement(cItem);
+				btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Fix"));
+				btn.setAttribute("class", "btn btn-default btn-sm");
+				btn.setAttribute("onClick", "javascript:fix('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+				cItem.appendChild(btn);
+			}
+		});
 
-    status.setAttribute("error", error);
-    status.setAttribute("showTerritory", showTerrritory);
-    status.setAttribute("showNotifyGrp", showNotifyGrp);
-  },
+		status.setAttribute("error", error);
+		status.setAttribute("showTerritory", showTerrritory);
+		status.setAttribute("showNotifyGrp", showNotifyGrp);
+	},
 
-  _addIcon: function (parentItem, iconClass, srText) {
-    this.getDocument().setCurrentElement(parentItem);
-    var iitem = this.getDocument().createElement("i");
-    iitem.setAttribute("class", "icon " + iconClass);
-    iitem.setAttribute("title", srText);
-    parentItem.appendChild(iitem);
+	_addIcon: function (parentItem, iconClass, srText) {
+		this.getDocument().setCurrentElement(parentItem);
+		var iitem = this.getDocument().createElement("i");
+		iitem.setAttribute("class", "icon " + iconClass);
+		iitem.setAttribute("title", srText);
+		parentItem.appendChild(iitem);
 
-    this.getDocument().setCurrentElement(iitem);
-    var item = this.getDocument().createElementWithTextValue("span", srText);
-    item.setAttribute("class", "sr-only");
-    iitem.appendChild(item);
-  },
+		this.getDocument().setCurrentElement(iitem);
+		var item = this.getDocument().createElementWithTextValue("span", srText);
+		item.setAttribute("class", "sr-only");
+		iitem.appendChild(item);
+	},
 
-  getPhoneNumbers: function () {
-    var self = this;
-    var phs = [];
-    var error = '';
-	var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
-	var endpoint = sm.getEndpoint();
-	var gr = new GlideRecord ('x_341272_nexmo_dir_nexmo_config');
-	gr.orderByDesc('Created');
-	gr.setLimit(1);
-	gr.query();
-	if (gr.next()){}
+	getPhoneNumbers: function () {
+		var self = this;
+		var phs = [];
+		var error = '';
+		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
+		var endpoint = sm.getEndpoint();
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+		gr.orderByDesc('Created');
+		gr.setLimit(1);
+		gr.query();
+		if (gr.next()) {}
 
-var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
+		var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
 
-gs.info("Decoded string is " + decryptedStringAsBase64);
-    var request = new sn_ws.RESTMessageV2();
-    request.setEndpoint(endpoint+'?api_key='+gr.api_key+'&api_secret='+decryptedStringAsBase64);
-    request.setHttpMethod('GET');
-    request.setRequestHeader("Content-type", "application/json");
+		gs.info("Decoded string is " + decryptedStringAsBase64);
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint(endpoint + '?api_key=' + gr.api_key + '&api_secret=' + decryptedStringAsBase64);
+		request.setHttpMethod('GET');
+		request.setRequestHeader("Content-type", "application/json");
 
-    var resp = request.execute();
-
-
-    var nexmoreqbody = resp.getBody();
-
-
-    if (nexmoreqbody) {
-
-      var nexmores = JSON.parse(nexmoreqbody);
-      gs.info(JSON.stringify(nexmores) + '  chack phone no in nexmo');
-
-      nexmores.numbers.forEach(function (ph) {
-        phs.push({
-          number: ph.msisdn,
-          hasVoice: ph.features['0'] == 'VOICE',
-          hasSms: ph.features['0'] == 'SMS' || ph.features['1'] == 'SMS',
-          voiceDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
-          smsDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
-          type: self.LONG_NUM,
-          hasRecordingSupport: true
-
-        });
-      });
-    }
-
-    return { error: error, phs: phs };
-  },
-
-  getPhoneNumber: function (phNumber) {
-	  gs.info('check munish get phonenumber ' + phNumber);
-    var self = this;
-    var phObj, ph, incomingList;
-    var error = '';
-	phNumber = phNumber.substr(1);
-
-    var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
-	var endpoint = sm.getEndpoint();
-	var gr = new GlideRecord ('x_341272_nexmo_dir_nexmo_config');
-	gr.orderByDesc('Created');
-	gr.setLimit(1);
-	gr.query();
-	if (gr.next()){}
-    var request = new sn_ws.RESTMessageV2();
-    request.setEndpoint(endpoint+'?api_key='+gr.api_key+'&api_secret='+gr.api_secret.getDecryptedValue()+'&pattern='+ phNumber);
-    request.setHttpMethod('GET');
-
-    var resp = request.execute();
+		var resp = request.execute();
 
 
-    var nexmoreqbody = resp.getBody();
+		var nexmoreqbody = resp.getBody();
+
+
+		if (nexmoreqbody) {
+
+			var nexmores = JSON.parse(nexmoreqbody);
+			gs.info(JSON.stringify(nexmores) + '  chack phone no in nexmo');
+
+			nexmores.numbers.forEach(function (ph) {
+				phs.push({
+					number: ph.msisdn,
+					hasVoice: ph.features['0'] == 'VOICE',
+					hasSms: ph.features['0'] == 'SMS' || ph.features['1'] == 'SMS',
+					voiceDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+					smsDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+					type: self.LONG_NUM,
+					hasRecordingSupport: true
+
+				});
+			});
+		}
+
+		return {
+			error: error,
+			phs: phs
+		};
+	},
+
+	getPhoneNumber: function (phNumber) {
+		gs.info('check munish get phonenumber ' + phNumber);
+		var self = this;
+		var phObj, ph, incomingList;
+		var error = '';
+		phNumber = phNumber.substr(1);
+
+		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
+		var endpoint = sm.getEndpoint();
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+		gr.orderByDesc('Created');
+		gr.setLimit(1);
+		gr.query();
+		if (gr.next()) {}
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint(endpoint + '?api_key=' + gr.api_key + '&api_secret=' + gr.api_secret.getDecryptedValue() + '&pattern=' + phNumber);
+		request.setHttpMethod('GET');
+
+		var resp = request.execute();
+
+
+		var nexmoreqbody = resp.getBody();
 
 
 
-    incomingList = JSON.parse(nexmoreqbody);
-    gs.info(JSON.stringify(incomingList.numbers) + ' incomingList');
-    gs.info(incomingList.numbers[0].features[0] + ' incomingList msisdn');
-    if (incomingList.numbers.length != 1)
-      error = "found" + incomingList.length + " incoming phone numbers while we expected one";
-    else {
-      ph = incomingList.numbers[0];
-      phObj = {
-        number: ph.msisdn,
-        hasVoice: ph.features['0'] == 'VOICE',
-        hasSms: ph.features['0'] == 'SMS' || ph.features['1'] == 'SMS',
-        voiceDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
-        smsDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
-        type: self.LONG_NUM,
-        hasRecordingSupport: true
-      };
-    }
-    return { error: error, ph: phObj };
-  },
+		incomingList = JSON.parse(nexmoreqbody);
+		gs.info(JSON.stringify(incomingList.numbers) + ' incomingList');
+		gs.info(incomingList.numbers[0].features[0] + ' incomingList msisdn');
+		if (incomingList.numbers.length != 1)
+			error = "found" + incomingList.length + " incoming phone numbers while we expected one";
+		else {
+			ph = incomingList.numbers[0];
+			phObj = {
+				number: ph.msisdn,
+				hasVoice: ph.features['0'] == 'VOICE',
+				hasSms: ph.features['0'] == 'SMS' || ph.features['1'] == 'SMS',
+				voiceDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+				smsDirectionSupport: self.SUPPORT_DIRECTION.BOTH,
+				type: self.LONG_NUM,
+				hasRecordingSupport: true
+			};
+		}
+		return {
+			error: error,
+			ph: phObj
+		};
+	},
 
-  _getConfigState: function (ph, isMSGServiceConfigured, isAddedToMsgService) {
-    var voiceStatus = this.CONFIG.OK;
-    var smsStatus = this.CONFIG.OK;
-    var isFixable = this._getHelper().isFullyConfigured();
-    if (ph.capabilities && ph.capabilities.voice) {
-      if (isFixable) {
-        if (ph.voice_application_sid !== this._getHelper().getConfig().twiml_app_id)
-          voiceStatus = this.CONFIG.BAD;
-      } else {
-        if (!ph.voice_application_sid)
-          voiceStatus = this.CONFIG.NONE;
-        else
-          voiceStatus = this.CONFIG.SOME;
-      }
-    }
-    if (ph.capabilities && ph.capabilities.sms) {
-      if (isFixable) {
-        if (!isAddedToMsgService || !isMSGServiceConfigured) {
-          if (ph.sms_application_sid !== this._getHelper().getConfig().twiml_app_id)
-            smsStatus = this.CONFIG.BAD;
-        }
-      } else {
-        if (!ph.sms_application_sid)
-          smsStatus = this.CONFIG.NONE;
-        else
-          smsStatus = this.CONFIG.SOME;
-      }
-    } else if (ph.short_code) {
-      if (isFixable) {
-        if (!isAddedToMsgService || !isMSGServiceConfigured) {
-          if (ph.sms_method !== 'POST' || ph.sms_url !== this._getHelper().getNexmlCallbackEndPoint('getNewShortCodeTwiml'))
-            smsStatus = this.CONFIG.BAD;
-        }
-      } else {
-        if (!ph.sms_url)
-          smsStatus = this.CONFIG.NONE;
-        else
-          smsStatus = this.CONFIG.SOME;
-      }
-    }
-    if (voiceStatus === smsStatus)
-      return smsStatus;
-    else if (voiceStatus === this.CONFIG.SOME || smsStatus === this.CONFIG.SOME)
-      return this.CONFIG.SOME;
-    else if (voiceStatus === this.CONFIG.BAD || smsStatus === this.CONFIG.BAD)
-      return this.CONFIG.BAD;
-    return this.CONFIG.NONE;
-  },
+	_getConfigState: function (ph, isMSGServiceConfigured, isAddedToMsgService) {
+		var voiceStatus = this.CONFIG.OK;
+		var smsStatus = this.CONFIG.OK;
+		var isFixable = this._getHelper().isFullyConfigured();
+		if (ph.capabilities && ph.capabilities.voice) {
+			if (isFixable) {
+				if (ph.voice_application_sid !== this._getHelper().getConfig().twiml_app_id)
+					voiceStatus = this.CONFIG.BAD;
+			} else {
+				if (!ph.voice_application_sid)
+					voiceStatus = this.CONFIG.NONE;
+				else
+					voiceStatus = this.CONFIG.SOME;
+			}
+		}
+		if (ph.capabilities && ph.capabilities.sms) {
+			if (isFixable) {
+				if (!isAddedToMsgService || !isMSGServiceConfigured) {
+					if (ph.sms_application_sid !== this._getHelper().getConfig().twiml_app_id)
+						smsStatus = this.CONFIG.BAD;
+				}
+			} else {
+				if (!ph.sms_application_sid)
+					smsStatus = this.CONFIG.NONE;
+				else
+					smsStatus = this.CONFIG.SOME;
+			}
+		} else if (ph.short_code) {
+			if (isFixable) {
+				if (!isAddedToMsgService || !isMSGServiceConfigured) {
+					if (ph.sms_method !== 'POST' || ph.sms_url !== this._getHelper().getNexmlCallbackEndPoint('getNewShortCodeTwiml'))
+						smsStatus = this.CONFIG.BAD;
+				}
+			} else {
+				if (!ph.sms_url)
+					smsStatus = this.CONFIG.NONE;
+				else
+					smsStatus = this.CONFIG.SOME;
+			}
+		}
+		if (voiceStatus === smsStatus)
+			return smsStatus;
+		else if (voiceStatus === this.CONFIG.SOME || smsStatus === this.CONFIG.SOME)
+			return this.CONFIG.SOME;
+		else if (voiceStatus === this.CONFIG.BAD || smsStatus === this.CONFIG.BAD)
+			return this.CONFIG.BAD;
+		return this.CONFIG.NONE;
+	},
 
-  validateTwimlAppForUi: function () {
-    var status = this.newItem("status");
-    var error = '';
-    var twimlAppId = this._getHelper().getConfig().twiml_app_id;
-    if (twimlAppId) {
-      var api = new TwilioApi(this._configGr);
-      var resp = api.getApplication({ application_sid: twimlAppId });
-      if (resp.error)
-        error = gs.getMessage("Unexpected error from Twilio: {0}", [this._formatErr(resp)]);
-      else {
-        var out = this.analyzeApp(resp.result);
-        if (out.error)
-          error = out.error;
-      }
-    }
-    // If disconnect was not successful then no need to reload form.
-    // This would also be the case when current scope is global and user is admin.
-    if (error && this.disconnect()) {
-      status.setAttribute("hasError", "true");
-      gs.addErrorMessage(error);
-    }
-  },
+	validateTwimlAppForUi: function () {
+		var status = this.newItem("status");
+		var error = '';
+		var twimlAppId = this._getHelper().getConfig().twiml_app_id;
+		if (twimlAppId) {
+			var api = new TwilioApi(this._configGr);
+			var resp = api.getApplication({
+				application_sid: twimlAppId
+			});
+			if (resp.error)
+				error = gs.getMessage("Unexpected error from Twilio: {0}", [this._formatErr(resp)]);
+			else {
+				var out = this.analyzeApp(resp.result);
+				if (out.error)
+					error = out.error;
+			}
+		}
+		// If disconnect was not successful then no need to reload form.
+		// This would also be the case when current scope is global and user is admin.
+		if (error && this.disconnect()) {
+			status.setAttribute("hasError", "true");
+			gs.addErrorMessage(error);
+		}
+	},
 
-  _extractHostname: function (url) {
-    var hostname;
-    //find & remove protocol (http, ftp, etc.) and get hostname
+	_extractHostname: function (url) {
+		var hostname;
+		//find & remove protocol (http, ftp, etc.) and get hostname
 
-    if (url.indexOf("://") > -1) {
-      hostname = url.split('/')[2];
-    }
-    else {
-      hostname = url.split('/')[0];
-    }
+		if (url.indexOf("://") > -1) {
+			hostname = url.split('/')[2];
+		} else {
+			hostname = url.split('/')[0];
+		}
 
-    //find & remove port number
-    hostname = hostname.split(':')[0];
-    //find & remove "?"
-    hostname = hostname.split('?')[0];
+		//find & remove port number
+		hostname = hostname.split(':')[0];
+		//find & remove "?"
+		hostname = hostname.split('?')[0];
 
-    return hostname;
-  },
+		return hostname;
+	},
 
-  _extractDomainDescription: function (url) {
-    var domain = this._extractHostname(url),
-      splitArr = domain.split('.'),
-      arrLen = splitArr.length;
+	_extractDomainDescription: function (url) {
+		var domain = this._extractHostname(url),
+			splitArr = domain.split('.'),
+			arrLen = splitArr.length;
 
-    if (arrLen == 3 && arrLen[1] === 'service-now' && arrLen[2] === 'com') {
-      domain = gs.getMessage("{0} (ServiceNow Instance)", [splitArr[0]]);
-    }
-    return domain;
-  },
+		if (arrLen == 3 && arrLen[1] === 'service-now' && arrLen[2] === 'com') {
+			domain = gs.getMessage("{0} (ServiceNow Instance)", [splitArr[0]]);
+		}
+		return domain;
+	},
 
-  analyzeApp: function (appInfo, skipSelfNameCheck) {
-    var error = '';
-    var domain;
-    var api = new TwilioApi(this._configGr);
-    if (appInfo.friendly_name === "Notify") {
-      error = gs.getMessage("From Twiml app's name it looks like it is configured with legacy Notify Twilio Driver.");
-    } else if (!skipSelfNameCheck && appInfo.friendly_name !== api.TWIML_APP_NAME) {
-      error = gs.getMessage("Twiml app has some other name: {0}", [appInfo.friendly_name]);
-    } else if (appInfo.voice_method !== "POST" || appInfo.voice_url !== this._getHelper().getNexmlCallbackEndPoint("getTwimlOnNewCall")) {
-      if (!appInfo.voice_url)
-        error = gs.getMessage("Twmil app has no voice url configured");
-      else {
-        domain = this._extractDomainDescription(appInfo.voice_url);
-        error = gs.getMessage("Twiml app's voice url seems to be bound to instance <b>{0}</b>", [domain]);
-      }
-    } else if (appInfo.sms_method !== "POST" || appInfo.sms_url !== this._getHelper().getNexmlCallbackEndPoint("getTwimlOnNewSms")) {
-      if (!appInfo.sms_url)
-        error = gs.getMessage("Twmil app has no SMS url configured");
-      else {
-        domain = this._extractDomainDescription(appInfo.sms_url);
-        error = gs.getMessage("Twiml app's SMS url seems to be bound to instance <b>{0}</b>", [domain]);
-      }
-    } else if (appInfo.status_callback_method !== "POST" || appInfo.status_callback !== this._getHelper().getXmlCallbackEndPoint("onColdStatusForVoice")) {
-      if (!appInfo.status_callback)
-        error = gs.getMessage("Twmil app has no voice status url configured");
-      else {
-        domain = this._extractDomainDescription(appInfo.status_callback);
-        error = gs.getMessage("Twiml app's voice status url seems to be bound to instance <b>{0}</b>", [domain]);
-      }
-    }
-    return { error: error };
-  },
+	analyzeApp: function (appInfo, skipSelfNameCheck) {
+		var error = '';
+		var domain;
+		var api = new TwilioApi(this._configGr);
+		if (appInfo.friendly_name === "Notify") {
+			error = gs.getMessage("From Twiml app's name it looks like it is configured with legacy Notify Twilio Driver.");
+		} else if (!skipSelfNameCheck && appInfo.friendly_name !== api.TWIML_APP_NAME) {
+			error = gs.getMessage("Twiml app has some other name: {0}", [appInfo.friendly_name]);
+		} else if (appInfo.voice_method !== "POST" || appInfo.voice_url !== this._getHelper().getNexmlCallbackEndPoint("getTwimlOnNewCall")) {
+			if (!appInfo.voice_url)
+				error = gs.getMessage("Twmil app has no voice url configured");
+			else {
+				domain = this._extractDomainDescription(appInfo.voice_url);
+				error = gs.getMessage("Twiml app's voice url seems to be bound to instance <b>{0}</b>", [domain]);
+			}
+		} else if (appInfo.sms_method !== "POST" || appInfo.sms_url !== this._getHelper().getNexmlCallbackEndPoint("getTwimlOnNewSms")) {
+			if (!appInfo.sms_url)
+				error = gs.getMessage("Twmil app has no SMS url configured");
+			else {
+				domain = this._extractDomainDescription(appInfo.sms_url);
+				error = gs.getMessage("Twiml app's SMS url seems to be bound to instance <b>{0}</b>", [domain]);
+			}
+		} else if (appInfo.status_callback_method !== "POST" || appInfo.status_callback !== this._getHelper().getXmlCallbackEndPoint("onColdStatusForVoice")) {
+			if (!appInfo.status_callback)
+				error = gs.getMessage("Twmil app has no voice status url configured");
+			else {
+				domain = this._extractDomainDescription(appInfo.status_callback);
+				error = gs.getMessage("Twiml app's voice status url seems to be bound to instance <b>{0}</b>", [domain]);
+			}
+		}
+		return {
+			error: error
+		};
+	},
 
-  
 
-  logError: function (resp) {
-    gs.addErrorMessage(gs.getMessage("Twilio responded with error: {0}", [this._formatErr(resp)]));
-  },
 
-  disconnect: function () {
-    return true;
-  },
+	logError: function (resp) {
+		gs.addErrorMessage(gs.getMessage("Twilio responded with error: {0}", [this._formatErr(resp)]));
+	},
 
-  connect: function (errorArr) {
-	  return true;
-  },
+	disconnect: function () {
+		var appId = this._getHelper().getConfig().application_id;
+		if (appId) {
+			var resp = this.getIncomingPhoneNumbers();
+			var params;
+			if (!!resp.error)
+				this.logError(resp);
+			else {
+				var numbers = resp.numbers;
+				for (var i in numbers) {
+					params = {};
+					if (numbers[i].voiceCallbackValue == appId || numbers[i].voiceCallbackValue == appId) {
+						params.phone_sid = numbers[i].sid;
+						params.z_application_sid = '';
+						// api.updateIncomingPhoneNumber(params);
+					}
+				}
+			}
+			
+			var res = this.deleteApplication(appId);
+			if (res.error) {
+				if (res.code !== 404)
+					gs.addErrorMessage(gs.getMessage("Twilio responded with error: {0}", [this._formatErr(res)]));
+			}
+			var nexmoHelper = this._getHelper();
+			var toBeUpdated = {
+				'app_key': '',
+				'app_secret': '',
+				'application_id': ''
+			};
+			if (nexmoHelper.saveConfig(toBeUpdated, null, false, true)) {
+				new global.NotifyDatabase().unsyncNotifyNumbersForDriver(nexmoHelper.DRIVER_NAME);
+				nexmoHelper.saveCredentials('', ''); // Clear out credentials on disconnect
+				gs.getSession().putClientData("sn_twilio_direct.suppress_form_msg", true);
+				gs.addInfoMessage(gs.getMessage("Disconnected from Twilio"));
+				return true;
+			}
+			return false;
+		}
+	},
+	getIncomingPhoneNumbers: function () {
+		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
+		var endpoint = sm.getEndpoint();
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+		gr.orderByDesc('Created');
+		gr.setLimit(1);
+		gr.query();
+		if (gr.next()) {}
 
-  updateNumberAjax: function () {
-    var status = this.newItem("status");
-    var stateOk = this.updateNumber(this.getParameter('sysparm_num_number'), this.getParameter('sysparm_num_sid'), this.getParameter('sysparm_num_type'), true);
-    if (!stateOk)
-      status.setAttribute('hasError', "true");
-  },
+		var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
 
-  updateNumber: function (num, sid, type, updateMSGService) {
-    return true;
-  },
+		gs.info("Decoded string is " + decryptedStringAsBase64);
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint(endpoint + '?api_key=' + gr.api_key + '&api_secret=' + decryptedStringAsBase64);
+		request.setHttpMethod('GET');
+		request.setRequestHeader("Content-type", "application/json");
 
-  _getNotifyPhoneNumberInfo: function (number, type) {
-    var gr = new GlideRecord("notify_number");
-    if (gr.isValid()) {
-      var numCol = "number";
-      if (type === this.SHORT_CODE)
-        numCol = "short_code";
-      gr.addActiveQuery();
-      gr.addQuery(numCol, number);
-      gr.addQuery("owner", this._getHelper().DRIVER_NAME);
-      gr.query();
-      if (gr.next()) {
-        var territory = "";
-        // It is possible that Notify is not installed or NotifyUtils is updated by customers
-        if (global.NotifyUtils && global.NotifyUtils.prototype.getGlidePhoneElementProps)
-          territory = new global.NotifyUtils().getGlidePhoneElementProps(gr.getElement('phone_number')).territory;
-        return { url: gr.getLink(true), territory: territory, notifyGroup: gr.getDisplayValue('notify_group') };
-      }
-    }
-    return "";
-  },
+		var resp = request.execute();
 
-  _getHelper: function () {
-    if (this._helper
-      && (!this._configGr || (this._configGr && this._helper._configGr && this._helper._configGr.getUniqueValue() === this._configGr.getUniqueValue())))
-      return this._helper;
-    this._helper = new TwilioHelper(this._configGr);
-    return this._helper;
-  },
 
-  type: 'NexmoDirectClient'
+		var nexmoreqbody = resp.getBody();
+		
+		var nexmores = JSON.parse(nexmoreqbody);
+		return nexmores;
+	},
+	deleteApplication: function (appId) {
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+		gr.orderByDesc('Created');
+		gr.setLimit(1);
+		gr.query();
+		if (gr.next()) {}
+		var request = new sn_ws.RESTMessageV2();
+		var endpoint = "https://api.nexmo.com/v2/applications/"+appId
+		request.setEndpoint(endpoint);
+		request.setHttpMethod('DELETE');
+		request.setRequestHeader("Content-type", "application/json");
+   		request.setRequestHeader("Authorization", "Bearer " + gr.jwt_token);
+
+		var resp = request.execute();
+
+
+		var nexmoreqbody = resp.getBody();
+		var nexmores = JSON.parse(nexmoreqbody);
+		return nexmores;
+	},
+
+	connect: function (errorArr) {
+		return true;
+	},
+
+	updateNumberAjax: function () {
+		var status = this.newItem("status");
+		var stateOk = this.updateNumber(this.getParameter('sysparm_num_number'), this.getParameter('sysparm_num_sid'), this.getParameter('sysparm_num_type'), true);
+		if (!stateOk)
+			status.setAttribute('hasError', "true");
+	},
+
+	updateNumber: function (num, sid, type, updateMSGService) {
+		return true;
+	},
+
+	_getNotifyPhoneNumberInfo: function (number, type) {
+		var gr = new GlideRecord("notify_number");
+		if (gr.isValid()) {
+			var numCol = "number";
+			if (type === this.SHORT_CODE)
+				numCol = "short_code";
+			gr.addActiveQuery();
+			gr.addQuery(numCol, number);
+			gr.addQuery("owner", this._getHelper().DRIVER_NAME);
+			gr.query();
+			if (gr.next()) {
+				var territory = "";
+				// It is possible that Notify is not installed or NotifyUtils is updated by customers
+				if (global.NotifyUtils && global.NotifyUtils.prototype.getGlidePhoneElementProps)
+					territory = new global.NotifyUtils().getGlidePhoneElementProps(gr.getElement('phone_number')).territory;
+				return {
+					url: gr.getLink(true),
+					territory: territory,
+					notifyGroup: gr.getDisplayValue('notify_group')
+				};
+			}
+		}
+		return "";
+	},
+
+	_getHelper: function () {
+		if (this._helper &&
+			(!this._configGr || (this._configGr && this._helper._configGr && this._helper._configGr.getUniqueValue() === this._configGr.getUniqueValue())))
+			return this._helper;
+		this._helper = new NexmoHelper(this._configGr);
+		return this._helper;
+	},
+
+	type: 'NexmoDirectClient'
 });]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:18</sys_created_on>
         <sys_id>476efbafdb513300887e7b6039961922</sys_id>
-        <sys_mod_count>20</sys_mod_count>
+        <sys_mod_count>22</sys_mod_count>
         <sys_name>NexmoDirectClient</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_476efbafdb513300887e7b6039961922</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-21 13:14:13</sys_updated_on>
+        <sys_updated_on>2019-05-23 14:23:25</sys_updated_on>
     </sys_script_include>
 </record_update>
