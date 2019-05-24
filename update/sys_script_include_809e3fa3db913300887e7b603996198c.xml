@@ -9,7 +9,7 @@
         <script><![CDATA[var NexmoHelper = Class.create();
 NexmoHelper.prototype = {
 	CONFIG_NAME: 'main_and_only',
-	DRIVER_NAME: 'NexmoDirect',
+	DRIVER_NAME: 'NexmoDriver',
 	TWILIO_API_VERSION: 1,
 
 	initialize: function(/* Optional */configGr) {
@@ -105,45 +105,11 @@ NexmoHelper.prototype = {
 		if (!all && this._config)
 			return this._config;
 		var configGr = this._getConfigGr();
-		var endpoint = configGr.getValue('callback_endpoint');
-		if (endpoint && !endpoint.startsWith('/'))
-			endpoint = '/' + endpoint;
-		if (endpoint && endpoint.endsWith('/'))
-			endpoint = endpoint.slice(0, endpoint.length - 1);
-
-		var creds = this.getCredentials();
-		var msgServiceNumbers = {};
-		if (!configGr.msg_service_numbers.nil()) {
-			try {
-				msgServiceNumbers = JSON.parse(configGr.msg_service_numbers + '');
-			} catch (ex) {
-				msgServiceNumbers = {};
-			}
-		}
-
+		
 		this._config = {
-			callback_endpoint: endpoint,
-			outbound_rest_name: configGr.getValue('outbound_rest_name'),
-			outbound_rest_id: configGr.getValue('outbound_rest'),
-			acc_sid: creds.acc_sid,
-			twiml_app_id: configGr.getValue('twiml_app_id'),
-			msg_service_id: configGr.getValue("msg_service_id"),
-			notify_service_id: configGr.getValue('notify_service_id'),
-			auto_bulk_sms: !!configGr.auto_bulk_sms,
-			co_pilot: !!configGr.co_pilot,
-			msg_service_numbers: msgServiceNumbers
+			api_key: configGr.getValue('api_key'),
+			application_id: configGr.getValue('application_id'),
 		};
-		if (all) {
-			this._config.auth_token = creds.auth_token;
-			this._config.detect_machine = configGr.detect_machine;
-			var timeout = configGr.getValue('detect_machine_timeout');
-			if (!timeout)
-				timeout = 30;
-			else
-				timeout = parseInt(timeout);
-			this._config.detect_machine_timeout = timeout;
-			this._config.api_json = configGr.getValue('api_json');
-		}
 		return this._config;
 	},
 
@@ -431,13 +397,13 @@ NexmoHelper.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:57</sys_created_on>
         <sys_id>809e3fa3db913300887e7b603996198c</sys_id>
-        <sys_mod_count>10</sys_mod_count>
+        <sys_mod_count>14</sys_mod_count>
         <sys_name>NexmoHelper</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_809e3fa3db913300887e7b603996198c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-23 10:58:49</sys_updated_on>
+        <sys_updated_on>2019-05-24 11:46:01</sys_updated_on>
     </sys_script_include>
 </record_update>

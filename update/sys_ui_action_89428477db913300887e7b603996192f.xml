@@ -51,7 +51,7 @@ function callNexmo(){
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>89428477db913300887e7b603996192f</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>9</sys_mod_count>
         <sys_name>Call</sys_name>
         <sys_overrides/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -59,7 +59,7 @@ function callNexmo(){
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_action_89428477db913300887e7b603996192f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-23 11:28:28</sys_updated_on>
+        <sys_updated_on>2019-05-24 10:08:49</sys_updated_on>
         <table>x_341272_nexmo_dir_nexmo_config</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

@@ -29,11 +29,12 @@
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
 	var suppressMsg = false;
-// 	if (gs.getSession().getClientData("sn_twilio_direct.suppress_form_msg")) {
-// 		suppressMsg = true;
-// 		gs.getSession().putClientData("sn_twilio_direct.suppress_form_msg", null);
-// 	}
+	if (gs.getSession().getClientData("sn_nexmo_direct.suppress_form_msg")) {
+		suppressMsg = true;
+		gs.getSession().putClientData("sn_nexmo_direct.suppress_form_msg", null);
+	}
 	if (new NexmoHelper().isFullyConfigured()) {
+		if (!suppressMsg)
 			gs.addInfoMessage(gs.getMessage("<b>Connected to Nexmo</b>"));
 // 		g_scratchpad.is_twilio_fully_configured = true;
 	} else 
@@ -47,7 +48,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>6ee8a512dba13300887e7b60399619fa</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Account Connected Disconnected Message</sys_name>
         <sys_overrides/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -55,7 +56,7 @@
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_6ee8a512dba13300887e7b60399619fa</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-23 11:49:40</sys_updated_on>
+        <sys_updated_on>2019-05-24 12:05:30</sys_updated_on>
         <template/>
         <when>before_display</when>
     </sys_script>

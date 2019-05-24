@@ -73,7 +73,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		var html = this.newItem("html");
 
 		var r = this.getPhoneNumbers();
-		gs.info(r + 'r numbers');
 		var phs = r.phs;
 		error = r.error;
 		var self = this;
@@ -81,7 +80,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		var showNotifyGrp = "";
 		var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
 		phs.forEach(function (ph, i) {
-			gs.info(ph.numbers + 'ph numbers');
 			var btn;
 			self.getDocument().setCurrentElement(html);
 			var row = self.getDocument().createElement("tr");
@@ -222,7 +220,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 
 		var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
 
-		gs.info("Decoded string is " + decryptedStringAsBase64);
 		var request = new sn_ws.RESTMessageV2();
 		request.setEndpoint(endpoint + '?api_key=' + gr.api_key + '&api_secret=' + decryptedStringAsBase64);
 		request.setHttpMethod('GET');
@@ -237,7 +234,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		if (nexmoreqbody) {
 
 			var nexmores = JSON.parse(nexmoreqbody);
-			gs.info(JSON.stringify(nexmores) + '  chack phone no in nexmo');
 
 			nexmores.numbers.forEach(function (ph) {
 				phs.push({
@@ -260,7 +256,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 	},
 
 	getPhoneNumber: function (phNumber) {
-		gs.info('check munish get phonenumber ' + phNumber);
 		var self = this;
 		var phObj, ph, incomingList;
 		var error = '';
@@ -285,8 +280,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 
 
 		incomingList = JSON.parse(nexmoreqbody);
-		gs.info(JSON.stringify(incomingList.numbers) + ' incomingList');
-		gs.info(incomingList.numbers[0].features[0] + ' incomingList msisdn');
 		if (incomingList.numbers.length != 1)
 			error = "found" + incomingList.length + " incoming phone numbers while we expected one";
 		else {
@@ -452,44 +445,44 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 	},
 
 	disconnect: function () {
-		var appId = this._getHelper().getConfig().application_id;
-		if (appId) {
-			var resp = this.getIncomingPhoneNumbers();
-			var params;
-			if (!!resp.error)
-				this.logError(resp);
-			else {
-				var numbers = resp.numbers;
-				for (var i in numbers) {
-					params = {};
-					if (numbers[i].voiceCallbackValue == appId || numbers[i].voiceCallbackValue == appId) {
-						params.phone_sid = numbers[i].sid;
-						params.z_application_sid = '';
-						// api.updateIncomingPhoneNumber(params);
-					}
-				}
-			}
-			
-			var res = this.deleteApplication(appId);
-			if (res.error) {
-				if (res.code !== 404)
-					gs.addErrorMessage(gs.getMessage("Twilio responded with error: {0}", [this._formatErr(res)]));
-			}
-			var nexmoHelper = this._getHelper();
-			var toBeUpdated = {
-				'app_key': '',
-				'app_secret': '',
-				'application_id': ''
-			};
-			if (nexmoHelper.saveConfig(toBeUpdated, null, false, true)) {
-				new global.NotifyDatabase().unsyncNotifyNumbersForDriver(nexmoHelper.DRIVER_NAME);
-				nexmoHelper.saveCredentials('', ''); // Clear out credentials on disconnect
-				gs.getSession().putClientData("sn_twilio_direct.suppress_form_msg", true);
-				gs.addInfoMessage(gs.getMessage("Disconnected from Twilio"));
-				return true;
-			}
-			return false;
-		}
+		return true;
+		// var appId = this._getHelper().getConfig().application_id;
+		// if (appId) {
+		// 	var resp = this.getIncomingPhoneNumbers();
+		// 	var params;
+		// 	if (!!resp.error)
+		// 		this.logError(resp);
+		// 	else {
+		// 		var numbers = resp.numbers;
+		// 		for (var i in numbers) {
+		// 			params = {};
+		// 			if (numbers[i].voiceCallbackValue == appId || numbers[i].voiceCallbackValue == appId) {
+		// 				params.phone_sid = numbers[i].sid;
+		// 				params.z_application_sid = '';
+		// 				// api.updateIncomingPhoneNumber(params);
+		// 			}
+		// 		}
+		// 	}
+		// 	var res = this.deleteApplication(appId);
+		// 	if (res) {
+		// 		if (res.type == 'UNAUTHORIZED')
+		// 			gs.addErrorMessage(gs.getMessage("Nexmo responded with error: {0}", [this._formatErr(res)]));
+		// 	}
+		// 	var nexmoHelper = this._getHelper();
+		// 	var toBeUpdated = {
+		// 		// 'app_key': '',
+		// 		// 'app_secret': '',
+		// 		'application_id': '',
+		// 		'connected' : false
+		// 	};
+		// 	if (nexmoHelper.saveConfig(toBeUpdated, null, false, true)) {
+		// 		new global.NotifyDatabase().unsyncNotifyNumbersForDriver(nexmoHelper.DRIVER_NAME);
+		// 		gs.getSession().putClientData("sn_nexmo_direct.suppress_form_msg", true);
+		// 		gs.addInfoMessage(gs.getMessage("Disconnected from Nexmo"));
+		// 		return true;
+		// 	}
+		// 	return false;
+		// }
 	},
 	getIncomingPhoneNumbers: function () {
 		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
@@ -499,20 +492,13 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		gr.setLimit(1);
 		gr.query();
 		if (gr.next()) {}
-
 		var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
-
-		gs.info("Decoded string is " + decryptedStringAsBase64);
 		var request = new sn_ws.RESTMessageV2();
 		request.setEndpoint(endpoint + '?api_key=' + gr.api_key + '&api_secret=' + decryptedStringAsBase64);
 		request.setHttpMethod('GET');
 		request.setRequestHeader("Content-type", "application/json");
-
 		var resp = request.execute();
-
-
 		var nexmoreqbody = resp.getBody();
-		
 		var nexmores = JSON.parse(nexmoreqbody);
 		return nexmores;
 	},
@@ -522,23 +508,37 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		gr.setLimit(1);
 		gr.query();
 		if (gr.next()) {}
+		var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
 		var request = new sn_ws.RESTMessageV2();
-		var endpoint = "https://api.nexmo.com/v2/applications/"+appId
+		var endpoint = "https://api.nexmo.com/v2/applications/"+appId+"?api_key="+gr.api_key+"&api_secret="+decryptedStringAsBase64;
 		request.setEndpoint(endpoint);
 		request.setHttpMethod('DELETE');
 		request.setRequestHeader("Content-type", "application/json");
-   		request.setRequestHeader("Authorization", "Bearer " + gr.jwt_token);
-
 		var resp = request.execute();
-
-
 		var nexmoreqbody = resp.getBody();
 		var nexmores = JSON.parse(nexmoreqbody);
 		return nexmores;
+		
 	},
 
 	connect: function (errorArr) {
-		return true;
+		var self = this;
+		function err(m) {
+			if (errorArr && errorArr.push)
+				errorArr.push(m);
+			else
+				gs.addErrorMessage(m);
+		}
+		function commErr(resp) {
+			var e = self._formatErr(resp);
+			var msg = gs.getMessage("Twilio responded with error: {0}", [e]);
+			err(msg);
+		}
+		var msgServiceId, notifyServiceId;
+		if (!this._getHelper().isPartiallyConfigured()) {
+			err(gs.getMessage('Not enough information provided to connect Twilio Direct'));
+			return false;
+		}
 	},
 
 	updateNumberAjax: function () {
@@ -578,9 +578,6 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 	},
 
 	_getHelper: function () {
-		if (this._helper &&
-			(!this._configGr || (this._configGr && this._helper._configGr && this._helper._configGr.getUniqueValue() === this._configGr.getUniqueValue())))
-			return this._helper;
 		this._helper = new NexmoHelper(this._configGr);
 		return this._helper;
 	},
@@ -591,13 +588,13 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:18</sys_created_on>
         <sys_id>476efbafdb513300887e7b6039961922</sys_id>
-        <sys_mod_count>22</sys_mod_count>
+        <sys_mod_count>55</sys_mod_count>
         <sys_name>NexmoDirectClient</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_476efbafdb513300887e7b6039961922</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-23 14:23:25</sys_updated_on>
+        <sys_updated_on>2019-05-24 13:25:22</sys_updated_on>
     </sys_script_include>
 </record_update>
