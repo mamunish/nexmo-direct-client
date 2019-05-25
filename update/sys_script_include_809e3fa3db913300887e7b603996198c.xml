@@ -67,11 +67,11 @@ NexmoHelper.prototype = {
 	},
 	
 	getCredentials: function () {
-		var credentialGr = this._getCredentialsGr();
+		var credentialGr = this._getConfigGr();
 		if (credentialGr)
 			return {
-				acc_sid: credentialGr.getValue('user_name'),
-				auth_token: credentialGr.getElement('password').getDecryptedValue()
+				app_key: credentialGr.getValue('app_key'),
+				api_secret: credentialGr.getElement('api_secret').getDecryptedValue()
 			};
 		else
 			return {
@@ -397,13 +397,13 @@ NexmoHelper.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:57</sys_created_on>
         <sys_id>809e3fa3db913300887e7b603996198c</sys_id>
-        <sys_mod_count>14</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>NexmoHelper</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_809e3fa3db913300887e7b603996198c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-24 11:46:01</sys_updated_on>
+        <sys_updated_on>2019-05-25 12:07:32</sys_updated_on>
     </sys_script_include>
 </record_update>

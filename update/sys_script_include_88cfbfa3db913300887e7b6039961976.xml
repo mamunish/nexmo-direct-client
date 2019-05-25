@@ -48,7 +48,6 @@ NexmlModel.prototype = {
 	},
 	
 	makeXml: function (xmlDoc) {
-		gs.info(JSON.stringify(xmlDoc + 'xmldoc'));
 		var t;
 		if (this._text)
 			t = xmlDoc.createElementWithTextValue(this._tagName, this._text);
@@ -72,13 +71,13 @@ NexmlModel.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:42:05</sys_created_on>
         <sys_id>88cfbfa3db913300887e7b6039961976</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>NexmlModel</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_88cfbfa3db913300887e7b6039961976</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-21 11:41:22</sys_updated_on>
+        <sys_updated_on>2019-05-25 06:49:46</sys_updated_on>
     </sys_script_include>
 </record_update>

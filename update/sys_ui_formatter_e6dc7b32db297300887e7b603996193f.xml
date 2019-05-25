@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_formatter">
+    <sys_ui_formatter action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <angular_module/>
+        <formatter>sn_nexmo_direct_nexmo_direct_show_token_ui</formatter>
+        <name>Nexmo Direct Show Token UI</name>
+        <sys_class_name>sys_ui_formatter</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-25 11:52:08</sys_created_on>
+        <sys_id>e6dc7b32db297300887e7b603996193f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Nexmo Direct Show Token UI</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_ui_formatter_e6dc7b32db297300887e7b603996193f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-25 11:52:08</sys_updated_on>
+        <table>x_341272_nexmo_dir_nexmo_config</table>
+        <type>formatter</type>
+    </sys_ui_formatter>
+</record_update>

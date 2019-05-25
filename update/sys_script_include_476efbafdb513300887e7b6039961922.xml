@@ -78,119 +78,118 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		var self = this;
 		var showTerritory = "";
 		var showNotifyGrp = "";
-		var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
+        // var msgSvcNums = this._getHelper().getConfig().msg_service_numbers;
 		phs.forEach(function (ph, i) {
+           
 			var btn;
 			self.getDocument().setCurrentElement(html);
 			var row = self.getDocument().createElement("tr");
 			row.setAttribute("class", "data_row");
 			html.appendChild(row);
-
+           
 			self.getDocument().setCurrentElement(row);
-			var item = self.getDocument().createElementWithTextValue("td", i + 1);
-			item.setAttribute("scope", "row");
-			item.setAttribute("class", "col-center col-small decoration_cell col-control");
-			row.appendChild(item);
+			// var item = self.getDocument().createElementWithTextValue("td", i + 1);
+			// item.setAttribute("scope", "row");
+			// item.setAttribute("class", "col-center col-small decoration_cell col-control");
+            // row.appendChild(item);
+            // var nPhInfo = self._getNotifyPhoneNumberInfo(ph.number, ph.type);
+			// self.getDocument().setCurrentElement(row);
+			// if (nPhInfo && nPhInfo.url)
+			// 	item = self.getDocument().createElement("td");
+			// else
+			// 	item = self.getDocument().createElementWithTextValue("td", ph.number);
+			// item.setAttribute("class", "vt grid-field");
+			// row.appendChild(item);
 
-			var nPhInfo = self._getNotifyPhoneNumberInfo(ph.number, ph.type);
+			// if (nPhInfo && nPhInfo.url) {
+			// 	self.getDocument().setCurrentElement(item);
+			// 	var aItem = self.getDocument().createElementWithTextValue("a", ph.number);
+			// 	aItem.setAttribute("href", nPhInfo.url);
+			// 	aItem.setAttribute("title", gs.getMessage('Goto number record'));
+			// 	item.appendChild(aItem);
+			// 	showNotifyGrp = "true"; // Number is synced with Notify so wheather it has group or not, the column must be shown.
+			// }
 
-			self.getDocument().setCurrentElement(row);
-			if (nPhInfo && nPhInfo.url)
-				item = self.getDocument().createElement("td");
-			else
-				item = self.getDocument().createElementWithTextValue("td", ph.number);
-			item.setAttribute("class", "vt grid-field");
-			row.appendChild(item);
+			// // self.getDocument().setCurrentElement(row);
+			// // var capItem = self.getDocument().createElement("td");
+			// // capItem.setAttribute("class", "vt grid-field");
+			// // row.appendChild(capItem);
 
-			if (nPhInfo && nPhInfo.url) {
-				self.getDocument().setCurrentElement(item);
-				var aItem = self.getDocument().createElementWithTextValue("a", ph.number);
-				aItem.setAttribute("href", nPhInfo.url);
-				aItem.setAttribute("title", gs.getMessage('Goto number record'));
-				item.appendChild(aItem);
-				showNotifyGrp = "true"; // Number is synced with Notify so wheather it has group or not, the column must be shown.
-			}
+			// // // if (ph.hasSms)
+			// // 	self._addIcon(capItem, 'icon-comment', gs.getMessage("SMS capable"));
+			// // if (ph.hasVoice)
+			// 	// self._addIcon(capItem, 'icon-phone', gs.getMessage("Voice capable"));
 
-			self.getDocument().setCurrentElement(row);
-			var capItem = self.getDocument().createElement("td");
-			capItem.setAttribute("class", "vt grid-field");
-			row.appendChild(capItem);
+			// // self.getDocument().setCurrentElement(row);
+			// // var tItem;
+			// // if (nPhInfo && nPhInfo.territory) {
+			// // 	tItem = self.getDocument().createElementWithTextValue("td", nPhInfo.territory);
+			// // 	showTerritory = "true";
+			// // } else
+			// // 	tItem = self.getDocument().createElement("td");
+			// // tItem.setAttribute('class', 'territory vt grid-field');
+			// // row.appendChild(tItem);
 
-			if (ph.hasSms)
-				self._addIcon(capItem, 'icon-comment', gs.getMessage("SMS capable"));
-			if (ph.hasVoice)
-				self._addIcon(capItem, 'icon-phone', gs.getMessage("Voice capable"));
+			// // self.getDocument().setCurrentElement(row);
+			// // if (nPhInfo && nPhInfo.notifyGroup) {
+			// // 	item = self.getDocument().createElementWithTextValue("td", nPhInfo.notifyGroup);
+			// // } else
+			// // 	item = self.getDocument().createElement("td");
+			// // item.setAttribute('class', 'ngrp vt grid-field');
+			// // row.appendChild(item);
 
-			self.getDocument().setCurrentElement(row);
-			var tItem;
-			if (nPhInfo && nPhInfo.territory) {
-				tItem = self.getDocument().createElementWithTextValue("td", nPhInfo.territory);
-				showTerritory = "true";
-			} else
-				tItem = self.getDocument().createElement("td");
-			tItem.setAttribute('class', 'territory vt grid-field');
-			row.appendChild(tItem);
+			// // self.getDocument().setCurrentElement(row);
+			// // item = self.getDocument().createElement("td");
+			// // item.setAttribute('class', 'advSms vt grid-field');
+			// // if (ph.hasSms) {
+			// // 	if (self._getHelper().isAnyAdvancedSMSFeatureEnabled()) {
+			// // 		if (msgSvcNums[ph.number]) {
+			// // 			self._addIcon(item, 'icon-check', gs.getMessage("Enrolled for Advanced SMS features"));
+			// // 			btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Disable"));
+			// // 		} else {
+			// // 			self._addIcon(item, 'icon-cross', gs.getMessage("Not enrolled for Advanced SMS features"));
+			// // 			btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Enable"));
+			// // 		}
+			// // 		btn.setAttribute("class", "btn btn-default btn-sm");
+			// // 		if (msgSvcNums[ph.number]) {
+			// // 			btn.setAttribute("onClick", "javascript:disableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+			// // 		} else {
+			// // 			btn.setAttribute("onClick", "javascript:enableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+			// // 		}
+			// // 		item.appendChild(btn);
+			// // 	} else {
+			// // 		tItem = self.getDocument().createElementWithTextValue("span", gs.getMessage("Not Enabled"));
+			// // 		item.appendChild(tItem);
+			// // 	}
+			// // }
+			// row.appendChild(item);
 
-			self.getDocument().setCurrentElement(row);
-			if (nPhInfo && nPhInfo.notifyGroup) {
-				item = self.getDocument().createElementWithTextValue("td", nPhInfo.notifyGroup);
-			} else
-				item = self.getDocument().createElement("td");
-			item.setAttribute('class', 'ngrp vt grid-field');
-			row.appendChild(item);
+			// self.getDocument().setCurrentElement(row);
+			// var cItem = self.getDocument().createElement("td");
+			// cItem.setAttribute('class', 'configStatus vt grid-field');
+			// row.appendChild(cItem);
 
-			self.getDocument().setCurrentElement(row);
-			item = self.getDocument().createElement("td");
-			item.setAttribute('class', 'advSms vt grid-field');
-			if (ph.hasSms) {
-				if (self._getHelper().isAnyAdvancedSMSFeatureEnabled()) {
-					if (msgSvcNums[ph.number]) {
-						self._addIcon(item, 'icon-check', gs.getMessage("Enrolled for Advanced SMS features"));
-						btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Disable"));
-					} else {
-						self._addIcon(item, 'icon-cross', gs.getMessage("Not enrolled for Advanced SMS features"));
-						btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Enable"));
-					}
-					btn.setAttribute("class", "btn btn-default btn-sm");
-					if (msgSvcNums[ph.number]) {
-						btn.setAttribute("onClick", "javascript:disableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
-					} else {
-						btn.setAttribute("onClick", "javascript:enableAdvancedSms('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
-					}
-					item.appendChild(btn);
-				} else {
-					tItem = self.getDocument().createElementWithTextValue("span", gs.getMessage("Not Enabled"));
-					item.appendChild(tItem);
-				}
-			}
-			row.appendChild(item);
+			// if (ph.configState === self.CONFIG.OK)
+			// 	self._addIcon(cItem, 'icon-check-circle color-green', gs.getMessage("Configured correctly"));
+			// else if (ph.configState === self.CONFIG.NONE)
+			// 	self._addIcon(cItem, 'icon-cross-circle color-red', gs.getMessage("Not configured"));
+			// else if (ph.configState === self.CONFIG.BAD)
+			// 	self._addIcon(cItem, 'icon-warning-circle color-orange', gs.getMessage("Incorrectly configured"));
+			// else if (ph.configState === self.CONFIG.SOME)
+			// 	self._addIcon(cItem, 'icon-warning-circle color-red', gs.getMessage("Has some other configuration"));
 
-			self.getDocument().setCurrentElement(row);
-			var cItem = self.getDocument().createElement("td");
-			cItem.setAttribute('class', 'configStatus vt grid-field');
-			row.appendChild(cItem);
-
-			if (ph.configState === self.CONFIG.OK)
-				self._addIcon(cItem, 'icon-check-circle color-green', gs.getMessage("Configured correctly"));
-			else if (ph.configState === self.CONFIG.NONE)
-				self._addIcon(cItem, 'icon-cross-circle color-red', gs.getMessage("Not configured"));
-			else if (ph.configState === self.CONFIG.BAD)
-				self._addIcon(cItem, 'icon-warning-circle color-orange', gs.getMessage("Incorrectly configured"));
-			else if (ph.configState === self.CONFIG.SOME)
-				self._addIcon(cItem, 'icon-warning-circle color-red', gs.getMessage("Has some other configuration"));
-
-			if (ph.configState !== self.CONFIG.OK && self._getHelper().isFullyConfigured()) {
-				self.getDocument().setCurrentElement(cItem);
-				btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Fix"));
-				btn.setAttribute("class", "btn btn-default btn-sm");
-				btn.setAttribute("onClick", "javascript:fix('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
-				cItem.appendChild(btn);
-			}
+			// if (  self._getHelper().isFullyConfigured()) {
+			// 	self.getDocument().setCurrentElement(cItem);
+			// 	btn = self.getDocument().createElementWithTextValue("button", gs.getMessage("Fix"));
+			// 	btn.setAttribute("class", "btn btn-default btn-sm");
+			// 	btn.setAttribute("onClick", "javascript:fix('" + ph.number + "', '" + ph.sid + "', '" + ph.type + "');return false;");
+			// 	cItem.appendChild(btn);
+			// }
 		});
 
-		status.setAttribute("error", error);
-		status.setAttribute("showTerritory", showTerrritory);
-		status.setAttribute("showNotifyGrp", showNotifyGrp);
+		status.setAttribute("error", "error");
+		status.setAttribute("showTerritory", "showTerrritory");
+		status.setAttribute("showNotifyGrp", "showNotifyGrp");
 	},
 
 	_addIcon: function (parentItem, iconClass, srText) {
@@ -445,44 +444,43 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 	},
 
 	disconnect: function () {
-		return true;
-		// var appId = this._getHelper().getConfig().application_id;
-		// if (appId) {
-		// 	var resp = this.getIncomingPhoneNumbers();
-		// 	var params;
-		// 	if (!!resp.error)
-		// 		this.logError(resp);
-		// 	else {
-		// 		var numbers = resp.numbers;
-		// 		for (var i in numbers) {
-		// 			params = {};
-		// 			if (numbers[i].voiceCallbackValue == appId || numbers[i].voiceCallbackValue == appId) {
-		// 				params.phone_sid = numbers[i].sid;
-		// 				params.z_application_sid = '';
-		// 				// api.updateIncomingPhoneNumber(params);
-		// 			}
-		// 		}
-		// 	}
-		// 	var res = this.deleteApplication(appId);
-		// 	if (res) {
-		// 		if (res.type == 'UNAUTHORIZED')
-		// 			gs.addErrorMessage(gs.getMessage("Nexmo responded with error: {0}", [this._formatErr(res)]));
-		// 	}
-		// 	var nexmoHelper = this._getHelper();
-		// 	var toBeUpdated = {
-		// 		// 'app_key': '',
-		// 		// 'app_secret': '',
-		// 		'application_id': '',
-		// 		'connected' : false
-		// 	};
-		// 	if (nexmoHelper.saveConfig(toBeUpdated, null, false, true)) {
-		// 		new global.NotifyDatabase().unsyncNotifyNumbersForDriver(nexmoHelper.DRIVER_NAME);
-		// 		gs.getSession().putClientData("sn_nexmo_direct.suppress_form_msg", true);
-		// 		gs.addInfoMessage(gs.getMessage("Disconnected from Nexmo"));
-		// 		return true;
-		// 	}
-		// 	return false;
-		// }
+		var appId = this._getHelper().getConfig().application_id;
+		if (appId) {
+			var resp = this.getIncomingPhoneNumbers();
+			var params;
+			if (!!resp.error)
+				this.logError(resp);
+			else {
+				var numbers = resp.numbers;
+				for (var i in numbers) {
+					params = {};
+					if (numbers[i].voiceCallbackValue == appId || numbers[i].voiceCallbackValue == appId) {
+						params.phone_sid = numbers[i].sid;
+						params.z_application_sid = '';
+						// api.updateIncomingPhoneNumber(params);
+					}
+				}
+			}
+			var res = this.deleteApplication(appId);
+			if (res) {
+				if (res.type == 'UNAUTHORIZED')
+					gs.addErrorMessage(gs.getMessage("Nexmo responded with error: {0}", [this._formatErr(res)]));
+			}
+			var nexmoHelper = this._getHelper();
+			var toBeUpdated = {
+				// 'app_key': '',
+				// 'app_secret': '',
+				'application_id': '',
+				'connected' : false
+			};
+			if (nexmoHelper.saveConfig(toBeUpdated, null, false, true)) {
+				new global.NotifyDatabase().unsyncNotifyNumbersForDriver(nexmoHelper.DRIVER_NAME);
+				gs.getSession().putClientData("sn_nexmo_direct.suppress_form_msg", true);
+				gs.addInfoMessage(gs.getMessage("Disconnected from Nexmo"));
+				return true;
+			}
+			return false;
+		}
 	},
 	getIncomingPhoneNumbers: function () {
 		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
@@ -556,17 +554,15 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		var gr = new GlideRecord("notify_number");
 		if (gr.isValid()) {
 			var numCol = "number";
-			if (type === this.SHORT_CODE)
-				numCol = "short_code";
 			gr.addActiveQuery();
-			gr.addQuery(numCol, number);
+			gr.addQuery(numCol, '+'+number);
 			gr.addQuery("owner", this._getHelper().DRIVER_NAME);
 			gr.query();
 			if (gr.next()) {
-				var territory = "";
-				// It is possible that Notify is not installed or NotifyUtils is updated by customers
+                var territory = "";
+                // It is possible that Notify is not installed or NotifyUtils is updated by customers
 				if (global.NotifyUtils && global.NotifyUtils.prototype.getGlidePhoneElementProps)
-					territory = new global.NotifyUtils().getGlidePhoneElementProps(gr.getElement('phone_number')).territory;
+                    territory = new global.NotifyUtils().getGlidePhoneElementProps(gr.getElement('phone_number')).territory;
 				return {
 					url: gr.getLink(true),
 					territory: territory,
@@ -588,13 +584,13 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:18</sys_created_on>
         <sys_id>476efbafdb513300887e7b6039961922</sys_id>
-        <sys_mod_count>55</sys_mod_count>
+        <sys_mod_count>75</sys_mod_count>
         <sys_name>NexmoDirectClient</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_476efbafdb513300887e7b6039961922</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-24 13:25:22</sys_updated_on>
+        <sys_updated_on>2019-05-25 11:39:36</sys_updated_on>
     </sys_script_include>
 </record_update>

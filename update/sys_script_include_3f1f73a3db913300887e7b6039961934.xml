@@ -127,7 +127,7 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
 
 
     this.nutil.addCallStatusFromPayload(payload);
-
+	 
     if (status == 'answered') {
       var isMachine = "human";
       var callRecord = this.getCallGr(callId);
@@ -135,6 +135,10 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
       callRecord = this.db.setIsHuman(callRecord, !isMachine);
 
       var notifyAction = this.workflow.processAndWaitActivityJ(callRecord);
+		
+		gs.info("notifyAction  ==>  " + JSON.stringify(notifyAction) );
+		    return this.getNexmlFromAction(notifyAction);
+
     }
 
     if (this.nutil.isCallOver(status))
@@ -147,13 +151,13 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:21</sys_created_on>
         <sys_id>3f1f73a3db913300887e7b6039961934</sys_id>
-        <sys_mod_count>8</sys_mod_count>
+        <sys_mod_count>12</sys_mod_count>
         <sys_name>NotifyNexmoOutboundCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_3f1f73a3db913300887e7b6039961934</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-21 11:59:44</sys_updated_on>
+        <sys_updated_on>2019-05-25 09:49:44</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -11,15 +11,23 @@
 		initialize: function () {},
 		create: function () {
 			var ApplicationData = {};
+		    var answerurl = this.getInstanceUrl()+"/api/x_341272_nexmo_dir/nexmo_call_answer/process/nexml/callAnswered";
+            var eventurl = this.getInstanceUrl()+"/api/x_341272_nexmo_dir/nexmo_call_event/process/nexml/primaryCallStatus";
+			var appType = "voice";
+			var today = new GlideDateTime();
+			var secret = current.getElement('api_secret').getDecryptedValue();
+			gs.info(current.getElement('api_secret').getDecryptedValue() + " current.getElement('api_secret').getDecryptedValue()");
 			ApplicationData.api_key = current.getElement('api_key').toString();
-			ApplicationData.api_secret = current.getElement('api_secret').toString();
-			ApplicationData.name = current.getElement('application_name').toString();
-			ApplicationData.type = current.getElement('application_type').toString();
-			ApplicationData.answer_url = current.getElement('answer_url').toString();
-			ApplicationData.event_url = current.getElement('event_url').toString();
-			ApplicationData.event_method = 'GET';
+			ApplicationData.api_secret = secret;
+			ApplicationData.name = "servicenow_nexmo";
+			ApplicationData.type = appType.toString();
+			ApplicationData.answer_url = answerurl.toString();
+			ApplicationData.event_url = eventurl.toString();
+			ApplicationData.event_method = "GET";
+			ApplicationData.expire = today;
 			var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmoapi', 'Default POST');
 			var base_url = sm.getEndpoint();
+			gs.info(base_url+"?api_key="+ApplicationData.api_key+"&api_secret="+ApplicationData.api_secret);
 			var request = new sn_ws.RESTMessageV2();
 			request.setEndpoint(base_url);
 			request.setHttpMethod('POST');
@@ -29,16 +37,22 @@
 			
 			var responsebody = responseres.getBody();
 			var obj = JSON.parse(responsebody);	
-			
+			gs.info("obj ==>  " + JSON.stringify(obj));
 			var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
-			gr.initialize();
+			//gr.initialize();
+			gr.addQuery('internal_name', 'main_and_only');
+			gr.query();
 			var app_id = JSON.stringify(obj.id);
 			var app_private_key = JSON.stringify(obj.keys.private_key);
 			var app_public_key = JSON.stringify(obj.keys.public_key);
-			var app_name = JSON.stringify(obj.name);
+			var app_name = JSON.stringify(obj.name);			
+			while (gr.next()) {
+
 			gr.application_id = app_id.replace(/\"/g, "");
-			gr.answer_url = current.getElement('answer_url').toString();
-			gr.event_url = current.getElement('event_url').toString();
+			gr.application_type = appType.toString();
+			gr.answer_url =  answerurl.toString();
+			gr.event_url =  eventurl.toString();
+			gr.expire = today;
 			gr.application_name = app_name.replace(/\"/g, "");
 			var tmpprivate_key = app_private_key.replace(/\\n/g, "");
 			tmpprivate_key = tmpprivate_key.replace(/\"/g, "");
@@ -49,11 +63,30 @@
 			gr.public_key = tmppublic_key;
 			gr.api_key = current.getElement('api_key').toString();
 			gr.api_secret = current.getElement('api_secret').toString();
-			gr.insert();
-			var arrToken = [ApplicationData.api_key, ApplicationData.api_secret, app_id, tmpprivate_key];
+			gr.connected = true;
+				gr.update();
+			}
+			var tmpprivate_keys = app_private_key.replace(/\\n/g, "");
+			tmpprivate_keys = tmpprivate_keys.replace(/\"/g, "");
+			//gr.insert();
+			var arrToken = [ApplicationData.api_key, ApplicationData.api_secret,JSON.stringify(obj.id), tmpprivate_keys];
 			this.getJwtToken(arrToken);
 			return arrToken;
 		},
+		
+		getInstanceUrl: function () {
+			  var url = gs.getProperty('glide.notify.endpoint', '');
+			  if (!url)
+				  url = gs.getProperty('glide.servlet.uri', '');
+			  if (!url)
+				  url = gs.getProperty('instance_name') + ".service-now.com";
+			  if (url && (!url.startsWith('http://') && !url.startsWith('https://')))
+				  url = "https://" + url;
+			  if (url && url.endsWith('/'))
+				  url = url.slice(0, url.length - 1);
+			  return url;
+		  },
+		
 		getJwtToken: function (ARRToken) {
 
 			App_id = ARRToken[2].replace(/\"/g, "");
@@ -62,7 +95,7 @@
 			gr.query();
 			if (gr.next()) {
 				var t_apikey = gr.getValue("api_key");
-				var t_apisecret = gr.getValue("api_secret");
+				var t_apisecret = gr.api_secret.getDecryptedValue();
 				var tempprivatekey = gr.getValue('private_key');
 			}
 		},
@@ -73,13 +106,13 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-21 11:49:27</sys_created_on>
         <sys_id>1e255725dbe13300887e7b6039961970</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>15</sys_mod_count>
         <sys_name>NexmoApplicationCreation</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_1e255725dbe13300887e7b6039961970</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-21 11:49:27</sys_updated_on>
+        <sys_updated_on>2019-05-25 06:45:28</sys_updated_on>
     </sys_script_include>
 </record_update>

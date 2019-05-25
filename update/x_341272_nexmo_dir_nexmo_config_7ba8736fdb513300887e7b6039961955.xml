@@ -1,56 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="x_341272_nexmo_dir_nexmo_config">
     <x_341272_nexmo_dir_nexmo_config action="INSERT_OR_UPDATE">
-        <answer_url>https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_answer_call/process/onCallAnswered</answer_url>
+        <answer_url>https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_call_answer/process/nexml/callAnswered</answer_url>
         <api_key>1d7714d5</api_key>
         <api_secret>zOa6Hl331uAJHa6KWN+jAXsxpJr4TKMY</api_secret>
-        <application_id>75bb15fa-8b0d-4f49-95ed-985fb4c9073f</application_id>
-        <application_name>nexmotestapp</application_name>
+        <application_id>167e6a0a-4c6e-4948-9765-2d5855c94c5f</application_id>
+        <application_name>servicenow_nexmo</application_name>
         <application_type>voice</application_type>
         <connected>true</connected>
-        <event_url>https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_event_call/process/onPrimaryCallStatus</event_url>
-        <expire>2019-05-25 10:07:54</expire>
+        <event_url>https://dev81864.service-now.com/api/x_341272_nexmo_dir/nexmo_call_event/process/nexml/primaryCallStatus</event_url>
+        <expire>2019-05-26 06:46:13</expire>
         <internal_name>main_and_only</internal_name>
-        <jwt_token>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTg2OTI0NzQ4NjYsImp0aSI6IjYwMGMxYWVhZGJhOTMzMDA4ODdlN2I2MDM5OTYxOTZkIiwiZXhwIjoxNTU4Nzc4ODc1LCJhY2wiOnsicGF0aHMiOnsiL3YxL3VzZXJzLyoqIjp7fSwiL3YxL2NvbnZlcnNhdGlvbnMvKioiOnt9LCIvdjEvc2Vzc2lvbnMvKioiOnt9LCIvdjEvZGV2aWNlcy8qKiI6e30sIi92MS9pbWFnZS8qKiI6e30sIi92My9tZWRpYS8qKiI6e30sIi92MS9hcHBsaWNhdGlvbnMvKioiOnt9LCIvdjEvcHVzaC8qKiI6e30sIi92MS9rbm9ja2luZy8qKiI6e30sIi92MS9jYWxscy8qKiI6e319fSwiYXBwbGljYXRpb25faWQiOiJiMDc2NjA2Ni1mNTE4LTQ3NjktYjBjZi0xZWEwNGVmNDg5YjAifQ.W4mjdr9fJ1HHA23dm_OCwGN5-3KVaAs0e8UIK5Mb_--erNb9FwngR2Q8UQANtoTByAj47GqN2ZDwytpjgP2rVEKaWf6ykKuJft_J5Ujn-0kWqUv3FoZsXATiB6bL273hTtnO5aMUpbcTISefAJlcyGlQFSiNUL6ExkBT2NvITy4LtqFkjrt5ZkNqcS4iN1aF_cEawVCUUK7TqUbyOJ2PxPXE0sjpiIKImO_n6moXBGFeE-_hlm-tqIn4c4X2Ci_2p1pUqLGGpbQQ2u9oB_dYNYHe_DVLB2URqzgvVOUNIqxZ4v4X2nwpnbwHuJK1aVW_QbDnp1PG8_FxsT52ntmSsg</jwt_token>
-        <private_key>-----BEGIN PRIVATE KEY-----
-MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC53z/Ec3PlJWEw
-e6E+Tkwdkl0dGgG350Pownxufk6btBl6Gads6y8qOqrTUUL30IPqxdVaAWyx2gvr
-4vYhB1QWmnhZFqk1UWd+UEuyk11JVVmoDX4gX9yFgeitiJnorv1ZbNKcs3tSf97R
-kRIpuAv6LhYMq23+brQYRD+v6N9nGkfEhWUfZCNU8e1JfIPffTrMNaKmwRyNiWOH
-zevfs2e8Ry+2UCEXdnRlIlWagpfWjQP+mDo5c2g6YglEppfiFFkLkI0j4SvEsnPL
-jibwxUlt2Yb/KX6mNB11yWLfqkMpSvvvXCjiox1GYtWOGiiD8y7+brtCUmnHYz3f
-Hi1HAaIlAgMBAAECggEAC/ROzpy6THeN+6dH5JD2lkROlsuQZrqKBJNVm2mmNp9r
-sA2sVfX+T5H8YKDuVK/lfBkDMsm6qumiMKalO9ST1OxUZy5s7Y/xvw78/1w4+Llz
-jbpobT6dGT0UsOyDMZLnmnPES+3DNbghpYrWBzbeFlYWdvQjm+SU0qa5DeBFVgUf
-XeBeqmTvbodG0QbC8d0s+qPgwGW53mgieKT4wzCP2RooIaCIcJErFxNxrjY2d1gV
-meKJr1o+8y1MEYOslJqwie3EZsL9cfBXyhDuwvXEw97yw/SpdBh4PWQu94mnr7Xi
-IiNcVxExGfcLbjTKiLNGyiVQdJmXSP4GyeQuYbKuVQKBgQD5pl9dY9KtgbmWlVam
-dAhdK0z8OELLRNTOvN9sPoKmcshjjp1gdA0S2aTETLmTSuup6KMkU/O2yg6te71J
-lMFqoNTAy1sCXhkI6dl04Wj8L8QP4VXE5mhx0mNxR0rmBrXfzknVxla9/C3ODH5T
-QlOOC6s0FCSM86MGPyp+arzsPwKBgQC+mZQ7btKj1ZtBfRYi3Pa6SqxQ5jwZhVG2
-FtL17rrdfR7CsYcE1pMgiwhsdVSbf/8R7xQGqJXX28/5ClbOYFFX8AeD6sBVcDVX
-iv4TD6HMv4dOP1O7KS0haax/IDMyDStB58SdbL2SqZ0bG814PZDXGUOFm0HZ/3Yi
-ISNYBBtomwKBgQCXmT0t4/FKZY1CcPtGZw2xLhs4yh1dfDXSOQVfoPILi4Y+Vpsg
-uDg8KygQABts40EKU3fGFqjXZgnVtV9zsD5ntrSbQqHIZUXEkOT5QexTv9nKXuaL
-g/MGs2CpqEZGOur0tjtF8oQ4KEvUZOfNPWipyFI1dMnhQg3MPE1cqQqCVwKBgDU0
-PbKRbu8Y02vmdOVqdNzvt0Yl3qTpGDQSDvVjnHnzUUDbuWraUtuEs+dCoUl+4z6o
-VBi/uoQ08cr83dph/JLlh9OFFgdDeUBkpiO/+1RiKmznNIJMLjLjgqlB3cic8HRH
-NBUVo51rB1Xn3uUvmlzQyo5jFnC55MoGIg2Rp+z9AoGBAM5NrmDwWCCmkE9ZsBrp
-vZ+8yhvq6QXpeLi/FamW0fgUBcG8AXaSpieO6n2ZlHE1maxXvCOAi2urVGsyO5k8
-qyvrRAG1+VyOMhX3UWnE+1K1KI5ATN9xr5FYlbrNIfgdYebNubnnebk2wClb9tKf
-L5Mw8vOs3xB0hr5YcujdfQ9h
------END PRIVATE KEY-----</private_key>
-        <public_key/>
+        <jwt_token>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTg3NjY3NzM2MTQsImp0aSI6IjM3NjczYWYyZGI2NTczMDA4ODdlN2I2MDM5OTYxOTEwIiwiZXhwIjoxNTU4ODUzMTc0LCJhY2wiOnsicGF0aHMiOnsiL3YxL3VzZXJzLyoqIjp7fSwiL3YxL2NvbnZlcnNhdGlvbnMvKioiOnt9LCIvdjEvc2Vzc2lvbnMvKioiOnt9LCIvdjEvZGV2aWNlcy8qKiI6e30sIi92MS9pbWFnZS8qKiI6e30sIi92My9tZWRpYS8qKiI6e30sIi92MS9hcHBsaWNhdGlvbnMvKioiOnt9LCIvdjEvcHVzaC8qKiI6e30sIi92MS9rbm9ja2luZy8qKiI6e30sIi92MS9jYWxscy8qKiI6e319fSwiYXBwbGljYXRpb25faWQiOiIxNjdlNmEwYS00YzZlLTQ5NDgtOTc2NS0yZDU4NTVjOTRjNWYifQ.RZdVNJxUJTBGF2EVIk_BtQl7TVSsSDCw6laFqUtIr6io_3MCW_vbBQd__ZeqFJ4qZjh0zo-Jy55hnyilRg2e1zbdx79uEe0EBekB-eTwPpBFmG3eD53mmXxvQtAmYmc30dTERgGoUrc2z37ZuJJWJROtmLc55nwsG8lrH00fc2z48HRcLIw-JQP3h1rzhsFENqQIuHH8CP9U-oBywoWMPcaBI_mOcC-mLjN0lOLtfn8jOWsywI_jpc8ixw1YMmlgoVkpf027r-XvIK3mBen6j_4bxtCH5UMcv58Bu5RHlXwulQIit82LSSHSbTOLVmzszNaAUDuyT-Qn-OWW3v9PhA</jwt_token>
+        <private_key>-----BEGIN PRIVATE KEY-----MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDPWD/6mghrmHGQNCsHECpF4b1T+64GNHbFlh5f4/fCBBW2hK2g1QKPewya4Orve0BY7/tpW5kkqsw8lJ0PfMaItinbhW+2vpUfCauUQRDkX1/TUO4AcVstAeqB7QA/5nNjX8KQtB1lHRQ5wkvxTzWzHRU2SdGiuUq/Gr/cZguK7qVVefUjCi4Vh3f2eA3Y20zvQopVaVg87591UNgFRVTFpKJU47xPOL9pmwsyeQFGh+HQ8CUFUxEDgW/8kWpPrexR+Nemkh91DwX3M5O9iTZz2aH/PX5GKWr1TNHBMUXEbpaAtFwmjLGBlecP09VtWoqoJVepFOqIdAPeOh1y1chlAgMBAAECggEACWVrKXuLUqRATzk3UvUIqWKNuSLVvnpoVdNpUc32UhXrzaSNFsBYbZv1VLEedxb7h0bsJS3iuS6T81Hbx+d5usPLOU4TzjEBonwGc8E6wf1QIyF5gPkiGTPLRrMwuJ9ETuD4ePoZ6UAMWi1j0iNqtaYlf4Xls2KuEGN8BYGgAnNxu2yclYgM/dTH7lmMZ7nKn1qxJvYt60LKv8URtAN4wxYfud89qO1zfIvA6q4KMErtGI54IT38/KPx4sAIv0zEM/uVBcgQTj96Oohn0fE3UMUYOoQE/8snnkuXvxp0NfD2hLPvBsvh/KZE9uUxigUdVBTHps+EWyuOR5K2F6bngQKBgQDxTTVFqsm5Tn0/hmtBWSatS5WhWxUas2Gi0hzPCPZ8l6vmVNU8AKeXOQ9gi8LxlYpxvqmHZpOCCJtjX910IJqDRrrY7P3txstYNEGFQRfMHSDnOMVY+YKC4QX+nn+8I2abPBUIX9/+JpgFTssW77SdCDeN3USHS5mEwkeHZQqo5QKBgQDb+YcQalrquHLzGhdSWsgYhrjIgtv0X/8QImkrzzupywMZ+G5V/3/yR8itHurpbUWUmzlYxA31Bu3ZED5YWUEJkqYHK3BJA3BwXcYWPh505FooDqj5tOjBPLE/H9Tqj2kLKheLzJKWRnnjlCeWRLOJ+kiQKHKY7Dkf16iDgSIpgQKBgAd6XA9Hpq6+dvU0BjjlOWSfdgilGPdV3c288zWbUoAz9xjRQjZ00rzGAOr+CdGQz9SMkxZmIGYkPCSNQQCrTf6Jf5rfZVMsGPsny2wEw2cI9A8WXE9QlDHYJWZppQ3Ajxp6dzBmQDvRGF75vSN91DwVmBsmY0xKFHzfxHW2tOjdAoGACzbMUOTrH54plgUVfUhNfRqZHve02N9v9FWcwPP+mahUzyUgEthEoIhSTakO1rmQW4QSR1kvUPd6dp9iXkSmkSNdvW3UepRnTgMpzwZ5rQHbKsGckaZMW1WJv6sSwqZu93e83Y6fRnPvUM/DuOBlurn8qwS02uDoBJyM5a9Wm4ECgYEAlCIMFq5heIl8CxUq/Dgbs9CniJqzg7xo7y8I13LW0oKoIQxF6Q6XbD8kWP+WKr+YAtpe2PwPa2eoPzEPdCj3Zg/3lrcw519Mb/D9r3Rz9JJiqwcRhJTSvpBOykNRq9peLjxURYzhSbjuyvwCPKyTPhipmD7LCDjcHlyCshMBGS8=-----END PRIVATE KEY-----</private_key>
+        <public_key>-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz1g/+poIa5hxkDQrBxAqReG9U/uuBjR2xZYeX+P3wgQVtoStoNUCj3sMmuDq73tAWO/7aVuZJKrMPJSdD3zGiLYp24Vvtr6VHwmrlEEQ5F9f01DuAHFbLQHqge0AP+ZzY1/CkLQdZR0UOcJL8U81sx0VNknRorlKvxq/3GYLiu6lVXn1IwouFYd39ngN2NtM70KKVWlYPO+fdVDYBUVUxaSiVOO8Tzi/aZsLMnkBRofh0PAlBVMRA4Fv/JFqT63sUfjXppIfdQ8F9zOTvYk2c9mh/z1+Rilq9UzRwTFFxG6WgLRcJoyxgZXnD9PVbVqKqCVXqRTqiHQD3jodctXIZQIDAQAB-----END PUBLIC KEY-----</public_key>
         <sys_class_name>x_341272_nexmo_dir_nexmo_config</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:28:14</sys_created_on>
         <sys_id>7ba8736fdb513300887e7b6039961955</sys_id>
-        <sys_mod_count>49</sys_mod_count>
+        <sys_mod_count>57</sys_mod_count>
         <sys_name/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>x_341272_nexmo_dir_nexmo_config_7ba8736fdb513300887e7b6039961955</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-24 13:13:10</sys_updated_on>
+        <sys_updated_on>2019-05-25 06:46:33</sys_updated_on>
     </x_341272_nexmo_dir_nexmo_config>
 </record_update>

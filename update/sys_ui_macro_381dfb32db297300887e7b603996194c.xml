@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_macro">
+    <sys_ui_macro action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category>general</category>
+        <description/>
+        <media_type/>
+        <name>sn_nexmo_direct_nexmo_direct_show_token_ui</name>
+        <scoped_name>x_341272_nexmo_dir_sn_nexmo_direct_nexmo_direct_show_token_ui</scoped_name>
+        <sys_class_name>sys_ui_macro</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-25 11:51:43</sys_created_on>
+        <sys_id>381dfb32db297300887e7b603996194c</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>sn_nexmo_direct_nexmo_direct_show_token_ui</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_ui_macro_381dfb32db297300887e7b603996194c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-25 12:12:27</sys_updated_on>
+        <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<tr><td class="credentials_macro container-fluid">
+		<g2:evaluate var="jvar_api_secret">
+			var h = new NexmoHelper(current);
+			h.getCredentials().api_secret;
+		</g2:evaluate>
+		<style>
+			#view_nexmo_api_secret {
+				display: none;
+				margin-left: 6px;
+			}
+			#view_nexmo_api_secret.visible {
+				display: inline;
+			}
+		</style>
+		<div>
+			<script type="text/javascript">
+				var now_twd_isPassVisible;
+				function togglePassword() {
+					var el = document.getElementById('view_nexmo_api_secret');
+					now_twd_isPassVisible = !now_twd_isPassVisible;
+					if (now_twd_isPassVisible)
+						el.classList.add('visible');
+					else
+						el.classList.remove('visible');
+					return false;
+				}
+			</script>
+			<div class="row">
+				<div class="col-xs-12 col-md-9 col-lg-10  col-md-offset-1_5 col-lg-offset-2">
+					<button id="view_nexmo_api_secret_btn" type="button" class="btn btn-default" onclick="javascript:togglePassword();" title="${gs.getMessage('Show/Hide toggle for Auth Secret')}"><span class="icon-preview"></span><span class="sr-only">${gs.getMessage('Show/Hide toggle for Auth Secret')}</span></button>
+					<span id="view_nexmo_api_secret">
+						<j2:if test="$[!empty(jvar_api_secret)]">
+							<span>$[jvar_api_secret]</span>
+						</j2:if>
+						<j2:if test="$[empty(jvar_api_secret)]">
+							<span><i>${gs.getMessage('Secret not set')}</i></span>
+						</j2:if>
+					</span>
+				</div>
+			</div>
+			<script>
+				addLoadEvent(function () {
+				
+					var isNoToken = $[NOESC:empty(jvar_api_secret)];
+				
+					if (isNoToken)
+						togglePassword();
+					if (g_form.isDisabled('api_secret')) {
+						var btn = document.getElementById('view_nexmo_api_secret_btn');
+						if (btn) {
+							btn.setAttribute('disabled', 'disabled');
+						}
+					}
+				});
+			</script>
+		</div>
+	</td></tr>
+</j:jelly>]]></xml>
+    </sys_ui_macro>
+</record_update>

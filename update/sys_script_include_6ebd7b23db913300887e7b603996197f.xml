@@ -12,7 +12,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
     initialize: function() {
 		BaseRecipe.prototype.initialize.apply(this, arguments);
 		this.nutil = new NotifyNexmoUtil();
-		this.db = new NotifyDatabase();
+		this.db = new global.NotifyDatabase();
 		this.workflow = new global.NotifyWorkflow();
 		this._callbacksCache = {};
     },
@@ -43,7 +43,8 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		else {
 			url = this.ctx.getNexmlUrl(methodName, this.getCallback(methodName), args);
 			this._callbacksCache[methodName] = url;
-		}
+        }
+        gs.info(JSON.stringify(url) + ' urls');
 		return url;
 	},
 
@@ -57,13 +58,53 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 		}
 		return url;
 	},
+    _resolveHandler: function (name, type, args) {
+		if (name === this.nutil.TWIML_URL_NAMES.CONF_STATUS) {
+			return this.ctx.getXmlUrl('onStdConferenceStatus');
+		} else if (name === this.nutil.TWIML_URL_NAMES.CONF_END) {
+			return this.getNexmlUrl('onConferenceEnd');
+		} else if (name === this.nutil.TWIML_URL_NAMES.CONF_IMMEDIATE_GATHER_ACTION) {
+			return this.getNexmlUrl('onImmediateGatherPostConferenceEnd');
+		} else if (name === this.nutil.TWIML_URL_NAMES.CATCH_ALL) {
+			var lastTagName = args.lastTagName;
+			var childTagName = args.withChildTagName;
+			return this.getNexmlUrl('onCatchAllEvent');
+		} else if (name === this.nutil.TWIML_URL_NAMES.ENQ_WAIT) {
+			return this.getNexmlUrl('onEnQ');
+		} else if (name === this.nutil.TWIML_URL_NAMES.LEFT_Q) {
+			return this.getNexmlUrl('noopTwiml');
+		} else if (name === this.nutil.TWIML_URL_NAMES.DIAL_ACTION) {
+			return this.getNexmlUrl('onDialEnd');
+		} else if (name === this.nutil.TWIML_URL_NAMES.DIAL_RECORD_STATUS) {
+			return this.getXmlUrl('onDialRecordStatus');
+		} else if (name === this.nutil.TWIML_URL_NAMES.CLIENT_ACTION) {
+			return this.getNexmlUrl('onClientDialAction');
+		} else if (name === this.nutil.TWIML_URL_NAMES.NUMBER_ACTION) {
+			return this.getNexmlUrl('onNumberDialAction');
+		} else if (name === this.nutil.TWIML_URL_NAMES.CLIENT_STATUS) {
+			return this.getXmlUrl('onClientDialCallStatus', {dialedTable: args.table, dialedSysid: args.sysid});
+		} else if (name === this.nutil.TWIML_URL_NAMES.NUMBER_STATUS) {
+			return this.getXmlUrl('onNumberDialCallStatus');
+		} else if (name === this.nutil.TWIML_URL_NAMES.GATHER_ACTION || name === this.nutil.TWIML_URL_NAMES.GATHER_ACTION_FAILED) {
+			return this.getNexmlUrl('onInputReceived');
+		} else if (name === this.nutil.TWIML_URL_NAMES.RECORD_ACTION) {
+			return this.getNexmlUrl('onRecordAction');
+		} else if (name === this.nutil.TWIML_URL_NAMES.REJECT) {
+			return this.getNexmlUrl('onReject');
+		} else if (name === this.nutil.TWIML_URL_NAMES.HANGUP) {
+			return this.getNexmlUrl('onHangUp');
+		} else
+			return this.resolveHandler(name, type, args);
+	},
 
+	
 	resolveHandler: function (name, type, args) {
 		// Meant to be implemented by subclass if required
 		throw 'Unhandled url ' + name;
 	},
 
 	onCatchAllEvent: function (p) {
+        gs.info(p + '  onCatchAllEvent ');
 		return this.getNexmlFromAction(this.finishWaitingActivities(null, true));
 	},
 	
@@ -222,13 +263,13 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:33:22</sys_created_on>
         <sys_id>6ebd7b23db913300887e7b603996197f</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>17</sys_mod_count>
         <sys_name>BaseNotifyNexmoCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_6ebd7b23db913300887e7b603996197f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-21 10:32:17</sys_updated_on>
+        <sys_updated_on>2019-05-25 12:38:15</sys_updated_on>
     </sys_script_include>
 </record_update>
