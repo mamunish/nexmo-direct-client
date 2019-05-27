@@ -68,8 +68,10 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
     request.setHttpMethod('POST');
     request.setRequestHeader("Content-type", "application/json");
     request.setRequestHeader("Authorization", "Bearer " + JWToken);
+	  
+	  request.setRequestBody('{"to": [{"number": "' + toPhoneNumber + '","type":"phone"}],"from":{"number":"' + notifyPhoneNumber + '","type": "phone"}, "ncco":[ {  "action": "talk",  "text": "Welcome to a Voice API I V R.",  "voiceName": "Amy", "bargeIn": false  }], "answer_url": ["' + answerUrl.url + '"], "event_url": ["' + eventUrl.url + '"] , "event_method":"GET"};');
    
-    request.setRequestBody('{"to": [{"number": "' + toPhoneNumber + '","type":"phone"}],"from":{"number":"' + notifyPhoneNumber + '","type": "phone"}, "ncco":[ {  "action": "talk",  "text": "Welcome to a Voice API I V R.",  "voiceName": "Amy", "bargeIn": false  },  { "action": "talk", "text": "Press 1, for maybe, and 2, for not sure, followed by the hash key.",  "voiceName": "Amy",  "bargeIn": true  },  {  "action": "input",   "submitOnHash": true,  "timeOut": 10 }, { "action": "talk",   "text": "Thanks for your input, goodbye.", "voiceName": "Amy"  } ], "answer_url": ["' + answerUrl.url + '"], "event_url": ["' + eventUrl.url + '"] , "event_method":"GET"};');
+//     request.setRequestBody('{"to": [{"number": "' + toPhoneNumber + '","type":"phone"}],"from":{"number":"' + notifyPhoneNumber + '","type": "phone"}, "ncco":[ {  "action": "talk",  "text": "Welcome to a Voice API I V R.",  "voiceName": "Amy", "bargeIn": false  },  { "action": "talk", "text": "Press 1, for maybe, and 2, for not sure, followed by the hash key.",  "voiceName": "Amy",  "bargeIn": true  },  {  "action": "input",   "submitOnHash": true,  "timeOut": 10 }, { "action": "talk",   "text": "Thanks for your input, goodbye.", "voiceName": "Amy"  } ], "answer_url": ["' + answerUrl.url + '"], "event_url": ["' + eventUrl.url + '"] , "event_method":"GET"};');
 
     var resp = request.execute();
 
@@ -117,7 +119,7 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
     var status = payload.status[0];
     var callId = payload.uuid[0];
 
-
+gs.info(status + ' status');
 
 
     if (callId !== this.data.callId) {
@@ -136,9 +138,21 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
 
       var notifyAction = this.workflow.processAndWaitActivityJ(callRecord);
 		
-		gs.info("notifyAction  ==>  " + JSON.stringify(notifyAction) );
-		    return this.getNexmlFromAction(notifyAction);
+		var rec = this.getNexmlFromAction(notifyAction);
+		
+		var callSysID = callRecord.getUniqueValue();
+		var gr = new GlideRecord("notify_wf_activity");
+		gr.addQuery("notify_call", callSysID);
+		gr.orderByDesc("sys_created_on");
+		gr.query();
+		gr.next();
+		gs.info(gr.getUniqueValue() + ' gr get unidqu    '  + callSysID);
+// 		var frec = this.finishWaitingActivities(null, true, gr.getUniqueValue());
+// 		gs.info(JSON.stringify(frec) + ' frec notify');
+		var notify = new sn_notify.NotifyScoped();
+		var phoneNumbers = notify.modifyCall(callRecord, gr.notify_action, gr);
 
+		
     }
 
     if (this.nutil.isCallOver(status))
@@ -151,13 +165,13 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:21</sys_created_on>
         <sys_id>3f1f73a3db913300887e7b6039961934</sys_id>
-        <sys_mod_count>12</sys_mod_count>
+        <sys_mod_count>37</sys_mod_count>
         <sys_name>NotifyNexmoOutboundCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_3f1f73a3db913300887e7b6039961934</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-25 09:49:44</sys_updated_on>
+        <sys_updated_on>2019-05-27 12:35:26</sys_updated_on>
     </sys_script_include>
 </record_update>

@@ -13,18 +13,39 @@ NotifyNexmoModifyCallRecipe.prototype = Object.extendsObject(BaseNotifyNexmoCall
     },
 	
 	onStart: function (callSid, notifyActionJson, actionRecord) {
+		gs.info(' call modified 2');
 		this.data.callId = callSid;
 		this.data.actionRecordSysId = actionRecord.getUniqueValue();
 		this.saveData();
+ var target = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+    target.query();
+    target.next();
+		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmocall', 'Default POST');
+	var endpoint = sm.getEndpoint();
+    var request = new sn_ws.RESTMessageV2();
+    request.setEndpoint(endpoint+'/'+this.data.callId);
+    request.setHttpMethod('PUT');
+    request.setRequestHeader("Content-type", "application/json");
+    request.setRequestHeader("Authorization", "Bearer " + target.jwt_token);
+   
+    request.setRequestBody('{"action": "transfer", "destination" : "'+this.getTwimlUrl('onModifyCall') + '" };');
 
-		var api = new TwilioApi();
-		var resp = api.modifyCall({call_sid: callSid, action_url: this.getNexmlUrl('onModifyCall')});
-		if (resp.error)
-			gs.error('Could not modify the call {0} with action {1} due to error {2}',
-					 callSid, notifyActionJson, resp.error);
+    var resp = request.execute();
+
+
+    var nexmoreqbody = resp.getBody();
+    var requestString = nexmoreqbody.dataString;
+
+
+    if (nexmoreqbody) {
+
+      var nexmores = JSON.parse(nexmoreqbody);
+      gs.info(JSON.stringify(nexmores) + ' respnso onModifyCall');
+	}
 	},
 
 	onModifyCall: function (p) {
+		gs.info(JSON.stringify(p) +  '  modify call callback check');
 		// TODO add call status
 		return this.getNexmlFromAction(this.finishWaitingActivities(null, true, this.data.actionRecordSysId));
 	},
@@ -35,13 +56,13 @@ NotifyNexmoModifyCallRecipe.prototype = Object.extendsObject(BaseNotifyNexmoCall
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-25 12:55:29</sys_created_on>
         <sys_id>988b8887db297300887e7b60399619a8</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>NotifyNexmoModifyCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_988b8887db297300887e7b60399619a8</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-25 12:55:29</sys_updated_on>
+        <sys_updated_on>2019-05-27 11:50:24</sys_updated_on>
     </sys_script_include>
 </record_update>

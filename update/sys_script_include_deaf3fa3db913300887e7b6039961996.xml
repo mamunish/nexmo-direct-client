@@ -492,13 +492,13 @@ NexmlHelperSNC.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:41:40</sys_created_on>
         <sys_id>deaf3fa3db913300887e7b6039961996</sys_id>
-        <sys_mod_count>5</sys_mod_count>
+        <sys_mod_count>8</sys_mod_count>
         <sys_name>NexmlHelperSNC</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_deaf3fa3db913300887e7b6039961996</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-25 10:08:49</sys_updated_on>
+        <sys_updated_on>2019-05-27 09:03:32</sys_updated_on>
     </sys_script_include>
 </record_update>

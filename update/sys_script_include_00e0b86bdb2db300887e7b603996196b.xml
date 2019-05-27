@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NotifyNexmoRecipeDirectory</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NotifyNexmoRecipeDirectory</name>
+        <script><![CDATA[var NotifyNexmoRecipeDirectory = Class.create();
+NotifyNexmoRecipeDirectory.prototype = Object.extendsObject(NotifyNexmoRecipeDirectorySNC, {
+    initialize: function() {
+      NotifyNexmoRecipeDirectorySNC.prototype.initialize.apply(this, arguments);
+    },
+
+    type: 'NotifyNexmoRecipeDirectory'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-05-27 04:54:30</sys_created_on>
+        <sys_id>00e0b86bdb2db300887e7b603996196b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>NotifyNexmoRecipeDirectory</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_00e0b86bdb2db300887e7b603996196b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-05-27 04:54:30</sys_updated_on>
+    </sys_script_include>
+</record_update>

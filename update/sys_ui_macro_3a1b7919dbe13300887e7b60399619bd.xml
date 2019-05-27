@@ -10,201 +10,63 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-20 10:32:36</sys_created_on>
         <sys_id>3a1b7919dbe13300887e7b60399619bd</sys_id>
-        <sys_mod_count>7</sys_mod_count>
+        <sys_mod_count>28</sys_mod_count>
         <sys_name>list_nexmo_direct_phone_numbers</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_macro_3a1b7919dbe13300887e7b60399619bd</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-20 13:19:20</sys_updated_on>
+        <sys_updated_on>2019-05-27 13:55:02</sys_updated_on>
         <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
-<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
-	<tr id="ph_macro_row"><td class="ph_macro">
+<j:jelly trim="false" 
+	xmlns:j="jelly:core" 
+	xmlns:g="glide" 
+	xmlns:j2="null" 
+	xmlns:g2="null">
+	<tr id="ph_macro_row">
+		<td class="ph_macro">
+			<g:evaluate var="jvar_gr" object="true">
+   var gr = new GlideRecord("notify_number");
+   gr.addQuery("active", true);
+   gr.query();
+   gr;
+</g:evaluate>
+	<div class="ph_data">
+
+				<div id="phs">
+					<table class="table table-hover original-table list-grid table-striped" tabindex="0">
+						<thead class="table-body-headers">
+							<tr class="table-header">
+								<th scope="col" class="table-column-header">${gs.getMessage('Phone number')}</th>
+								<!-- <th scope="col" class="table-column-header">${gs.getMessage('Capabilities')}</th> -->
+								<!-- <th scope="col" class="territory table-column-header">${gs.getMessage('Territory')}</th> -->
+								<!-- <th scope="col" class="ngrp table-column-header">${gs.getMessage('Notify group')}</th> -->
+								<th scope="col" class="advSms table-column-header">${gs.getMessage('Advanced SMS features')}</th>
+								<th scope="col" class="configStatus table-column-header">${gs.getMessage('Advanced VOICE features')}</th>
+							</tr>
+						</thead>
+						<tbody id="result" class="list_table_tbody">
+							<j:while  test="${jvar_gr.next()}">
+								<tr>
+									<td> ${jvar_gr.getValue('number')} </td>
+									<!-- <td>${jvar_gr.getValue('notify_group')}</td> -->
+									<td>${jvar_gr.getValue('has_sms_out')} </td>
+									<td>${jvar_gr.getValue('has_voice_out')}</td>
+									<td>${jvar_gr.getValue('onwer')} </td>
+								</tr>
+
+							</j:while>
+						</tbody>
+					</table>
+				</div>
+
+
+			</div>
+		</td>
+	</tr>
+
 		
-		<style>
-			.ph_macro #phs, #err {
-				display: none;
-			}
-			.ph_macro .show {
-				display: block;
-			}
-			.ph_macro #phs .icon {
-				padding: 6px;
-			}
-			.ph_macro #phs table {
-				border: 1px solid #E6E8EA;
-				font: 13px "SourceSansPro", "Helvetica Neue", "Helvetica", Arial, sans-serif
-			}
-			.ph_macro #phs table tr > td {
-				padding: 6px;
-				line-height: 1.42857;
-				vertical-align: top;
-				border-top: 1px solid #bdc0c4;
-			}
-			.ph_macro #phs table td.vt {
-				padding: 6px 6px 6px 7px;
-			}
-			.ph_macro #phs table td.col-control {
-				background-color: #e6e8ea;
-				padding: 10px;
-			}
-			.ph_macro .ph_data {
-				padding: 10px;
-			}
-			.ph_macro .top {
-				margin-bottom: 10px;
-			}
-			.ph_macro .top button {
-				display: block;
-				margin: auto;
-			}
-			.ph_macro #phs.no-territory .territory {
-				display: none;
-			}
-			.ph_macro #phs.no-ngrp .ngrp {
-				display: none;
-			}
-			.ph_macro #phs.no-configStatus .configStatus {
-				display: none;
-			}
-			.ph_macro #phs.no-advSms .advSms {
-				display: none;
-			}
-		</style>
-		<div class="ph_data">
-			<script type="text/javascript">
-				function hidePhoneNumbersSection() {
-					var sid = '$[jvar_acc_sid]';
-					var token = '$[jvar_auth_token]';
-					if (sid == '' || token == '') {
-						$j('tr[data-annotation-type="Section Separator"]').parents('div.form-group').hide();
-						$j('#ph_macro_row').parents('div.form-group').hide();
-					}
-				}
-				function fetchNumbers(skipAutoFocus) {
-					var loadEl = document.getElementById('fetchNums');
-					if (loadEl) {
-						loadEl.classList.add('show');
-					}
-					var ga = new GlideAjax('NexmoDirectClient');
-					ga.addParam('sysparm_name', 'fetchNumbersHtml');
-					ga.addParam('sysparm_config_id', g_form.getUniqueValue());
-					ga.getXML(function (response) {
-						if (loadEl) {
-							loadEl.classList.remove('show');
-						}
-                        console.log('munish');
-                        console.log(response);
-                        console.log('siva');
-						var status = response.responseXML.getElementsByTagName("status")[0];
-						var err = status.getAttribute("error");
-
-						var showTerr = status.getAttribute("showTerritory");
-						var showNGrp = status.getAttribute("showNotifyGrp");
-						var showConfigStatus = '$[JS_STRING:jvar_fully_configured]' === 'true';
-						var showAdvSms = '$[JS_STRING:jvar_fully_configured]' === 'true';
-
-						var phsEl = document.getElementById('phs');
-						if (err) {
-							phsEl.classList.remove('show');
-							if (window.console $[AND] console.warn)
-								console.warn('Error while trying to fetch phone numbers', err);
-						} else {
-							phsEl.classList.add('show');
-
-							if (showTerr)
-								phsEl.classList.remove('no-territory');
-							else
-								phsEl.classList.add('no-territory');
-
-							if (showNGrp)
-								phsEl.classList.remove('no-ngrp');
-							else
-								phsEl.classList.add('no-ngrp');
-
-							if (showAdvSms)
-								phsEl.classList.remove('no-advSms');
-							else
-								phsEl.classList.add('no-advSms');
-
-							if (showConfigStatus)
-								phsEl.classList.remove('no-configStatus');
-							else
-								phsEl.classList.add('no-configStatus');
-
-							var html = response.responseXML.getElementsByTagName("html")[0];
-							document.getElementById("result").innerHTML = html.hasOwnProperty("innerHTML") ? html.innerHTML : new XMLSerializer().serializeToString(html);
-						}
-					});
-				}
-				function fix(number, sid, type) {
-					var ga = new GlideAjax('TwilioDirectClient');
-					ga.addParam('sysparm_name', 'updateNumberAjax');
-					ga.addParam('sysparm_num_number', number);
-					ga.addParam('sysparm_num_sid', sid);
-					ga.addParam('sysparm_num_type', type);
-					ga.addParam('sysparm_config_id', g_form.getUniqueValue());
-					ga.getXML(function (response) {
-						var status = response.responseXML.getElementsByTagName("status")[0];
-						var err = status.getAttribute("hasError");
-						if (!err)
-							location.reload();
-					});
-				}
-				function doRequest(number, sid, type, methodName) {
-					var ga = new GlideAjax('TwilioDirectClient');
-					ga.addParam('sysparm_name', methodName);
-					var data = {
-						number: number,
-						sid: sid,
-						type: type
-					};
-					ga.addParam('sysparm_data', JSON.stringify(data));
-					ga.getXMLAnswer(function(answer) {
-						var result = JSON.parse(answer);
-						if(result.status)
-							location.reload();
-					});
-				}
-				function enableAdvancedSms(number, sid, type) {
-					doRequest(number, sid, type, 'addNumberToMSGService');
-				}
-				function disableAdvancedSms(number, sid, type) {
-					doRequest(number, sid, type, 'removeNumberFromMSGService');
-				}
-			</script>
-			<div id="phs">
-				<table class="table table-hover original-table list-grid table-striped" tabindex="0">
-					<thead class="table-body-headers">
-						<tr class="table-header">
-							<th scope="col">#</th>
-							<th scope="col" class="table-column-header">${gs.getMessage('Phone number')}</th>
-							<th scope="col" class="table-column-header">${gs.getMessage('Capabilities')}</th>
-							<th scope="col" class="territory table-column-header">${gs.getMessage('Territory')}</th>
-							<th scope="col" class="ngrp table-column-header">${gs.getMessage('Notify group')}</th>
-							<th scope="col" class="advSms table-column-header">${gs.getMessage('Advanced SMS features')}</th>
-							<th scope="col" class="configStatus table-column-header">${gs.getMessage('Configured')}</th>
-						</tr>
-					</thead>
-					<tbody id="result" class="list_table_tbody"></tbody>
-				</table>
-			</div>	
-			<j2:if test="$[jvar_auto_fetch_numbers]">
-				<div id="fetchNums" role="alert" style="display:none; text-align:center;"><i class="icon icon-loading"></i><span class="sr-only">${gs.getMessage('Phone numbers loading')}</span></div>
-				<script>
-					addLoadEvent(function () {
-						fetchNumbers(true);
-					});
-				</script>
-			</j2:if>
-			<script>
-				addLoadEvent(function () {
-					fetchNumbers(true);
-				});
-			</script>
-		</div>
-	</td></tr>
 </j:jelly>]]></xml>
     </sys_ui_macro>
 </record_update>
