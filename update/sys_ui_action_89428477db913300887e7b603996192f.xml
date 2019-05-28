@@ -29,7 +29,21 @@
         <onclick/>
         <order>100</order>
         <script><![CDATA[callNexmo();
+function Control() {
+		this._skipRest = false;
+		this.setSkipRest = function (flag) {
+			this._skipRest = flag;
+		};
+	}
 function callNexmo(){
+	//fd6393f7db2df300887e7b603996193d
+// 	var rec = new GlideRecord('notify_wf_activity');
+// // 			rec.addQuery('table_sys_id','fd6393f7db2df300887e7b603996193d');
+// 			rec.query();
+// 	gs.info(JSON.stringify(rec));
+// 			while (rec.next()) {
+// 				gs.info(rec.getUniqueValue() + '  notify_action' );
+// 			}
 	
 // 	gs.info('ches');
 	
@@ -55,7 +69,7 @@ function callNexmo(){
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>89428477db913300887e7b603996192f</sys_id>
-        <sys_mod_count>13</sys_mod_count>
+        <sys_mod_count>28</sys_mod_count>
         <sys_name>Call</sys_name>
         <sys_overrides/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -63,7 +77,7 @@ function callNexmo(){
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_action_89428477db913300887e7b603996192f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-25 12:23:38</sys_updated_on>
+        <sys_updated_on>2019-05-28 12:49:32</sys_updated_on>
         <table>x_341272_nexmo_dir_nexmo_config</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>
