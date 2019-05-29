@@ -26,21 +26,22 @@ NotifyNexmoOutboundSMSRecipe.prototype = Object.extendsObject(BaseNotifyNexmoSMS
 		var smsStatusUrl = this.ctx.getNexmlUrl('SMSStatus', this.getCallback('onSMSStatus'));
 		
 		gs.info(smsStatusUrl.url +  '  smsStatusUrl');
-		var sm = new sn_ws.RESTMessageV2('x_341321_nexmo_dir.nexmosms', 'POST');
+		var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmosms', 'POST');
 		var endpoint = sm.getEndpoint();
 		
-		var gr = new GlideRecord ('x_341321_nexmo_dir_nexmo_config');
+		var gr = new GlideRecord ('x_341272_nexmo_dir_nexmo_config');
 		gr.orderByDesc('Created');
 		gr.setLimit(1);
 		gr.query();
 		if (gr.next()){}
 		
 		var request = new sn_ws.RESTMessageV2();
-		request.setEndpoint(endpoint);
+		request.setEndpoint("https://api.nexmo.com/v0.1/messages");
 		request.setHttpMethod('POST');
 		request.setRequestHeader("Content-type","application/json");
+		request.setBasicAuth(gr.api_key, gr.api_secret.getDecryptedValue());
 		tonum = to.substr(1);
-request.setRequestBody('{"api_key":"'+gr.api_key+'","api_secret":"'+gr.api_secret.getJwtToken()+'","from":"'+from+'","to":"'+to+'","text":"helloworld","callback":"http://vijayaraman-dev.sirahu.net/deliveryreceipt"}');
+request.setRequestBody('{"to": { "type": "sms", "number":"919566521569"},"from": { "type": "sms", "number":"12014799990"},"message": {"content": {"type": "text","text":"Hello nexmo"}}}');
 		
 		
 		var resp = request.execute();
@@ -75,13 +76,13 @@ request.setRequestBody('{"api_key":"'+gr.api_key+'","api_secret":"'+gr.api_secre
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:53</sys_created_on>
         <sys_id>6a3fbfa3db913300887e7b6039961971</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>11</sys_mod_count>
         <sys_name>NotifyNexmoOutboundSMSRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_6a3fbfa3db913300887e7b6039961971</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-21 13:16:33</sys_updated_on>
+        <sys_updated_on>2019-05-29 07:30:49</sys_updated_on>
     </sys_script_include>
 </record_update>
