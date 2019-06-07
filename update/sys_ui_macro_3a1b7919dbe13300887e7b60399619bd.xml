@@ -10,64 +10,151 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-20 10:32:36</sys_created_on>
         <sys_id>3a1b7919dbe13300887e7b60399619bd</sys_id>
-        <sys_mod_count>30</sys_mod_count>
+        <sys_mod_count>33</sys_mod_count>
         <sys_name>list_nexmo_direct_phone_numbers</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_macro_3a1b7919dbe13300887e7b60399619bd</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-28 12:28:27</sys_updated_on>
+        <sys_updated_on>2019-06-03 12:01:56</sys_updated_on>
         <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" 
 	xmlns:j="jelly:core" 
 	xmlns:g="glide" 
 	xmlns:j2="null" 
 	xmlns:g2="null">
+	<style>
+		.nofndata{
+		color: red;
+		margin-left: 18%;
+		font-size: 15px;
+		}		
+		.ph_macro .show {
+		display: block;
+		}
+		.ph_macro #phs .icon {
+		padding: 6px;
+		}
+		.ph_macro #phs table {
+		border: 1px solid #E6E8EA;
+		font: 13px "SourceSansPro", "Helvetica Neue", "Helvetica", Arial, sans-serif
+		}
+		.ph_macro #phs table tr > td {
+		padding: 6px;
+		line-height: 1.42857;
+		vertical-align: top;
+		border-top: 1px solid #bdc0c4;
+		}
+		.ph_macro #phs table td.vt {
+		padding: 6px 6px 6px 7px;
+		}
+		.ph_macro #phs table td.col-control {
+		background-color: #e6e8ea;
+		padding: 10px;
+		}
+		.ph_macro .ph_data {
+		padding: 10px;
+		}
+		.ph_macro .top {
+		margin-bottom: 10px;
+		}
+		.ph_macro .top button {
+		display: block;
+		margin: auto;
+		}
+		.ph_macro #phs.no-territory .territory {
+		display: none;
+		}
+		.ph_macro #phs.no-ngrp .ngrp {
+		display: none;
+		}
+		.ph_macro #phs.no-configStatus .configStatus {
+		display: none;
+		}
+		.ph_macro #phs.no-advSms .advSms {
+		display: none;
+		}
+	</style>
+
 	<tr id="ph_macro_row">
 		<td class="ph_macro">
 			<g:evaluate var="jvar_gr" object="true">
-   var gr = new GlideRecord("notify_number");
-   gr.addQuery("active", true);
-gr.addQuery("owner","NexmoDriver");
-   gr.query();
-   gr;
-</g:evaluate>
-	<div class="ph_data">
+				var gr = new GlideRecord("notify_number");
+				gr.addQuery("active", true);
+				gr.addQuery("owner","NexmoDriver");
+				gr.query();
+				gr;	
+			</g:evaluate>
 
-				<div id="phs">
-					<table class="table table-hover original-table list-grid table-striped" tabindex="0">
-						<thead class="table-body-headers">
-							<tr class="table-header">
-								<th scope="col" class="table-column-header">${gs.getMessage('Phone number')}</th>
-								<!-- <th scope="col" class="table-column-header">${gs.getMessage('Capabilities')}</th> -->
-								<!-- <th scope="col" class="territory table-column-header">${gs.getMessage('Territory')}</th> -->
-								<!-- <th scope="col" class="ngrp table-column-header">${gs.getMessage('Notify group')}</th> -->
-								<th scope="col" class="advSms table-column-header">${gs.getMessage('Advanced SMS features')}</th>
-								<th scope="col" class="configStatus table-column-header">${gs.getMessage('Advanced VOICE features')}</th>
-							</tr>
-						</thead>
-						<tbody id="result" class="list_table_tbody">
-							<j:while  test="${jvar_gr.next()}">
-								<tr>
-									<td> ${jvar_gr.getValue('number')} </td>
-									<!-- <td>${jvar_gr.getValue('notify_group')}</td> -->
-									<td>${jvar_gr.getValue('has_sms_out')} </td>
-									<td>${jvar_gr.getValue('has_voice_out')}</td>
-									<td>${jvar_gr.getValue('onwer')} </td>
-								</tr>
+			<g:evaluate var="jvar_gr1" object="true">
+				var configstatus = new NexmoHelper().isConnectNexmo();
+				var returndata,ph_numberlist, appid;
+			if(configstatus){
+					returndata = new NexmoHelper().newData();
+					appid = new NexmoHelper().nexmoAppID();
+					var cnt = returndata.count;
+					if(returndata.count > 0){
+						ph_numberlist = returndata.numbers;
+						for(var i=0; i != cnt; i++){
+							var cval = ph_numberlist[i].voiceCallbackValue;
+							if(!cval){
+								ph_numberlist[i].linkstatus = "Link";
+							}else if(cval.localeCompare(appid) == -1){
+								ph_numberlist[i].linkstatus = "-";
+							}else if(cval.localeCompare(appid) != -1){
+								ph_numberlist[i].linkstatus = "Linked";
+							}					  
+						}				
+					}
+					
+								
+				} 
 
-							</j:while>
-						</tbody>
-					</table>
+				var initial = parseInt(1);
+			</g:evaluate>
+			
+			<j:if test="${!configstatus}">
+				<div class="nofndata">
+					Please connect the nexmo account
 				</div>
+			</j:if>
 
-
-			</div>
+			<j:if test="${configstatus}">
+				<div class="ph_data">
+					<div id="phs">
+						<table class="table table-hover original-table list-grid table-striped" tabindex="0">
+							<thead class="table-body-headers">
+								<tr class="table-header">
+									<th scope="col" class="table-column-header">#</th>
+									<th scope="col" class="table-column-header">${gs.getMessage('Phone number')}</th>
+									<th scope="col" class="table-column-header">${gs.getMessage('Capabilities')}</th>
+									<th scope="col" class="territory table-column-header">${gs.getMessage('Territory')}</th>									
+									<th scope="col" class="configStatus table-column-header">${gs.getMessage('Configured')}</th>
+								</tr>
+							</thead>							
+							<tbody id="result" class="list_table_tbody">
+								<j:forEach items="${ph_numberlist}" var="jvar_data">
+									<tr>
+										<td> ${initial}</td>
+										<td> ${jvar_data.msisdn} </td>
+										<td> ${jvar_data.features[0]}
+											<j:if test="${jvar_data.features[1] != ''}">
+												${jvar_data.features[1]}
+											</j:if>		
+										</td>
+										<td> ${jvar_data.country} </td>
+										<td> ${jvar_data.linkstatus}</td>
+									</tr>	
+									 <g:evaluate>initial = parseInt(initial +1);</g:evaluate>
+								</j:forEach>								
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</j:if>					
 		</td>
 	</tr>
-
-		
 </j:jelly>]]></xml>
     </sys_ui_macro>
 </record_update>

@@ -8,10 +8,15 @@
         <http_method>GET</http_method>
         <name>Nexmo Answer Call</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
-	gs.info('call answer munish');
+	
+// 	var text = "Press <say>1</say>, for maybe, and 2, for not sure, followed by the hash key.";
 	
 	
-// 		gs.info(JSON.stringify(request.pathParams) + " areq pp");
+
+// 	gs.info('call answer munish');
+	
+	
+// 	gs.info(JSON.stringify(request.pathParams) + " areq pp");
 // 	gs.info(JSON.stringify(request.queryParams) + 'areq qp');
 // 	gs.info(JSON.stringify(request.queryString) +  "  arequest.queryString");
 	
@@ -72,16 +77,22 @@
 		var cApi  = new NexmoCallbackApi();
 		if (request.pathParams.type == 'nexml') {
 			resp = cApi.getNexmlResponse(request.pathParams.callback_name, request.queryParams);
-			gs.info(JSON.stringify(resp) + ' toxml resp');
-		
-// 	return true;
+			gs.info(JSON.stringify(resp) + ' toxml resp');		
+			// 	return true;
 			if (!resp){
 				resp = cApi.getDefaultNexmlResponse();
 			}
 			response.setContentType('application/xml');
 			if (resp instanceof NexmlModel){
-				gs.info(resp._children[0]._text + ' toxml resp 3');
-				var nccotext = '[{"action": "talk","bargeIn": true,"text": "'+resp._children[0]._text+'"},{"action": "input",  "submitOnHash": true}]';
+// 				gs.info(resp._children[0]._text + ' toxml resp 3');
+				var text = resp._children[0]._text;
+				var res = text.replace("&lt;say&gt;", "<say-as interpret-as='spell-out'>");
+				var res1 = res.replace("&lt;/say&gt;", "</say-as>");
+				
+				var otext = "<speak>"+res1+"</speak>";
+				gs.info(otext + 'trddffdgsdfg');
+	
+				var nccotext = '[{"action": "talk","bargeIn": true,"text": "'+otext+'"},{"action": "input",  "submitOnHash": true}]';
 	response.setContentType('application/json');
 	response.getStreamWriter().writeString(nccotext.toString());
 // 				response.getStreamWriter().writeString(resp.toXml());
@@ -114,14 +125,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:23:56</sys_created_on>
         <sys_id>6afaf323db913300887e7b603996193a</sys_id>
-        <sys_mod_count>26</sys_mod_count>
+        <sys_mod_count>40</sys_mod_count>
         <sys_name>Nexmo Answer Call</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_6afaf323db913300887e7b603996193a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-28 11:45:33</sys_updated_on>
+        <sys_updated_on>2019-06-04 07:05:17</sys_updated_on>
         <web_service_definition display_value="Nexmo Answer Call">59da7323db913300887e7b603996194c</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
