@@ -5,7 +5,7 @@
         <consumes_customized>false</consumes_customized>
         <default_operation_uri/>
         <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
-        <http_method>POST</http_method>
+        <http_method>GET</http_method>
         <name>dummy</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 
@@ -14,6 +14,13 @@
 	gs.info(JSON.stringify(request.queryParams) + 'ereq qp');
 	gs.info(JSON.stringify(request.queryString) +  "  erequest.queryString");
 	gs.info(JSON.stringify(request.body) +  "  erequest.body");
+	
+	var recipe = new NotifyNexmoRecipeDirectory().getInboundSMSRecipe();
+	var to  = "+"+request.queryParams.to;
+	var from = "+"+request.queryParams.msisdn;
+	var text = request.queryParams.text[0];
+	var mid = request.queryParams.messageId[0];
+	return recipe.start(to, from, 'US', text, mid, 'received', 1);
 
 })(request, response);]]></operation_script>
         <operation_uri>/api/x_341272_nexmo_dir/nexmo_event_call/process/nexml/SMSStatus</operation_uri>
@@ -29,14 +36,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-06-07 11:19:13</sys_created_on>
         <sys_id>1172ba0bdbf13300887e7b6039961996</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>19</sys_mod_count>
         <sys_name>dummy</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_1172ba0bdbf13300887e7b6039961996</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-07 11:27:06</sys_updated_on>
+        <sys_updated_on>2019-06-10 11:35:49</sys_updated_on>
         <web_service_definition display_value="Nexmo Event Call">92abfbafdb513300887e7b6039961936</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

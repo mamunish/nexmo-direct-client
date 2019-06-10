@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_341272_nexmo_dir.NotifyNexmoInboundSMSRecipe</api_name>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>NotifyNexmoInboundSMSRecipe</name>
+        <script><![CDATA[var NotifyNexmoInboundSMSRecipe = Class.create();
+NotifyNexmoInboundSMSRecipe.prototype = Object.extendsObject(BaseNotifyNexmoSMSRecipe, {
+    initialize: function() {
+		BaseNotifyNexmoSMSRecipe.prototype.initialize.apply(this, arguments);
+    },
+
+	onStart: function(incomingPhoneNumber, phoneNumber, phoneNumberTerritory, body, messageSid, status, order) {
+		gs.info(incomingPhoneNumber + ' incomingPhoneNumber');
+		phoneNumber = new global.NotifyUtils().getNormalizedPhoneNumber(phoneNumber, phoneNumberTerritory);
+		var messageID = this.db.addMessageRecord(incomingPhoneNumber, messageSid, phoneNumber, "inbound", body, undefined, status);
+		var messageRecord = this.db.getMessageRecord(messageID);
+		if (messageRecord)
+			this.workflow.runIncomingSMSWorkflow(incomingPhoneNumber, messageRecord);
+	},
+
+    type: 'NotifyNexmoInboundSMSRecipe	'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-10 09:43:42</sys_created_on>
+        <sys_id>5e29bd40dbc63300804014613996197f</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>NotifyNexmoInboundSMSRecipe</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_script_include_5e29bd40dbc63300804014613996197f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-10 11:13:06</sys_updated_on>
+    </sys_script_include>
+</record_update>

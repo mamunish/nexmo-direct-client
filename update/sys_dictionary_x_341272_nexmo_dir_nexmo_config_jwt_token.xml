@@ -53,7 +53,7 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 07:33:20</sys_created_on>
-        <sys_id>992c0d5adb213300887e7b60399619a6</sys_id>
+        <sys_id>e7aafc8cdbc233008040146139961977</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>JWT_Token</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -61,7 +61,7 @@
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_dictionary_x_341272_nexmo_dir_nexmo_config_jwt_token</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2019-05-23 09:40:31</sys_updated_on>
+        <sys_updated_on>2019-06-10 05:09:17</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

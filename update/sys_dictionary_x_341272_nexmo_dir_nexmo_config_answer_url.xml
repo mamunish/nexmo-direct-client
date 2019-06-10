@@ -53,7 +53,7 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 07:33:19</sys_created_on>
-        <sys_id>992c0d5adb213300887e7b603996199d</sys_id>
+        <sys_id>e3aafc8cdbc23300804014613996196c</sys_id>
         <sys_mod_count>0</sys_mod_count>
         <sys_name>Answer URL</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -61,7 +61,7 @@
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_dictionary_x_341272_nexmo_dir_nexmo_config_answer_url</sys_update_name>
         <sys_updated_by>system</sys_updated_by>
-        <sys_updated_on>2019-05-23 09:40:30</sys_updated_on>
+        <sys_updated_on>2019-06-10 05:09:16</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
