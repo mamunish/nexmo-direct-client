@@ -26,7 +26,7 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 	},
 
 	initialize: function (configId) {
-
+global.AbstractAjaxProcessor.prototype.initialize.apply(this, arguments);
 	},
 
 	setConfigGr: function (configGr) {
@@ -577,6 +577,45 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
 		this._helper = new NexmoHelper(this._configGr);
 		return this._helper;
 	},
+	getConfigNumbers: function () {
+	var sm = new sn_ws.RESTMessageV2('x_341272_nexmo_dir.nexmogetph', 'Default GET');
+		var endpoint = sm.getEndpoint();
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
+		gr.orderByDesc('Created');
+		gr.setLimit(1);
+		gr.query();
+		if (gr.next()) {}
+		var decryptedStringAsBase64 = gr.api_secret.getDecryptedValue();
+		var request = new sn_ws.RESTMessageV2();
+		request.setEndpoint(endpoint + '?api_key=' + gr.api_key + '&api_secret=' + decryptedStringAsBase64);
+		request.setHttpMethod('GET');
+		request.setRequestHeader("Content-type", "application/json");
+		var resp = request.execute();
+		var nexmoreqbody = resp.getBody();
+		var nexmores = JSON.parse(nexmoreqbody);
+		var results = {
+      sys_id: "",
+      count: 5
+    };
+		var json = new JSON();
+
+return json.encode(results);
+		
+	},
+	getFavorites: function() { // build new response xml element for result
+         var result = this.newItem("result");
+		  result.setAttribute("message","returning all favorites");
+ 
+// 	  //add some favorite nodes with name and value attributes 
+//          this._addFavorite("color","blue");
+//          this._addFavorite("beer","lager");
+//          this._addFavorite("pet","dog");
+       },
+	 // all items are returned to the client through the inherited methods of AbstractAjaxProcessor
+	 _addFavorite: function(name, value) { 
+          var favs = this.newItem("favorite");
+	   favs.setAttribute("name",name);
+	   favs.setAttribute("value",value); },
 
 	type: 'NexmoDirectClient'
 });]]></script>
@@ -584,13 +623,13 @@ NexmoDirectClient.prototype = Object.extendsObject(global.AbstractAjaxProcessor,
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:18</sys_created_on>
         <sys_id>476efbafdb513300887e7b6039961922</sys_id>
-        <sys_mod_count>75</sys_mod_count>
+        <sys_mod_count>82</sys_mod_count>
         <sys_name>NexmoDirectClient</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_476efbafdb513300887e7b6039961922</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-25 11:39:36</sys_updated_on>
+        <sys_updated_on>2019-06-18 12:49:48</sys_updated_on>
     </sys_script_include>
 </record_update>

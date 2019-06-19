@@ -8,7 +8,10 @@
         <http_method>GET</http_method>
         <name>Nexmo Event Call</name>
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
-	
+	gs.info(JSON.stringify(request.pathParams) + " ereq pp");
+	gs.info(JSON.stringify(request.queryParams) + 'ereq qp');
+	gs.info(JSON.stringify(request.queryString) +  "  erequest.queryString");
+	gs.info(JSON.stringify(request.body) +  "  erequest.body");
 	
 // 				response.setContentType('application/json');
 // 			response.setStatus(200);
@@ -17,6 +20,11 @@
 	if(request.queryParams.dtmf  && request.queryParams.uuid) {
 			var addInput = new NotifyNexmoOutboundCallRecipe();
 		addInput.addInputCallStatus(request.queryParams);
+	}
+	
+	if(request.queryParams.messageId) {
+			var addMessageStatust = new NotifyNexmoOutboundSMSRecipe();
+		addMessageStatust.onSMSStatus(request.queryParams);
 	}
 
 
@@ -69,6 +77,7 @@
 		var cApi  = new NexmoCallbackApi();
 		if (request.pathParams.type == 'nexml') {
 			resp = cApi.getNexmlResponse(request.pathParams.callback_name, request.queryParams);
+			gs.info(JSON.stringify(resp) + '  resp');
 			if (!resp)
 				resp = cApi.getDefaultNexmlResponse();
 			response.setContentType('application/xml');
@@ -100,14 +109,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:25:37</sys_created_on>
         <sys_id>2ebbbb23db913300887e7b6039961959</sys_id>
-        <sys_mod_count>30</sys_mod_count>
+        <sys_mod_count>33</sys_mod_count>
         <sys_name>Nexmo Event Call</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_2ebbbb23db913300887e7b6039961959</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-07 11:19:47</sys_updated_on>
+        <sys_updated_on>2019-06-11 07:16:04</sys_updated_on>
         <web_service_definition display_value="Nexmo Event Call">92abfbafdb513300887e7b6039961936</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

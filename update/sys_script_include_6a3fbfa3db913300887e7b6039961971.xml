@@ -36,12 +36,13 @@ NotifyNexmoOutboundSMSRecipe.prototype = Object.extendsObject(BaseNotifyNexmoSMS
 		if (gr.next()){}
 		
 		var request = new sn_ws.RESTMessageV2();
-		request.setEndpoint("https://api.nexmo.com/v0.1/messages");
+		request.setEndpoint(endpoint);
 		request.setHttpMethod('POST');
 		request.setRequestHeader("Content-type","application/json");
-		request.setBasicAuth(gr.api_key, gr.api_secret.getDecryptedValue());
+// 		request.setBasicAuth(gr.api_key, gr.api_secret.getDecryptedValue());
 		tonum = to.substr(1);
-request.setRequestBody('{"to": { "type": "sms", "number":"919566521569"},"from": { "type": "sms", "number":"12014799990"},"message": {"content": {"type": "text","text":"Hello nexmo"}}}');
+		request.setRequestBody('{ "to" :"12133704183","from":"12014799990","text":"Hello nexmo" , "api_key":"'+gr.api_key+'", "api_secret"  :  "'+gr.api_secret.getDecryptedValue()+'"  }');
+// request.setRequestBody('{"to": { "type": "sms", "number":"919566521569"},"from": { "type": "sms", "number":"12014799990"},"message": {"content": {"type": "text","text":"Hello nexmo"}}}');
 		
 		
 		var resp = request.execute();
@@ -49,14 +50,15 @@ request.setRequestBody('{"to": { "type": "sms", "number":"919566521569"},"from":
 		
 		var nexmoreqbody = resp.getBody();
 		var requestString = nexmoreqbody.dataString;
-		gs.info(JSON.stringify(nexmoreqbody));
 		if (resp.error) {
 			gs.error("Could not send message to {0} due to error {1}", to, resp.error);
 			this.end();
 		}
 		else {
 			var nexmores = JSON.parse(nexmoreqbody);
-			var MessageSid = nexmores.message_uuid;
+			var MessageSid = nexmores.messages[0]['message-id'];
+			
+			gs.info(MessageSid + '  MessageSid');
 			if (MessageSid)
 				return MessageSid;
 		}
@@ -64,9 +66,11 @@ request.setRequestBody('{"to": { "type": "sms", "number":"919566521569"},"from":
 
 	onSMSStatus: function (p) {
 		gs.info('sms status');
-		var payload = p.payload;
+		var payload = p;
+		gs.info(JSON.stringify(payload) + ' payload');
+		gs.info(payload.status + ' payload.status');
 		this.nutil.updateMessageStatusFromPayload(p);
-		var messageStatus = payload.MessageStatus? payload.MessageStatus[0]: null;
+		var messageStatus = payload.status ? payload.status[0]: null;
 		if (messageStatus && this.nutil.isFinalMessageStatus(messageStatus))
 			this.end();
 	},
@@ -76,13 +80,13 @@ request.setRequestBody('{"to": { "type": "sms", "number":"919566521569"},"from":
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:53</sys_created_on>
         <sys_id>6a3fbfa3db913300887e7b6039961971</sys_id>
-        <sys_mod_count>11</sys_mod_count>
+        <sys_mod_count>31</sys_mod_count>
         <sys_name>NotifyNexmoOutboundSMSRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_6a3fbfa3db913300887e7b6039961971</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-29 07:30:49</sys_updated_on>
+        <sys_updated_on>2019-06-11 08:53:17</sys_updated_on>
     </sys_script_include>
 </record_update>
