@@ -10,14 +10,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-20 10:32:36</sys_created_on>
         <sys_id>3a1b7919dbe13300887e7b60399619bd</sys_id>
-        <sys_mod_count>48</sys_mod_count>
+        <sys_mod_count>53</sys_mod_count>
         <sys_name>list_nexmo_direct_phone_numbers</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_macro_3a1b7919dbe13300887e7b60399619bd</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-18 12:50:09</sys_updated_on>
+        <sys_updated_on>2019-06-19 09:32:50</sys_updated_on>
         <xml><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
 <j:jelly trim="false" 
 	xmlns:j="jelly:core" 
@@ -31,7 +31,9 @@
 		font-size: 15px;
 		}		
 		.ph_macro .show {
-		display: block;
+		display: block;<j:if test="${!jvar_data.voiceCallbackValue &amp;&amp; jvar_data.voiceCallbackValue != appid}">
+												Link
+											</j:if>
 		}
 		.ph_macro #phs .icon {
 		padding: 6px;
@@ -79,6 +81,7 @@
 
 	<tr id="ph_macro_row">
 		<td class="ph_macro">
+
 			<g:evaluate var="jvar_gr" object="true">
 				var gr = new GlideRecord("notify_number");
 				gr.addQuery("active", true);
@@ -90,27 +93,13 @@
 			<g:evaluate var="jvar_gr1" object="true">
 				var configstatus = new NexmoHelper().isConnectNexmo();
 				var returndata,ph_numberlist, appid;
-			if(configstatus){
-					returndata = new NexmoHelper().newData();
-					appid = new NexmoHelper().nexmoAppID();
-					var cnt = returndata.count;
+				if(configstatus){
+					returndata = new NexmoHelper().newData();					
 					if(returndata.count > 0){
 						ph_numberlist = returndata.numbers;
-						for(var i=0; i != cnt; i++){
-							var cval = ph_numberlist[i].voiceCallbackValue;
-							if(!cval){
-								ph_numberlist[i].linkstatus = "Link";
-							}else if(cval.localeCompare(appid) == -1){
-								ph_numberlist[i].linkstatus = "-";
-							}else if(cval.localeCompare(appid) != -1){
-								ph_numberlist[i].linkstatus = "Linked";
-							}					  
-						}				
 					}
-					
-								
-				} 
-
+					appid = new NexmoHelper().nexmoAppID();
+				} 	
 				var initial = parseInt(1);
 			</g:evaluate>
 			
@@ -119,8 +108,7 @@
 					Please connect the nexmo account
 				</div>
 			</j:if>
-
-			<j:if test="${configstatus}">
+			<j:if test="${configstatus}" >
 				<div class="ph_data">
 					<div id="phs">
 						<table class="table table-hover original-table list-grid table-striped" tabindex="0">
@@ -144,7 +132,9 @@
 											</j:if>		
 										</td>
 										<td> ${jvar_data.country} </td>
-										<td> ${jvar_data.linkstatus}</td>
+										<td> 
+											Linked
+										</td>
 									</tr>	
 									 <g:evaluate>initial = parseInt(initial +1);</g:evaluate>
 								</j:forEach>								
@@ -152,45 +142,10 @@
 						</table>
 					</div>
 				</div>
-			</j:if>	
-			<script>
-					addLoadEvent(function () {
-						console.log('asdfasdfasf');
-				var ga = new GlideAjax("NexmoDirectClient"); 
-// add name parameter to define which function we want to call 
-// method name in script include will be getFavorites
-ga.addParam("sysparm_name","getFavorites");
- 
-// submit request to server, call ajaxResponse function with server response
- 
-ga.getXML(ajaxResponse);
- 
-function ajaxResponse(serverResponse) { 
-  // get result element and attributes
-  var result = serverResponse.responseXML.getElementsByTagName("result");
-				console.log(result);
-  var message = result[0].getAttribute("message");
- 
-  //check for message attribute and alert user
-  if(message) alert(message);
- 
-  //build output to display on client for testing 
-  var output = "";
- 
-  var favorites = serverResponse.responseXML.getElementsByTagName("favorite");
-				alert(favorites.lenth);
-  for(var i=0; favorites.lenth>i; i++) { 
-    var name = favorites[i].getAttribute("name");
-    var value = favorites[i].getAttribute("value");
-    output += name + " = " + value + "\n "; }
- 
-  alert(output); }
-
-
-					});
-				</script>
+			</j:if>					
 		</td>
 	</tr>
+
 </j:jelly>]]></xml>
     </sys_ui_macro>
 </record_update>

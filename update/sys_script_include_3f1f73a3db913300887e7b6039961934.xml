@@ -91,7 +91,7 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
   },
 
   onCallAnswered: function (p) {
-	  gs.info('call answered check');
+// 	  gs.info('call answered check');
     var payload = p.payload;
     var callId = payload.uuid[0];
     var answeredBy = "human";
@@ -122,7 +122,7 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
     var status = payload.status[0];
     var callId = payload.uuid[0];
 
-gs.info(status + ' status');
+// gs.info(status + ' status');
 
 
     if (callId !== this.data.callId) {
@@ -169,13 +169,13 @@ gs.info(status + ' status');
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:21</sys_created_on>
         <sys_id>3f1f73a3db913300887e7b6039961934</sys_id>
-        <sys_mod_count>55</sys_mod_count>
+        <sys_mod_count>56</sys_mod_count>
         <sys_name>NotifyNexmoOutboundCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_3f1f73a3db913300887e7b6039961934</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-04 06:47:35</sys_updated_on>
+        <sys_updated_on>2019-06-20 07:01:58</sys_updated_on>
     </sys_script_include>
 </record_update>

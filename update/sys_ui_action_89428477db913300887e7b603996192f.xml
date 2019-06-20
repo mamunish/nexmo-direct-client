@@ -2,7 +2,7 @@
     <sys_ui_action action="INSERT_OR_UPDATE">
         <action_name/>
         <active>true</active>
-        <client>true</client>
+        <client>false</client>
         <client_script_v2><![CDATA[function onClick(g_form) {
 
 }]]></client_script_v2>
@@ -28,7 +28,7 @@
         <name>Call</name>
         <onclick>glidecheck()</onclick>
         <order>100</order>
-        <script><![CDATA[// callNexmo();
+        <script><![CDATA[callNexmo();
 function glidecheck() {
 	var ga = new GlideAjax("MyFavoritesAjax"); 
 // add name parameter to define which function we want to call 
@@ -63,6 +63,13 @@ function ajaxResponse(serverResponse) {
   alert(output); }
 function callNexmo(){
 	//fd6393f7db2df300887e7b603996193d
+	
+// 	var currentScope = gs.getCurrentScopeName();
+
+
+// gs.info(currentScope); //This will give name of current scope.
+
+
 	var rec = new GlideRecord('sys_properties');
 	rec.addQuery('name','glide.notify.task.phone_number'); 
 	rec.query();
@@ -70,15 +77,16 @@ function callNexmo(){
 		gs.info(rec.value);
 	}
 	
-	gs.info('ches');
+// 	gs.info('ches');
 	
-// 	var check = new NexmoDirectClient();
-// 	var res = check.fetchNumbersHtml();
-// 	gs.info(res);
+// // 	var check = new NexmoDirectClient();
+// // 	var res = check.fetchNumbersHtml();
+// // 	gs.info(res);
 	gs.info("call started");
 	var from = rec.value;
 // 	var to = '+919092575766';
 		var to = '+919566521569';
+	
 
 	var notify = new sn_notify.NotifyScoped();
 	var phoneNumbers = notify.call(from, to);
@@ -103,7 +111,7 @@ function callNexmo(){
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>89428477db913300887e7b603996192f</sys_id>
-        <sys_mod_count>38</sys_mod_count>
+        <sys_mod_count>43</sys_mod_count>
         <sys_name>Call</sys_name>
         <sys_overrides/>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
@@ -111,7 +119,7 @@ function callNexmo(){
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ui_action_89428477db913300887e7b603996192f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-18 11:52:47</sys_updated_on>
+        <sys_updated_on>2019-06-20 07:05:45</sys_updated_on>
         <table>x_341272_nexmo_dir_nexmo_config</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

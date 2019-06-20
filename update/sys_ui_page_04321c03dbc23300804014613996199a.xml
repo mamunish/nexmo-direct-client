@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>true</direct>
+        <endpoint>x_341272_nexmo_dir_Nexmo Installation Guide.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" 
+	xmlns:j="jelly:core" 
+	xmlns:g="glide" 
+	xmlns:j2="null" 
+	xmlns:g2="null">
+	<div class="container">
+		<h1 style="margin-left:44% !important">
+			<strong>Nexmo Installation Guide</strong>
+		</h1>
+		
+		<style>
+		.article .article-entry {
+			color: #161B1C;
+		}
+		.article .article-entry .shortdesc {
+   			 margin-bottom: 24px;
+		}
+		.article .article-entry p {
+			font-size: 16px;
+			line-height: 1.5;
+			margin-bottom: 10px;
+			word-break: break-word;
+		}
+		p {
+			margin: 0 0 10px;
+		}
+		.shortdesc {
+			margin-left: 20%;
+		}
+		h1 {
+			margin-left: 10%;
+		}
+		span {
+			margin-left:44%;
+		}
+		img {
+			margin-left: 25%;
+		}
+		</style>
+		<div class="container">
+			<div class="col printfull nopadding">
+				<main class="article--spy" role="main">
+					<article class="hascomments">
+						<main role="main">
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">1 - Overview</h1>
+							<div class="body conbody">
+								<p class="shortdesc">This document covers the technical details, installation and configuration about the Nexmo driver application. We can configure the nexmo application on the existing instance. By using this application we can make a call easily.</p>
+							</div>
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">1.1 - References</h1>
+							<div class="body conbody">
+								<p class="shortdesc">Twilio Direct Configuration</p>
+							</div>
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">2 - Application Dependencies</h1>
+							<div class="body conbody">
+								<p class="shortdesc">Notify and Action Status Automation plugins Numbers, Number group and Calls table</p>
+								<figure class="fig fignone" id="c_NotifyWithTwilio__fig_dsr_nhl_5x">
+									<img alt="" class="image" id="c_NotifyWithTwilio__image_n4z_phl_5x" src="https://docs.servicenow.com/bundle/jakarta-servicenow-platform/page/product/notify2/image/ActivatePlugin.png" />
+								</figure>
+							</div>
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">3 - Configuration Instructions</h1>
+							<div class="body conbody">
+								<p class="shortdesc">Go to "nexmo config" table and enter the nexmo application "API key and API secret,.." details to create a new application in the nexmo site. (click the "connect" button for creation) Now, buy a new number on the nexmo site and link that number to the newly created application, in Nexmo Dashboard. In Service now, edit the "Nexmo Config" table  list and click the "Nexmo Phone Number" button to fetch and store the nexmo linked numbers on the numbers table.  Go to  "Number group" table and created a new group by using the "Nexmo Demo Call" work-flow and then add that Number group to the Numbers table for the Nexmo numbers. <a rel="noopener noreferrer nofollow" href="https://docs.servicenow.com/bundle/london-servicenow-platform/page/product/notify2/task/t_CreateANumberGroup.html">(https://docs.servicenow.com/bundle/london-servicenow-platform/page/product/notify2/task/t_CreateANumberGroup.html)</a>
+								</p>
+
+							</div>
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">4 - External Systems Connection</h1>
+							<div class="body conbody">
+								<p class="shortdesc">In Nexmo Dashboard, we have to buy a new number and link that number to the newly created application after submitting the configure details on the Nexmo Config page.</p>
+							</div>
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">5 - Testing the Configuration</h1>
+
+							<div class="body conbody">
+								<p class="shortdesc">Navigate to Studio->Nexmo Driver application->"Nexmo Call" table and enter the phone number to make a call to that number.  The call and DTMF details will store on the calls table in Notify.</p>
+							</div>
+							<h1 class="title topictitle1" id="c_NotifyWithTwilio">6 - Demo Data</h1>
+							<div class="body conbody">
+								<p class="shortdesc">No need to import the demo data in the ServiceNow for the Nexmo Application. Just, we have to register with Nexmo and add credit to the Nexmo Account.</p>
+							</div>
+							<span class="sn-aside sn-aside_themed"> -----  Thank you !  -------</span>
+						</main>
+					</article>
+				</main>
+			</div>
+		</div>
+	</div>
+</j:jelly>]]></html>
+        <name>Nexmo Installation Guide</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-19 09:54:51</sys_created_on>
+        <sys_id>04321c03dbc23300804014613996199a</sys_id>
+        <sys_mod_count>24</sys_mod_count>
+        <sys_name>Nexmo Installation Guide</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_ui_page_04321c03dbc23300804014613996199a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-20 09:16:00</sys_updated_on>
+    </sys_ui_page>
+</record_update>

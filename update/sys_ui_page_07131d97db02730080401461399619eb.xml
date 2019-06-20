@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_341272_nexmo_dir_Nexmo Support.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false"
+	xmlns:j="jelly:core"
+	xmlns:g="glide"
+	xmlns:j2="null"
+	xmlns:g2="null">
+	<div class="container">
+		<h1>
+			<strong>ServiceNow - Works for you.</strong>
+		</h1>
+		<br/>
+		<div class="container">
+			<table class="table-sm table-responsive borderless">
+				<tr>
+					<td>
+						<h2>Contact Us:</h2>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h3>
+							<a rel="noopener noreferrer nofollow" href="https://www.servicenow.com/support/contact-support.html" target="_blank">https://www.servicenow.com/support/contact-support.html</a>
+						</h3>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</j:jelly>]]></html>
+        <name>Nexmo Support</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-20 09:16:34</sys_created_on>
+        <sys_id>07131d97db02730080401461399619eb</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Nexmo Support</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_ui_page_07131d97db02730080401461399619eb</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-20 09:16:51</sys_updated_on>
+    </sys_ui_page>
+</record_update>

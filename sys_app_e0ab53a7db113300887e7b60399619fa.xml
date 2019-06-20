@@ -24,12 +24,12 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 07:04:08</sys_created_on>
         <sys_id>e0ab53a7db113300887e7b60399619fa</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 07:04:08</sys_updated_on>
+        <sys_updated_on>2019-06-20 07:33:00</sys_updated_on>
         <template/>
         <trackable>true</trackable>
-        <user_role/>
+        <user_role display_value="x_341272_nexmo_dir.nexmo_config_user" name="x_341272_nexmo_dir.nexmo_config_user">1c5263efdb113300887e7b6039961979</user_role>
         <vendor/>
         <vendor_prefix/>
         <version>1.0.0</version>

@@ -77,7 +77,7 @@
 		var cApi  = new NexmoCallbackApi();
 		if (request.pathParams.type == 'nexml') {
 			resp = cApi.getNexmlResponse(request.pathParams.callback_name, request.queryParams);
-			gs.info(JSON.stringify(resp) + ' toxml resp');		
+// 			gs.info(JSON.stringify(resp) + ' toxml resp');		
 			// 	return true;
 			if (!resp){
 				resp = cApi.getDefaultNexmlResponse();
@@ -90,7 +90,7 @@
 				var res1 = res.replace("&lt;/say&gt;", "</say-as>");
 				
 				var otext = "<speak>"+res1+"</speak>";
-				gs.info(otext + 'trddffdgsdfg');
+// 				gs.info(otext + 'trddffdgsdfg');
 	
 				var nccotext = '[{"action": "talk","bargeIn": true,"text": "'+otext+'"},{"action": "input",  "submitOnHash": true}]';
 	response.setContentType('application/json');
@@ -125,14 +125,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:23:56</sys_created_on>
         <sys_id>6afaf323db913300887e7b603996193a</sys_id>
-        <sys_mod_count>40</sys_mod_count>
+        <sys_mod_count>41</sys_mod_count>
         <sys_name>Nexmo Answer Call</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_6afaf323db913300887e7b603996193a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-04 07:05:17</sys_updated_on>
+        <sys_updated_on>2019-06-20 07:01:13</sys_updated_on>
         <web_service_definition display_value="Nexmo Answer Call">59da7323db913300887e7b603996194c</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
