@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="wf_workflow_version">
     <wf_workflow_version action="INSERT_OR_UPDATE">
-        <active>true</active>
+        <active>false</active>
         <activity_stages>{"subflows":[],"stages":{},"activities":{},"ends":["a4951644db0a33008040146139961968"]}</activity_stages>
         <after_business_rules>false</after_business_rules>
         <checked_out/>
@@ -31,9 +31,9 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-06-10 11:46:22</sys_created_on>
         <sys_id>649596c0db0a3300804014613996196a</sys_id>
-        <sys_mod_count>6</sys_mod_count>
-        <sys_updated_by>guest</sys_updated_by>
-        <sys_updated_on>2019-06-10 12:08:44</sys_updated_on>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-07-15 09:34:58</sys_updated_on>
         <table>notify_message</table>
         <timezone/>
         <validated>true</validated>

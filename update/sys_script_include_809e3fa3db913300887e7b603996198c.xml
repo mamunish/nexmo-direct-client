@@ -264,11 +264,14 @@ NexmoHelper.prototype = {
 		else
 			ctxData = '';
 		var url;
-		if(callbackName =="callAnswered")
-		 url =this.getInstanceUrl()+"/api/x_341272_nexmo_dir/nexmo_answer_call/process/{type}/{callback_name}";
-		else
-		 url = this.getInstanceUrl()+"/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}/{callback_name}";
-		return url.replace('{callback_name}', callbackName).replace('{type}', type) + ctxData;
+		if(callbackName =="callAnswered"){
+			 url =this.getInstanceUrl()+"/api/x_341272_nexmo_dir/nexmo_answer_call/process/{type}/{callback_name}";
+			 return url.replace('{callback_name}', callbackName).replace('{type}', type) + ctxData;
+		}
+		else{
+			 url = this.getInstanceUrl()+"/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}";
+			return url.replace('{type}', type) + ctxData + "&callback_name="+ callbackName;
+		}
 	},
 
 	isSignatureValid: function (expectedSignature, url, formData) {
@@ -443,13 +446,13 @@ newData:function(){
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:36:57</sys_created_on>
         <sys_id>809e3fa3db913300887e7b603996198c</sys_id>
-        <sys_mod_count>20</sys_mod_count>
+        <sys_mod_count>22</sys_mod_count>
         <sys_name>NexmoHelper</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_809e3fa3db913300887e7b603996198c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-06-11 06:24:53</sys_updated_on>
+        <sys_updated_on>2019-07-16 07:03:44</sys_updated_on>
     </sys_script_include>
 </record_update>

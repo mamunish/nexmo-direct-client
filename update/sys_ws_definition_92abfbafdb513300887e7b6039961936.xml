@@ -2,29 +2,29 @@
     <sys_ws_definition action="INSERT_OR_UPDATE">
         <active>true</active>
         <base_uri>/api/x_341272_nexmo_dir/nexmo_event_call</base_uri>
-        <consumes>application/json,application/xml,text/xml</consumes>
-        <consumes_customized>false</consumes_customized>
+        <consumes>application/x-www-form-urlencoded,application/json</consumes>
+        <consumes_customized>true</consumes_customized>
         <default_version>No active default version</default_version>
         <doc_link/>
         <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
         <is_versioned>false</is_versioned>
         <name>Nexmo Event Call</name>
         <namespace>x_341272_nexmo_dir</namespace>
-        <produces>application/json,application/xml,text/xml</produces>
-        <produces_customized>false</produces_customized>
+        <produces>application/xml,text/xml,application/json</produces>
+        <produces_customized>true</produces_customized>
         <service_id>nexmo_event_call</service_id>
         <short_description/>
         <sys_class_name>sys_ws_definition</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:24:16</sys_created_on>
         <sys_id>92abfbafdb513300887e7b6039961936</sys_id>
-        <sys_mod_count>0</sys_mod_count>
+        <sys_mod_count>7</sys_mod_count>
         <sys_name>Nexmo Event Call</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_definition_92abfbafdb513300887e7b6039961936</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-05-15 09:24:16</sys_updated_on>
+        <sys_updated_on>2019-07-17 06:59:56</sys_updated_on>
     </sys_ws_definition>
 </record_update>

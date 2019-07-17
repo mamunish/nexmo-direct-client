@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[function continueOK() {
+	alert('hjoi');
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_341272_nexmo_dir_sample_popup.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	
+
+	<style>
+		html {
+			overflow: hidden !important;
+		}
+		.slushbucket .glide-list select {
+			height: 200px !important;
+		}
+		#page_timing_div {
+			display: none !important;
+		}
+		.wb #content {
+			padding: 0px 15px;
+		}
+		.selection_panel {
+            display: block;
+            width: 103%
+        }
+        .add_participant_msg {
+            padding-top: 5%;
+            padding-left: 17%;
+        }
+		
+	</style>
+	
+	<form>
+		
+		<div id="content">
+			<div class="selection_panel col-xs-12">
+				<div style="padding: 5px 15px">
+					<span>$[gs.getMessage("To Number")]</span>
+				</div>
+                <div class="col-xs-12" style="display:block;padding-left:0px">
+                  
+                    <div id="mobile" class="form-group" >
+                        <div>
+                            <g:requires position="last" inline="true" name="scripts/elements/element_phone_number_e164.js" />
+                            <input id="notifynow_participant.phone_number" name="notifynow_participant.phone_number" class="form-control" value=""  aria-label="${gs.getMessage('Add Phone number')}" oninput="inputValueChanged('notifynow_participant.phone_number')" />
+                        </div>
+                    </div>
+                </div>
+				<div style="padding: 5px 15px">
+					<span>$[gs.getMessage("Text")]</span>
+				</div>
+                <div class="col-xs-12" style="display:block;padding-left:0px">
+                  
+                    <div id="mobile" class="form-group" >
+                        <div>
+                            <g:requires position="last" inline="true" name="scripts/elements/element_phone_number_e164.js" />
+                            <input id="notifynow_participant.phone_number" name="notifynow_participant.phone_number" class="form-control" value=""  aria-label="${gs.getMessage('Add Phone number')}" oninput="inputValueChanged('notifynow_participant.phone_number')" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			
+			<div class="col-xs-12">
+				<div class="col-xs-6"></div>
+				<div class="col-xs-6" align="right" style="padding:0px 0px 30px 0px">
+						
+						<g:dialog_buttons_ok_cancel ok_text ="${gs.getMessage('Start Call')}" ok="return continueOK()" cancel="return continueCancel()" ok_type="button" cancel_type="button" />
+					
+				</div>	
+			</div>
+			
+		</div>
+		
+	</form>
+</j:jelly>]]></html>
+        <name>sample_popup</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-20 11:48:23</sys_created_on>
+        <sys_id>e9357d5fdb4273008040146139961920</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>sample_popup</sys_name>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>sys_ui_page_e9357d5fdb4273008040146139961920</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-20 12:36:11</sys_updated_on>
+    </sys_ui_page>
+</record_update>

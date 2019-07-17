@@ -1,0 +1,2601 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="wf_workflow_version">
+    <wf_workflow_version action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <activity_stages>{"stages":{},"ends":["d5c59a38db1233008040146139961925"],"activities":{},"subflows":[]}</activity_stages>
+        <after_business_rules>false</after_business_rules>
+        <checked_out/>
+        <checked_out_by/>
+        <column_renderer display_value="Workflow-driven">a56213111b030100adca1e094f0713ac</column_renderer>
+        <condition/>
+        <condition_type/>
+        <description>(Re)join a conference call by either incoming or outgoing phone call</description>
+        <expected_sequences>55c59a38db1233008040146139961924,5dc59a38db123300804014613996192a,cdc59a38db1233008040146139961920,91c59a38db1233008040146139961929,59c59a38db123300804014613996192d,55c59a38db1233008040146139961926,5dc59a38db1233008040146139961927,d5c59a38db1233008040146139961925</expected_sequences>
+        <expected_time>1970-01-01 14:00:00</expected_time>
+        <expected_time_type/>
+        <full_sequences>55c59a38db1233008040146139961924,5dc59a38db123300804014613996192a,cdc59a38db1233008040146139961920,ddc59a38db123300804014613996192e,91c59a38db1233008040146139961929,95c59a38db123300804014613996192c,59c59a38db123300804014613996192d,49c51a38db12330080401461399619f2,01c51a38db12330080401461399619f0,55c59a38db1233008040146139961926,4dc59a38db1233008040146139961922,85c51a38db12330080401461399619f4,5dc59a38db1233008040146139961927,d5c59a38db1233008040146139961925</full_sequences>
+        <journal/>
+        <max_activity_count>100</max_activity_count>
+        <name>Nexmo Call Join</name>
+        <not_cacheable>false</not_cacheable>
+        <on_cancel><![CDATA[// This script executes if the workflow is cancelled.// The global variable context_sys_id contains the sys_id of the cancelled workflow context.]]></on_cancel>
+        <order>100</order>
+        <pin_type>set_by_activity</pin_type>
+        <published>true</published>
+        <relative_duration display_value="2 business days by 4pm">3bf802c20a0a0b52008e2859cd8abcf2</relative_duration>
+        <requires_ert>true</requires_ert>
+        <run_multiple>false</run_multiple>
+        <schedule/>
+        <stage_field/>
+        <stage_order>computed</stage_order>
+        <start display_value="Begin">55c59a38db1233008040146139961924</start>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:21</sys_created_on>
+        <sys_id>4dc51a38db12330080401461399619ec</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 06:10:43</sys_updated_on>
+        <table>notify_call</table>
+        <timezone/>
+        <validated>false</validated>
+        <workflow display_value="Nexmo Call Join">4dc51a38db12330080401461399619eb</workflow>
+    </wf_workflow_version>
+    <wf_workflow action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <description>(Re)join a conference call by either incoming or outgoing phone call</description>
+        <name>Nexmo Call Join</name>
+        <preview/>
+        <sys_class_name>wf_workflow</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:21</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>4dc51a38db12330080401461399619eb</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Nexmo Call Join</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
+        <sys_update_name>wf_workflow_4dc51a38db12330080401461399619eb</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 06:10:43</sys_updated_on>
+        <table>notify_call</table>
+        <template>false</template>
+        <vars/>
+    </wf_workflow>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Input">bcb63e70ff3231005561ffffffffff21</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>7</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Accept / Reject</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>85c51a38db12330080401461399619f4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>185</x>
+        <y>563</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=85c51a38db12330080401461399619f4"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>01c59a38db1233008040146139961920</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>5</value>
+        <variable display_value="">09a9f6b0ff3231005561ffffffffff02</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>0dc51a38db12330080401461399619f4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>#</value>
+        <variable display_value="">a29e7ef0ff3231005561ffffffffff92</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>4dc59a38db123300804014613996191f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">d80a3ab0ff3231005561ffffffffff8e</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>500</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>81c51a38db12330080401461399619f5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>/*&#13;
+Here you can dynamically create a menu playlist by returning "answer" as a JSON object of the following format:&#13;
+&#13;
+answer = {&#13;
+  "1": {&#13;
+      "say": "https://some_url.com/options/one.mp3",&#13;
+      "myCustomData": "some data here"&#13;
+  },&#13;
+  "2": {&#13;
+      "say": "https://some_url.com/options/two.mp3",&#13;
+      "myCustomData": "some other data here"&#13;
+  },&#13;
+  "3": {&#13;
+      "say": "type 3 to speak to a representative",&#13;
+      "language": "en-US",&#13;
+      "myCustomData": "some more data here"&#13;
+  }&#13;
+};&#13;
+&#13;
+The "answer" JSON object's attributes must be number values that match what you expect the caller to type in.&#13;
+Each attribute value is another JSON object which contains at least one mandatory "say" attribute.&#13;
+&#13;
+The "say" attribute's value can either be a text-to-speech string, or a URL to a pre-recorded message.&#13;
+If the "say" attribute is text-to-speech, you can add an optional "language" attribute which will contain the language code in the format xx-XX (e.g. fr-CA for Canadian French).&#13;
+&#13;
+As shown in the example above, you can mix and match both types of "say" attributes.&#13;
+In addition to the "say" attribute, you can optionally add your own data as extra attributes.&#13;
+&#13;
+This activity will make your entire "answer" JSON object available in the workflow's scratchpad as workflow.scratchpad.menu.(activityName)&#13;
+For instance if your activity name is "choices", you can retrieve the menu playlist using either workflow.scratchpad.menu.choices or workflow.scratchpad.menu["choices"] after the activity has successfully executed.&#13;
+Your workflow can have several such menus since each one is named.&#13;
+&#13;
+Example of how to retrieve menu information in a different activity (e.g. in a Say activity):&#13;
+&#13;
+var previousActivity = "choices";&#13;
+var choicesMenu = workflow.scratchpad.menu[previousActivity];&#13;
+var menuItem = choicesMenu[workflow.scratchpad.digits];  // Selects the menu item based on the caller's digit input.&#13;
+var selectedValue = menuItem.myCustomData;  // From the example above when digits is 3, the value of myCustomData is "some more data here"&#13;
+var selectedLanguage = menuItem.language || "en-US";  // retrieves the menu item's language code, or "en-US" by default.&#13;
+&#13;
+*/</value>
+        <variable display_value="">8a30c343ff010200a822ffffffffffae</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>cdc51a38db12330080401461399619f4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">45a07bc3ff010200a822ffffffffff8c</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>4dc59a38db123300804014613996191f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">d80a3ab0ff3231005561ffffffffff8e</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>01c59a38db1233008040146139961920</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>5</value>
+        <variable display_value="">09a9f6b0ff3231005561ffffffffff02</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>0dc51a38db12330080401461399619f4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>#</value>
+        <variable display_value="">a29e7ef0ff3231005561ffffffffff92</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>cdc51a38db12330080401461399619f4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">45a07bc3ff010200a822ffffffffff8c</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>85c51a38db12330080401461399619f4</document_key>
+        <order>500</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>81c51a38db12330080401461399619f5</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>/*&#13;
+Here you can dynamically create a menu playlist by returning "answer" as a JSON object of the following format:&#13;
+&#13;
+answer = {&#13;
+  "1": {&#13;
+      "say": "https://some_url.com/options/one.mp3",&#13;
+      "myCustomData": "some data here"&#13;
+  },&#13;
+  "2": {&#13;
+      "say": "https://some_url.com/options/two.mp3",&#13;
+      "myCustomData": "some other data here"&#13;
+  },&#13;
+  "3": {&#13;
+      "say": "type 3 to speak to a representative",&#13;
+      "language": "en-US",&#13;
+      "myCustomData": "some more data here"&#13;
+  }&#13;
+};&#13;
+&#13;
+The "answer" JSON object's attributes must be number values that match what you expect the caller to type in.&#13;
+Each attribute value is another JSON object which contains at least one mandatory "say" attribute.&#13;
+&#13;
+The "say" attribute's value can either be a text-to-speech string, or a URL to a pre-recorded message.&#13;
+If the "say" attribute is text-to-speech, you can add an optional "language" attribute which will contain the language code in the format xx-XX (e.g. fr-CA for Canadian French).&#13;
+&#13;
+As shown in the example above, you can mix and match both types of "say" attributes.&#13;
+In addition to the "say" attribute, you can optionally add your own data as extra attributes.&#13;
+&#13;
+This activity will make your entire "answer" JSON object available in the workflow's scratchpad as workflow.scratchpad.menu.(activityName)&#13;
+For instance if your activity name is "choices", you can retrieve the menu playlist using either workflow.scratchpad.menu.choices or workflow.scratchpad.menu["choices"] after the activity has successfully executed.&#13;
+Your workflow can have several such menus since each one is named.&#13;
+&#13;
+Example of how to retrieve menu information in a different activity (e.g. in a Say activity):&#13;
+&#13;
+var previousActivity = "choices";&#13;
+var choicesMenu = workflow.scratchpad.menu[previousActivity];&#13;
+var menuItem = choicesMenu[workflow.scratchpad.digits];  // Selects the menu item based on the caller's digit input.&#13;
+var selectedValue = menuItem.myCustomData;  // From the example above when digits is 3, the value of myCustomData is "some more data here"&#13;
+var selectedLanguage = menuItem.language || "en-US";  // retrieves the menu item's language code, or "en-US" by default.&#13;
+&#13;
+*/</value>
+        <variable display_value="">8a30c343ff010200a822ffffffffffae</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Accept / Reject">85c51a38db12330080401461399619f4</activity>
+        <condition>parseInt(workflow.scratchpad.digits) == 1</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Press 1 to accept and join the call</name>
+        <order>1</order>
+        <short_description>Accept</short_description>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>85c59a38db1233008040146139961920</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Accept / Reject">85c51a38db12330080401461399619f4</activity>
+        <condition>parseInt(workflow.scratchpad.digits) != 1</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Press 2 to reject the call</name>
+        <order>2</order>
+        <short_description>Reject</short_description>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>09c59a38db1233008040146139961920</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Begin">c7a5e32c0a0a0b3a002377c24ed8ea76</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>1</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Begin</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>55c59a38db1233008040146139961924</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width>80</width>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>13</x>
+        <y>20</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=55c59a38db1233008040146139961924"/>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Begin">55c59a38db1233008040146139961924</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>9dc59a38db1233008040146139961924</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="End">c7a66f7d0a0a0b3a004544a6d2f14076</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>2</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>End</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d5c59a38db1233008040146139961925</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width>80</width>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>942</x>
+        <y>815</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=d5c59a38db1233008040146139961925"/>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Say">5e346360ff2231005561ffffffffff1c</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>22</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Feedback</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>49c51a38db12330080401461399619f2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>671</x>
+        <y>219</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=49c51a38db12330080401461399619f2"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>05c51a38db12330080401461399619f3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ * &#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function textToSay() {&#13;
+    // construct the result object&#13;
+    var result = {&#13;
+        // define the text to say&#13;
+        text        : 'hello world',&#13;
+        &#13;
+        // and the language to say it in (see &#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US' &#13;
+    };&#13;
+    &#13;
+    // return the result&#13;
+    return result;&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>41c51a38db12330080401461399619f3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>You will now be joined into the conference call.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>8dc51a38db12330080401461399619f2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c9c51a38db12330080401461399619f2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>41c51a38db12330080401461399619f3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>You will now be joined into the conference call.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>8dc51a38db12330080401461399619f2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c9c51a38db12330080401461399619f2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>49c51a38db12330080401461399619f2</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>05c51a38db12330080401461399619f3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ * &#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function textToSay() {&#13;
+    // construct the result object&#13;
+    var result = {&#13;
+        // define the text to say&#13;
+        text        : 'hello world',&#13;
+        &#13;
+        // and the language to say it in (see &#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US' &#13;
+    };&#13;
+    &#13;
+    // return the result&#13;
+    return result;&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Feedback">49c51a38db12330080401461399619f2</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>09c51a38db12330080401461399619f3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Input">bcb63e70ff3231005561ffffffffff21</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>16</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Get Conference Call Code</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>cdc59a38db1233008040146139961920</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>400</x>
+        <y>23</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=cdc59a38db1233008040146139961920"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>05c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">45a07bc3ff010200a822ffffffffff8c</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>41c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>#</value>
+        <variable display_value="">a29e7ef0ff3231005561ffffffffff92</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>4dc59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>5</value>
+        <variable display_value="">09a9f6b0ff3231005561ffffffffff02</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>89c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>10</value>
+        <variable display_value="">d80a3ab0ff3231005561ffffffffff8e</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>500</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c5c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>/*&#13;
+Here you can dynamically create a menu playlist by returning "answer" as a JSON object of the following format:&#13;
+&#13;
+answer = {&#13;
+  "1": {&#13;
+      "say": "https://some_url.com/options/one.mp3",&#13;
+      "myCustomData": "some data here"&#13;
+  },&#13;
+  "2": {&#13;
+      "say": "https://some_url.com/options/two.mp3",&#13;
+      "myCustomData": "some other data here"&#13;
+  },&#13;
+  "3": {&#13;
+      "say": "type 3 to speak to a representative",&#13;
+      "language": "en-US",&#13;
+      "myCustomData": "some more data here"&#13;
+  }&#13;
+};&#13;
+&#13;
+The "answer" JSON object's attributes must be number values that match what you expect the caller to type in.&#13;
+Each attribute value is another JSON object which contains at least one mandatory "say" attribute.&#13;
+&#13;
+The "say" attribute's value can either be a text-to-speech string, or a URL to a pre-recorded message.&#13;
+If the "say" attribute is text-to-speech, you can add an optional "language" attribute which will contain the language code in the format xx-XX (e.g. fr-CA for Canadian French).&#13;
+&#13;
+As shown in the example above, you can mix and match both types of "say" attributes.&#13;
+In addition to the "say" attribute, you can optionally add your own data as extra attributes.&#13;
+&#13;
+This activity will make your entire "answer" JSON object available in the workflow's scratchpad as workflow.scratchpad.menu.(activityName)&#13;
+For instance if your activity name is "choices", you can retrieve the menu playlist using either workflow.scratchpad.menu.choices or workflow.scratchpad.menu["choices"] after the activity has successfully executed.&#13;
+Your workflow can have several such menus since each one is named.&#13;
+&#13;
+Example of how to retrieve menu information in a different activity (e.g. in a Say activity):&#13;
+&#13;
+var previousActivity = "choices";&#13;
+var choicesMenu = workflow.scratchpad.menu[previousActivity];&#13;
+var menuItem = choicesMenu[workflow.scratchpad.digits];  // Selects the menu item based on the caller's digit input.&#13;
+var selectedValue = menuItem.myCustomData;  // From the example above when digits is 3, the value of myCustomData is "some more data here"&#13;
+var selectedLanguage = menuItem.language || "en-US";  // retrieves the menu item's language code, or "en-US" by default.&#13;
+&#13;
+*/</value>
+        <variable display_value="">8a30c343ff010200a822ffffffffffae</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>89c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>10</value>
+        <variable display_value="">d80a3ab0ff3231005561ffffffffff8e</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>4dc59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>5</value>
+        <variable display_value="">09a9f6b0ff3231005561ffffffffff02</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>41c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>#</value>
+        <variable display_value="">a29e7ef0ff3231005561ffffffffff92</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>05c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">45a07bc3ff010200a822ffffffffff8c</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>cdc59a38db1233008040146139961920</document_key>
+        <order>500</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c5c59a38db1233008040146139961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>/*&#13;
+Here you can dynamically create a menu playlist by returning "answer" as a JSON object of the following format:&#13;
+&#13;
+answer = {&#13;
+  "1": {&#13;
+      "say": "https://some_url.com/options/one.mp3",&#13;
+      "myCustomData": "some data here"&#13;
+  },&#13;
+  "2": {&#13;
+      "say": "https://some_url.com/options/two.mp3",&#13;
+      "myCustomData": "some other data here"&#13;
+  },&#13;
+  "3": {&#13;
+      "say": "type 3 to speak to a representative",&#13;
+      "language": "en-US",&#13;
+      "myCustomData": "some more data here"&#13;
+  }&#13;
+};&#13;
+&#13;
+The "answer" JSON object's attributes must be number values that match what you expect the caller to type in.&#13;
+Each attribute value is another JSON object which contains at least one mandatory "say" attribute.&#13;
+&#13;
+The "say" attribute's value can either be a text-to-speech string, or a URL to a pre-recorded message.&#13;
+If the "say" attribute is text-to-speech, you can add an optional "language" attribute which will contain the language code in the format xx-XX (e.g. fr-CA for Canadian French).&#13;
+&#13;
+As shown in the example above, you can mix and match both types of "say" attributes.&#13;
+In addition to the "say" attribute, you can optionally add your own data as extra attributes.&#13;
+&#13;
+This activity will make your entire "answer" JSON object available in the workflow's scratchpad as workflow.scratchpad.menu.(activityName)&#13;
+For instance if your activity name is "choices", you can retrieve the menu playlist using either workflow.scratchpad.menu.choices or workflow.scratchpad.menu["choices"] after the activity has successfully executed.&#13;
+Your workflow can have several such menus since each one is named.&#13;
+&#13;
+Example of how to retrieve menu information in a different activity (e.g. in a Say activity):&#13;
+&#13;
+var previousActivity = "choices";&#13;
+var choicesMenu = workflow.scratchpad.menu[previousActivity];&#13;
+var menuItem = choicesMenu[workflow.scratchpad.digits];  // Selects the menu item based on the caller's digit input.&#13;
+var selectedValue = menuItem.myCustomData;  // From the example above when digits is 3, the value of myCustomData is "some more data here"&#13;
+var selectedLanguage = menuItem.language || "en-US";  // retrieves the menu item's language code, or "en-US" by default.&#13;
+&#13;
+*/</value>
+        <variable display_value="">8a30c343ff010200a822ffffffffffae</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Get Conference Call Code">cdc59a38db1233008040146139961920</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Please enter the code of the conference call to join and press hash to finish</name>
+        <order>0</order>
+        <short_description>Always</short_description>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>41c59a38db1233008040146139961922</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Say">5e346360ff2231005561ffffffffff1c</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>8</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Good bye.</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>55c59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>1115</x>
+        <y>646</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=55c59a38db1233008040146139961926"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>11c59a38db1233008040146139961927</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ * &#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function textToSay() {&#13;
+    // construct the result object&#13;
+    var result = {&#13;
+        // define the text to say&#13;
+        text        : 'hello world',&#13;
+        &#13;
+        // and the language to say it in (see &#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US' &#13;
+    };&#13;
+    &#13;
+    // return the result&#13;
+    return result;&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>5dc59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>You will now be disconnected. Good bye.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>99c59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d5c59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>5dc59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>You will now be disconnected. Good bye.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>99c59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d5c59a38db1233008040146139961926</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>55c59a38db1233008040146139961926</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>11c59a38db1233008040146139961927</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ * &#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function textToSay() {&#13;
+    // construct the result object&#13;
+    var result = {&#13;
+        // define the text to say&#13;
+        text        : 'hello world',&#13;
+        &#13;
+        // and the language to say it in (see &#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US' &#13;
+    };&#13;
+    &#13;
+    // return the result&#13;
+    return result;&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Good bye.">55c59a38db1233008040146139961926</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>15c59a38db1233008040146139961927</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Hang Up">a99fce13eb033100216a87b9d106fe2d</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>5</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Hang up</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>5dc59a38db1233008040146139961927</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>674</x>
+        <y>761</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=5dc59a38db1233008040146139961927"/>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Hang up">5dc59a38db1233008040146139961927</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>95c59a38db1233008040146139961928</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="If">98f621ca0a0a0b5900f7c291f5e45a0e</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>3</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Incoming Phone Call?</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>5dc59a38db123300804014613996192a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>169</x>
+        <y>22</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=5dc59a38db123300804014613996192a"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>5dc59a38db123300804014613996192a</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>55c59a38db123300804014613996192b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// This script needs to set answer to 'yes' or 'no' to indicate the state of the activity.&#13;
+//&#13;
+// For example,&#13;
+//&#13;
+//   answer = ifScript();&#13;
+//&#13;
+//   function ifScript() {&#13;
+//      if (condition is true) {&#13;
+//         return 'yes';&#13;
+//      }&#13;
+//      return 'no';&#13;
+//   }&#13;
+</value>
+        <variable display_value="">c35e50810a0a0ba96248a709b450fc32</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>5dc59a38db123300804014613996192a</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>91c59a38db123300804014613996192b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">493d2c1d0a6a803f3217a75738ea3289</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>5dc59a38db123300804014613996192a</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>ddc59a38db123300804014613996192a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>direction=inbound^EQ</value>
+        <variable display_value="">493cba6a0a6a803f07df24b118473551</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>5dc59a38db123300804014613996192a</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>ddc59a38db123300804014613996192a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>direction=inbound^EQ</value>
+        <variable display_value="">493cba6a0a6a803f07df24b118473551</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>5dc59a38db123300804014613996192a</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>91c59a38db123300804014613996192b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">493d2c1d0a6a803f3217a75738ea3289</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>5dc59a38db123300804014613996192a</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>55c59a38db123300804014613996192b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// This script needs to set answer to 'yes' or 'no' to indicate the state of the activity.&#13;
+//&#13;
+// For example,&#13;
+//&#13;
+//   answer = ifScript();&#13;
+//&#13;
+//   function ifScript() {&#13;
+//      if (condition is true) {&#13;
+//         return 'yes';&#13;
+//      }&#13;
+//      return 'no';&#13;
+//   }&#13;
+</value>
+        <variable display_value="">c35e50810a0a0ba96248a709b450fc32</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Incoming Phone Call?">5dc59a38db123300804014613996192a</activity>
+        <condition>activity.result == 'no'</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>No</name>
+        <order>200</order>
+        <short_description/>
+        <skip_during_generate>true</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d9c59a38db123300804014613996192b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Incoming Phone Call?">5dc59a38db123300804014613996192a</activity>
+        <condition>activity.result == 'yes'</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Yes</name>
+        <order>100</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>59c59a38db123300804014613996192b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Say">5e346360ff2231005561ffffffffff1c</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>19</databus_lookup_id>
+        <height/>
+        <input/>
+        <is_parent>false</is_parent>
+        <name>Invalid conference call</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>59c59a38db123300804014613996192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>1025</x>
+        <y>31</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=59c59a38db123300804014613996192d"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>15c59a38db123300804014613996192e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ * &#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function textToSay() {&#13;
+    // construct the result object&#13;
+    var result = {&#13;
+        // define the text to say&#13;
+        text        : 'hello world',&#13;
+        &#13;
+        // and the language to say it in (see &#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US' &#13;
+    };&#13;
+    &#13;
+    // return the result&#13;
+    return result;&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>51c59a38db123300804014613996192e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>The code you entered is not valid.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>9dc59a38db123300804014613996192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d9c59a38db123300804014613996192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>51c59a38db123300804014613996192e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>The code you entered is not valid.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>9dc59a38db123300804014613996192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d9c59a38db123300804014613996192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>0</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>59c59a38db123300804014613996192d</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>15c59a38db123300804014613996192e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ * &#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function textToSay() {&#13;
+    // construct the result object&#13;
+    var result = {&#13;
+        // define the text to say&#13;
+        text        : 'hello world',&#13;
+        &#13;
+        // and the language to say it in (see &#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US' &#13;
+    };&#13;
+    &#13;
+    // return the result&#13;
+    return result;&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Invalid conference call">59c59a38db123300804014613996192d</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>19c59a38db123300804014613996192e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Join Conference Call">05a77b01bf200200216a85ce2c073980</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>25</databus_lookup_id>
+        <height/>
+        <input>{}</input>
+        <is_parent>false</is_parent>
+        <name>Join Conference Call</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>4dc59a38db1233008040146139961922</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>972</x>
+        <y>212</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=4dc59a38db1233008040146139961922"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>4dc59a38db1233008040146139961922</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>85c59a38db1233008040146139961923</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>config = {&#13;
+    // When true, the participant will join the conference in a muted state&#13;
+    muted: !!workflow.scratchpad.isMuted,&#13;
+&#13;
+    // When true, this attribute tells a conference call to start when this participant&#13;
+    // joins the conference, if it is not already started. If this is set to false and&#13;
+    // the participant joins a conference that has not started, all participants will be&#13;
+    // muted until a participant joins that has 'startOnEnter' set to true&#13;
+    startOnEnter: true,&#13;
+&#13;
+    // When true, the conference call will end when the participant leaves and all&#13;
+    // remaining participants will be dropped out of the conference call.&#13;
+    endOnExit: false,&#13;
+	&#13;
+	// When true, the participant can exit the conference call by pressing "*" button&#13;
+	hangupOnStar: true,&#13;
+&#13;
+	// ----------------------------------------------------------------------------------------------&#13;
+	// The following attributes are supported by Twilio Direct driver&#13;
+	// but not by Notify Twilio Driver (Legacy)&#13;
+	// ----------------------------------------------------------------------------------------------&#13;
+&#13;
+	// Plays a beep when this user joins the conference&#13;
+	beepOnEnter: true,&#13;
+	// Plays a beep when this user leaves the conference&#13;
+	beepOnExit: true,&#13;
+	// Allows input of a single digit immediately after the conference ends for this user and sets that in workflow.scratchpad.confDigits. This option will be ignored if hangupOnStar is false.&#13;
+	enableImmediateInput: false&#13;
+};</value>
+        <variable display_value="">6b2c5c11bf200200216a85ce2c0739a2</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>4dc59a38db1233008040146139961922</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c1c59a38db1233008040146139961923</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">e2eb1c11bf200200216a85ce2c0739d4</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>4dc59a38db1233008040146139961922</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c1c59a38db1233008040146139961923</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">e2eb1c11bf200200216a85ce2c0739d4</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>4dc59a38db1233008040146139961922</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>85c59a38db1233008040146139961923</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>config = {&#13;
+    // When true, the participant will join the conference in a muted state&#13;
+    muted: !!workflow.scratchpad.isMuted,&#13;
+&#13;
+    // When true, this attribute tells a conference call to start when this participant&#13;
+    // joins the conference, if it is not already started. If this is set to false and&#13;
+    // the participant joins a conference that has not started, all participants will be&#13;
+    // muted until a participant joins that has 'startOnEnter' set to true&#13;
+    startOnEnter: true,&#13;
+&#13;
+    // When true, the conference call will end when the participant leaves and all&#13;
+    // remaining participants will be dropped out of the conference call.&#13;
+    endOnExit: false,&#13;
+	&#13;
+	// When true, the participant can exit the conference call by pressing "*" button&#13;
+	hangupOnStar: true,&#13;
+&#13;
+	// ----------------------------------------------------------------------------------------------&#13;
+	// The following attributes are supported by Twilio Direct driver&#13;
+	// but not by Notify Twilio Driver (Legacy)&#13;
+	// ----------------------------------------------------------------------------------------------&#13;
+&#13;
+	// Plays a beep when this user joins the conference&#13;
+	beepOnEnter: true,&#13;
+	// Plays a beep when this user leaves the conference&#13;
+	beepOnExit: true,&#13;
+	// Allows input of a single digit immediately after the conference ends for this user and sets that in workflow.scratchpad.confDigits. This option will be ignored if hangupOnStar is false.&#13;
+	enableImmediateInput: false&#13;
+};</value>
+        <variable display_value="">6b2c5c11bf200200216a85ce2c0739a2</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Join Conference Call">4dc59a38db1233008040146139961922</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>1dc59a38db1233008040146139961923</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Run Script">db8c65aec0a8016501d00259bc7203a4</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>24</databus_lookup_id>
+        <height/>
+        <input>{}</input>
+        <is_parent>false</is_parent>
+        <name>Send (re)join SMS</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>95c59a38db123300804014613996192c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>170</x>
+        <y>319</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=95c59a38db123300804014613996192c"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>95c59a38db123300804014613996192c</document_key>
+        <order>1</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>1dc59a38db123300804014613996192c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// send (re)join sms message&#13;
+var from    = workflow.scratchpad.conference.notify_number;&#13;
+var to      = workflow.scratchpad.conference.phone_number;&#13;
+var body    = getMessageBody(workflow.scratchpad.conference_call, from);&#13;
+//var task = new GlideRecord(workflow.scratchpad.conference.source_table);&#13;
+//task.get(workflow.scratchpad.conference.source_sys_id);&#13;
+&#13;
+new SNC.Notify().sendSMS(from, to, body, workflow.scratchpad.conference_call);&#13;
+&#13;
+/**&#13;
+ * Generate the welcome message for this conference call&#13;
+ *&#13;
+ * @param conference_call&#13;
+ * @returns {string}&#13;
+ */&#13;
+function getMessageBody(conference_call, from) {&#13;
+    // define message argumens&#13;
+    var args = [conference_call.getDisplayValue(), conference_call.getValue('code'), from];&#13;
+&#13;
+    // append source details if we have any&#13;
+    if (GlideStringUtil.notNil(conference_call.source)) {&#13;
+        // source record defined&#13;
+        var displayValue = conference_call.source.getDisplayValue().replace(":", "");&#13;
+        if (GlideStringUtil.notNil(displayValue)) {&#13;
+            args.push(displayValue);&#13;
+            return gs.getMessage('You have been added to conference call {0} for {3}. To (re)join the conference call, reply with {1} or send it via SMS to {2}.', args);&#13;
+        }&#13;
+    }&#13;
+&#13;
+    return gs.getMessage('You have been added to conference call {0}. To (re)join the conference call, reply with {1} or send it via SMS to {2}.', args);&#13;
+}</value>
+        <variable display_value="">c35ddef20a0a0ba96248a7090eccd518</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>95c59a38db123300804014613996192c</document_key>
+        <order>1</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>1dc59a38db123300804014613996192c</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// send (re)join sms message&#13;
+var from    = workflow.scratchpad.conference.notify_number;&#13;
+var to      = workflow.scratchpad.conference.phone_number;&#13;
+var body    = getMessageBody(workflow.scratchpad.conference_call, from);&#13;
+//var task = new GlideRecord(workflow.scratchpad.conference.source_table);&#13;
+//task.get(workflow.scratchpad.conference.source_sys_id);&#13;
+&#13;
+new SNC.Notify().sendSMS(from, to, body, workflow.scratchpad.conference_call);&#13;
+&#13;
+/**&#13;
+ * Generate the welcome message for this conference call&#13;
+ *&#13;
+ * @param conference_call&#13;
+ * @returns {string}&#13;
+ */&#13;
+function getMessageBody(conference_call, from) {&#13;
+    // define message argumens&#13;
+    var args = [conference_call.getDisplayValue(), conference_call.getValue('code'), from];&#13;
+&#13;
+    // append source details if we have any&#13;
+    if (GlideStringUtil.notNil(conference_call.source)) {&#13;
+        // source record defined&#13;
+        var displayValue = conference_call.source.getDisplayValue().replace(":", "");&#13;
+        if (GlideStringUtil.notNil(displayValue)) {&#13;
+            args.push(displayValue);&#13;
+            return gs.getMessage('You have been added to conference call {0} for {3}. To (re)join the conference call, reply with {1} or send it via SMS to {2}.', args);&#13;
+        }&#13;
+    }&#13;
+&#13;
+    return gs.getMessage('You have been added to conference call {0}. To (re)join the conference call, reply with {1} or send it via SMS to {2}.', args);&#13;
+}</value>
+        <variable display_value="">c35ddef20a0a0ba96248a7090eccd518</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Send (re)join SMS">95c59a38db123300804014613996192c</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>91c59a38db123300804014613996192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Run Script">db8c65aec0a8016501d00259bc7203a4</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>21</databus_lookup_id>
+        <height/>
+        <input>{}</input>
+        <is_parent>false</is_parent>
+        <name>Set up scratchpad data for outbound call</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>ddc59a38db123300804014613996192e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>167</x>
+        <y>174</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=ddc59a38db123300804014613996192e"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>ddc59a38db123300804014613996192e</document_key>
+        <order>1</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>51c59a38db123300804014613996192f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// store conference information on the scratchpad so we can use it in &#13;
+// say, play and sms activities&#13;
+workflow.scratchpad.conference = {&#13;
+    number          : workflow.scratchpad.conference_call.getValue('number'),&#13;
+    code            : workflow.scratchpad.conference_call.getValue('code'),&#13;
+	source_table    : workflow.scratchpad.conference_call.getValue('table'),&#13;
+	source_sys_id   : workflow.scratchpad.conference_call.getValue('source'),&#13;
+    notify_number   : current.notify_number.phone_number,&#13;
+    phone_number    : current.phone_number&#13;
+};&#13;
+</value>
+        <variable display_value="">c35ddef20a0a0ba96248a7090eccd518</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>ddc59a38db123300804014613996192e</document_key>
+        <order>1</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>51c59a38db123300804014613996192f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// store conference information on the scratchpad so we can use it in &#13;
+// say, play and sms activities&#13;
+workflow.scratchpad.conference = {&#13;
+    number          : workflow.scratchpad.conference_call.getValue('number'),&#13;
+    code            : workflow.scratchpad.conference_call.getValue('code'),&#13;
+	source_table    : workflow.scratchpad.conference_call.getValue('table'),&#13;
+	source_sys_id   : workflow.scratchpad.conference_call.getValue('source'),&#13;
+    notify_number   : current.notify_number.phone_number,&#13;
+    phone_number    : current.phone_number&#13;
+};&#13;
+</value>
+        <variable display_value="">c35ddef20a0a0ba96248a7090eccd518</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Set up scratchpad data for outbound call">ddc59a38db123300804014613996192e</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>55c59a38db123300804014613996192f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="If">98f621ca0a0a0b5900f7c291f5e45a0e</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>17</databus_lookup_id>
+        <height/>
+        <input>{}</input>
+        <is_parent>false</is_parent>
+        <name>Valid conference call?</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>91c59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>630</x>
+        <y>27</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=91c59a38db1233008040146139961929"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>91c59a38db1233008040146139961929</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>19c59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value/>
+        <variable display_value="">493cba6a0a6a803f07df24b118473551</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>91c59a38db1233008040146139961929</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>9dc59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>answer = isValidConferenceCall();&#13;
+&#13;
+/**&#13;
+ * Check if the entered code matches a&#13;
+ * @returns {*}&#13;
+ */&#13;
+function isValidConferenceCall() {&#13;
+    // get digits from the input activity&#13;
+    var code = workflow.scratchpad.digits;&#13;
+&#13;
+    // get any conference call that matches&#13;
+    var record = new GlideRecord('notify_conference_call');&#13;
+    record.query('code', code);&#13;
+&#13;
+    // is there a record?&#13;
+    if (record.next() &amp;&amp; record.getValue('active') == 1) {&#13;
+        // store the conference GlideRecord on the scratchpad which is&#13;
+        // required by the join conference call activity.&#13;
+        workflow.scratchpad.conference_call = record;&#13;
+&#13;
+        // store conference information on the scratchpad so we can use it in &#13;
+        // say, play and sms activities&#13;
+        workflow.scratchpad.conference = {&#13;
+            number          : record.getValue('number'),&#13;
+            code            : record.getValue('code'),&#13;
+            notify_number   : current.notify_number.phone_number,&#13;
+            phone_number    : current.phone_number&#13;
+        };&#13;
+&#13;
+        return 'yes';&#13;
+    }&#13;
+&#13;
+    return 'no';&#13;
+}</value>
+        <variable display_value="">c35e50810a0a0ba96248a709b450fc32</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>91c59a38db1233008040146139961929</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d9c59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">493d2c1d0a6a803f3217a75738ea3289</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>91c59a38db1233008040146139961929</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>19c59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value/>
+        <variable display_value="">493cba6a0a6a803f07df24b118473551</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>91c59a38db1233008040146139961929</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d9c59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">493d2c1d0a6a803f3217a75738ea3289</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>91c59a38db1233008040146139961929</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>9dc59a38db1233008040146139961929</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>answer = isValidConferenceCall();&#13;
+&#13;
+/**&#13;
+ * Check if the entered code matches a&#13;
+ * @returns {*}&#13;
+ */&#13;
+function isValidConferenceCall() {&#13;
+    // get digits from the input activity&#13;
+    var code = workflow.scratchpad.digits;&#13;
+&#13;
+    // get any conference call that matches&#13;
+    var record = new GlideRecord('notify_conference_call');&#13;
+    record.query('code', code);&#13;
+&#13;
+    // is there a record?&#13;
+    if (record.next() &amp;&amp; record.getValue('active') == 1) {&#13;
+        // store the conference GlideRecord on the scratchpad which is&#13;
+        // required by the join conference call activity.&#13;
+        workflow.scratchpad.conference_call = record;&#13;
+&#13;
+        // store conference information on the scratchpad so we can use it in &#13;
+        // say, play and sms activities&#13;
+        workflow.scratchpad.conference = {&#13;
+            number          : record.getValue('number'),&#13;
+            code            : record.getValue('code'),&#13;
+            notify_number   : current.notify_number.phone_number,&#13;
+            phone_number    : current.phone_number&#13;
+        };&#13;
+&#13;
+        return 'yes';&#13;
+    }&#13;
+&#13;
+    return 'no';&#13;
+}</value>
+        <variable display_value="">c35e50810a0a0ba96248a709b450fc32</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Valid conference call?">91c59a38db1233008040146139961929</activity>
+        <condition>activity.result == 'no'</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>No</name>
+        <order>1</order>
+        <short_description/>
+        <skip_during_generate>true</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>95c59a38db123300804014613996192a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Valid conference call?">91c59a38db1233008040146139961929</activity>
+        <condition>activity.result == 'yes'</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Yes</name>
+        <order>2</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>15c59a38db123300804014613996192a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_activity action="INSERT_OR_UPDATE">
+        <activity_definition display_value="Say">5e346360ff2231005561ffffffffff1c</activity_definition>
+        <activity_definition_updated>false</activity_definition_updated>
+        <databus_lookup_id>6</databus_lookup_id>
+        <height/>
+        <input>{}</input>
+        <is_parent>false</is_parent>
+        <name>Welcome</name>
+        <new_activity_definition/>
+        <notes/>
+        <out_of_date>false</out_of_date>
+        <parent/>
+        <pinned>false</pinned>
+        <pinned_version/>
+        <stage/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>01c51a38db12330080401461399619f0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <timeout>1970-01-01 00:00:00</timeout>
+        <vars/>
+        <width/>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+        <x>167</x>
+        <y>445</y>
+    </wf_activity>
+    <sys_variable_value action="delete_multiple" query="document_key=01c51a38db12330080401461399619f0"/>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>49c51a38db12330080401461399619f0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>49c51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ *&#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function generateTextToSay() {&#13;
+    // construct the result object&#13;
+    return {&#13;
+        // define the text to say&#13;
+        text        : getMessageBody(workflow.scratchpad.conference_call),&#13;
+&#13;
+        // and the language to say it in (see&#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US'&#13;
+    };&#13;
+}&#13;
+&#13;
+/**&#13;
+ * Generate the welcome message for this conference call&#13;
+ *&#13;
+ * @param conference_call&#13;
+ * @returns {string}&#13;
+ */&#13;
+function getMessageBody(conference_call) {&#13;
+    // append source details if we have any&#13;
+    if (GlideStringUtil.notNil(conference_call.source)) {&#13;
+        // source record defined&#13;
+        var displayValue = conference_call.source.getDisplayValue().replace(":", "");&#13;
+        if (GlideStringUtil.notNil(displayValue)) {&#13;
+			return 'You have been added to a conference call for ' + displayValue;&#13;
+        }&#13;
+    }&#13;
+&#13;
+    return 'You have been added to conference call ' + conference_call.getDisplayValue();&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>85c51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>${conference.voice_message}.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c1c51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>100</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>85c51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>${conference.voice_message}.</value>
+        <variable display_value="">bcd96760ff2231005561ffffffffff73</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>200</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>c1c51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>en-US</value>
+        <variable display_value="">211c4bd5ff0331005561fffffffffff9</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>300</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>49c51a38db12330080401461399619f0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>1</value>
+        <variable display_value="">e15e8831bf300200216a85ce2c0739b1</variable>
+    </sys_variable_value>
+    <sys_variable_value action="INSERT_OR_UPDATE">
+        <document>wf_activity</document>
+        <document_key>01c51a38db12330080401461399619f0</document_key>
+        <order>400</order>
+        <sys_class_name>sys_variable_value</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>49c51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <value>// generate the text to say and the language to say it in&#13;
+text = generateTextToSay();&#13;
+&#13;
+/**&#13;
+ * Generate the text to say and the language to say it in&#13;
+ *&#13;
+ * @returns {{text: string, language: string}}&#13;
+ */&#13;
+function generateTextToSay() {&#13;
+    // construct the result object&#13;
+    return {&#13;
+        // define the text to say&#13;
+        text        : getMessageBody(workflow.scratchpad.conference_call),&#13;
+&#13;
+        // and the language to say it in (see&#13;
+        // or query the notify_language table&#13;
+        // for supported languages)&#13;
+        language    : 'en-US'&#13;
+    };&#13;
+}&#13;
+&#13;
+/**&#13;
+ * Generate the welcome message for this conference call&#13;
+ *&#13;
+ * @param conference_call&#13;
+ * @returns {string}&#13;
+ */&#13;
+function getMessageBody(conference_call) {&#13;
+    // append source details if we have any&#13;
+    if (GlideStringUtil.notNil(conference_call.source)) {&#13;
+        // source record defined&#13;
+        var displayValue = conference_call.source.getDisplayValue().replace(":", "");&#13;
+        if (GlideStringUtil.notNil(displayValue)) {&#13;
+			return 'You have been added to a conference call for ' + displayValue;&#13;
+        }&#13;
+    }&#13;
+&#13;
+    return 'You have been added to conference call ' + conference_call.getDisplayValue();&#13;
+}</value>
+        <variable display_value="">7fbe0c31bf300200216a85ce2c073927</variable>
+    </sys_variable_value>
+    <wf_condition action="INSERT_OR_UPDATE">
+        <activity display_value="Welcome">01c51a38db12330080401461399619f0</activity>
+        <condition>true</condition>
+        <condition_default/>
+        <condition_type>standard</condition_type>
+        <else_flag>false</else_flag>
+        <error>false</error>
+        <event>false</event>
+        <event_name/>
+        <is_positive>false</is_positive>
+        <name>Always</name>
+        <order>0</order>
+        <short_description/>
+        <skip_during_generate>false</skip_during_generate>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>cdc51a38db12330080401461399619f1</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+    </wf_condition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="No">95c59a38db123300804014613996192a</condition>
+        <from display_value="Valid conference call?">91c59a38db1233008040146139961929</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>11c59a38db1233008040146139961931</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Invalid conference call">59c59a38db123300804014613996192d</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">9dc59a38db1233008040146139961924</condition>
+        <from display_value="Begin">55c59a38db1233008040146139961924</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>11c59a38db1233008040146139961932</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Incoming Phone Call?">5dc59a38db123300804014613996192a</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Press 1 to accept and join the call">85c59a38db1233008040146139961920</condition>
+        <from display_value="Accept / Reject">85c51a38db12330080401461399619f4</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>19c59a38db1233008040146139961931</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Feedback">49c51a38db12330080401461399619f2</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Yes">59c59a38db123300804014613996192b</condition>
+        <from display_value="Incoming Phone Call?">5dc59a38db123300804014613996192a</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>19c59a38db1233008040146139961932</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Get Conference Call Code">cdc59a38db1233008040146139961920</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">95c59a38db1233008040146139961928</condition>
+        <from display_value="Hang up">5dc59a38db1233008040146139961927</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>55c59a38db1233008040146139961931</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="End">d5c59a38db1233008040146139961925</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">19c59a38db123300804014613996192e</condition>
+        <from display_value="Invalid conference call">59c59a38db123300804014613996192d</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>59c59a38db1233008040146139961930</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Good bye.">55c59a38db1233008040146139961926</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">91c59a38db123300804014613996192d</condition>
+        <from display_value="Send (re)join SMS">95c59a38db123300804014613996192c</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>5dc59a38db1233008040146139961930</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Welcome">01c51a38db12330080401461399619f0</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">15c59a38db1233008040146139961927</condition>
+        <from display_value="Good bye.">55c59a38db1233008040146139961926</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>5dc59a38db1233008040146139961931</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Hang up">5dc59a38db1233008040146139961927</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">09c51a38db12330080401461399619f3</condition>
+        <from display_value="Feedback">49c51a38db12330080401461399619f2</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>91c59a38db1233008040146139961930</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Join Conference Call">4dc59a38db1233008040146139961922</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Yes">15c59a38db123300804014613996192a</condition>
+        <from display_value="Valid conference call?">91c59a38db1233008040146139961929</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>91c59a38db1233008040146139961931</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Feedback">49c51a38db12330080401461399619f2</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Please enter the code of the conference call to join and press hash to finish">41c59a38db1233008040146139961922</condition>
+        <from display_value="Get Conference Call Code">cdc59a38db1233008040146139961920</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>95c59a38db1233008040146139961930</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Valid conference call?">91c59a38db1233008040146139961929</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="No">d9c59a38db123300804014613996192b</condition>
+        <from display_value="Incoming Phone Call?">5dc59a38db123300804014613996192a</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>95c59a38db1233008040146139961932</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Set up scratchpad data for outbound call">ddc59a38db123300804014613996192e</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Press 2 to reject the call">09c59a38db1233008040146139961920</condition>
+        <from display_value="Accept / Reject">85c51a38db12330080401461399619f4</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>99c59a38db1233008040146139961931</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Good bye.">55c59a38db1233008040146139961926</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">cdc51a38db12330080401461399619f1</condition>
+        <from display_value="Welcome">01c51a38db12330080401461399619f0</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>9dc59a38db1233008040146139961932</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Accept / Reject">85c51a38db12330080401461399619f4</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">1dc59a38db1233008040146139961923</condition>
+        <from display_value="Join Conference Call">4dc59a38db1233008040146139961922</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d1c59a38db1233008040146139961932</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Good bye.">55c59a38db1233008040146139961926</to>
+    </wf_transition>
+    <wf_transition action="INSERT_OR_UPDATE">
+        <condition display_value="Always">55c59a38db123300804014613996192f</condition>
+        <from display_value="Set up scratchpad data for outbound call">ddc59a38db123300804014613996192e</from>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:22</sys_created_on>
+        <sys_id>d9c59a38db1233008040146139961932</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:22</sys_updated_on>
+        <to display_value="Send (re)join SMS">95c59a38db123300804014613996192c</to>
+    </wf_transition>
+    <wf_estimated_runtime_config action="INSERT_OR_UPDATE">
+        <estimated_run_time/>
+        <no_of_data_points>1</no_of_data_points>
+        <percentage_threshold_ert>20</percentage_threshold_ert>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2019-06-25 05:58:21</sys_created_on>
+        <sys_id>41c51a38db12330080401461399619ed</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2019-06-25 05:58:21</sys_updated_on>
+        <workflow_version display_value="Nexmo Call Join">4dc51a38db12330080401461399619ec</workflow_version>
+    </wf_estimated_runtime_config>
+    <wf_workflow_version action="update_multiple" query="workflow=4dc51a38db12330080401461399619eb^sys_id!=4dc51a38db12330080401461399619ec">
+        <published>false</published>
+    </wf_workflow_version>
+</record_update>
