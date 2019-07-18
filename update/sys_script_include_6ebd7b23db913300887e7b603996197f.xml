@@ -19,16 +19,12 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 
 	getCallGr: function (id) {
 		if (!this.data.callId){
-			gs.info(this.data.callId  + '  this.data.callId');
-			gs.info(id  + '  id');
 		  throw 'The Call SID is unavailable! Make sure that it is set as this.data.callId.';
 		}
 		return this.db.getNotifyCallRecordByCallID(this.data.callId);
 	},
 
 	finishWaitingActivities: function (jsonArgs, getNext, actionSysId) {
-		gs.info(this.data.notifyPhoneNumber + ' this.data.notifyPhoneNumber '  + actionSysId  +' actionSysId');
-		gs.info(JSON.stringify(this.getCallGr().getUniqueValue()) + ' this.getCallGr() ');
 		return this.workflow.finishWaitingActivitiesJ(this.data.notifyPhoneNumber, this.getCallGr(), jsonArgs, getNext, actionSysId);
 	},
 
@@ -103,7 +99,6 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 	},
 
 	onCatchAllEvent: function (p) {
-        gs.info(p + '  onCatchAllEvent ');
 		return this.getNexmlFromAction(this.finishWaitingActivities(null, true));
 	},
 	
@@ -118,6 +113,7 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
 	},
 
 	onInputReceived: function(p) {
+		gs.info(JSON.stringify(p) + ' input recived;');
 		var payload = p.payload;
 		var digits = payload.Digits && payload.Digits[0];
 		if (!digits)
@@ -262,13 +258,13 @@ BaseNotifyNexmoCallRecipe.prototype = Object.extendsObject(BaseRecipe, {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:33:22</sys_created_on>
         <sys_id>6ebd7b23db913300887e7b603996197f</sys_id>
-        <sys_mod_count>23</sys_mod_count>
+        <sys_mod_count>25</sys_mod_count>
         <sys_name>BaseNotifyNexmoCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_6ebd7b23db913300887e7b603996197f</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-07-16 05:09:26</sys_updated_on>
+        <sys_updated_on>2019-07-18 07:58:21</sys_updated_on>
     </sys_script_include>
 </record_update>

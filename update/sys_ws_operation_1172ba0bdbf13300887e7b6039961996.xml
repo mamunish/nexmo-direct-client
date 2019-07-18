@@ -7,119 +7,85 @@
         <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
         <http_method>POST</http_method>
         <name>Nexmo Event Post</name>
-        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
-	
-	var requestBody = request.body;
-    var requestString = JSON.parse(requestBody.dataString);
-	 gs.info(JSON.stringify(requestString) + ' post respnso');
-// 	gs.info(JSON.stringify(request.queryParams) +  "   post erequest.queryString");
-  
-// 	gs.info(JSON.stringify(request.pathParams) + " post ereq pp");
-	
-// 	gs.info(JSON.stringify(request.body) +  "  post erequest.body");
-// 	gs.info(JSON.stringify(request.getRequestedQueryCategory()) + " get getRequestedQueryCategory");
-// 	gs.info(JSON.stringify(request.getSupportedResponseContentTypes()) + " get getSupportedResponseContentTypes");
-// 	gs.info(JSON.stringify(request.uri) + " get uri");
-// 	gs.info(JSON.stringify(request.url) + " get url");
-// 	gs.info(JSON.stringify(request.headers) + " headers");
-	
-	
-// 				response.setContentType('application/json');
-// 			response.setStatus(200);
-// 	return true;
-	
-// 	if(request.queryParams.dtmf  && request.queryParams.uuid) {
-// 			var addInput = new NotifyNexmoOutboundCallRecipe();
-// 		addInput.addInputCallStatus(request.queryParams);
-// 	}
-	
-// 	if(request.queryParams.messageId) {
-// 			var addMessageStatust = new NotifyNexmoOutboundSMSRecipe();
-// 		addMessageStatust.onSMSStatus(request.queryParams);
-// 	}
-gs.info(requestString.payload['callback_method'] + ' Post');
-	var payload ={
-		"ctx" : [requestString.payload['ctx']]
-	};
+        <operation_script><![CDATA[(function process( /*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 
-	var helper = new NexmoHelper();
+  var requestBody = request.body;
+  var requestString = JSON.parse(requestBody.dataString);
+  gs.info(JSON.stringify(requestString) + ' post respnso');
 
-	// Extracting url for crypto signature verification.
-	// Note: The instance could be behind a reverse proxy and the url we 'see' here
-	// could be different from the one used by Twilio to reach us. We need to use
-	// that url as that is the one which is encoded into the signature.
-// 	var url;
-// 	if (request.pathParams.type == 'nexml')
-// 		url = helper.getNexmlCallbackEndPoint(requestString.queryParams.callback_name);
-// 	else if (request.pathParams.type == 'xml')
-// 		url = helper.getXmlCallbackEndPoint(requestString.queryParams.callback_name);
-// 	else
-// 		return new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
-// 	url += (request.queryString ? "?" + request.queryString : "");
+  // 			response.setStatus(200);
 
-// 	// Validating crypto signatures
-	
-// 	var urlForValidation = url;
-// 	if (url.startsWith('https://')) {
-// 		// In case of https we need to remove the port number (if any) from url
-// 		var firstSlashPos = url.indexOf('/', 8);
-// 		var firstColonPos = url.indexOf(':', 8);
-// 		if (firstColonPos !== -1 && firstColonPos < firstSlashPos)
-// 			urlForValidation = url.substring(0, firstColonPos) + url.substring(firstSlashPos);
-// 	}
+  var payload;
+  var callback_method;
+  if (requestString.payload['callback_method'] == 'onInputReceived') {
+    payload = {
+		  "Digits": [1],
+		  "ctx": [requestString.payload['ctx']]
+    };
+    callback_method = requestString.payload['callback_method'];
+  } else {
+    payload = {
+      "ctx": [requestString.payload['ctx']]
+    };
+    callback_method = requestString.payload['callback_method'];
+  }
 
-// 	// request.queryParams contains both the form data and the query string params, we need to remove query string part
-// 	var queryStringArr = request.queryString ? request.queryString.split('&') : [];
-// 	var queryKeys = [];
-// 	for (var i = 0; i < queryStringArr.length; i++) {
-// 		var pairs = queryStringArr[i].split('=');
-// 		queryKeys.push(pairs[0]);
-// 	}
-// 	var formData = {};
-// 	for (var k in request.queryParams) {
-// 		if (queryKeys.indexOf(k) === -1) {
-// 			var valsArr = request.queryParams[k];
-// 			if (valsArr.length > 0)
-// 				formData[k] = valsArr[0];
-// 			else
-// 				formData[k] = "";
-// 		}
-// 	}
 
-	var resp;
-	
-		var cApi  = new NexmoCallbackApi();
-		if (request.pathParams.type == 'nexml') {
-			resp = cApi.getNexmlResponse(requestString.payload['callback_method'], payload);
-			
-			if(resp != undefined){
-				gs.info(JSON.stringify(resp) +  " munish");
-				var text = resp._children[0]._children[0]._text;
-				
-				var eventUrl = resp._children[1]._text;
-			
-			var nccotext = '[{"action": "talk", "text":"Welcome to a Nexmo moderated conference. We will connect you when an agent is available"},{"action": "input",  "event_url": ["'+eventUrl+'"] , "event_method": "GET"}]';
-				gs.info(nccotext + " nccotext");
-	response.setContentType('application/json');
-	response.getStreamWriter().writeString(nccotext);
-			}else {
-				if (!resp)
-					resp = cApi.getDefaultNexmlResponse();
-				response.setContentType('application/xml');
-				if (resp instanceof NexmlModel)
-					response.getStreamWriter().writeString(resp.toXml());
-				else
-					response.getStreamWriter().writeString(resp.toString());
-			}
-		} else if (request.pathParams.type == 'xml') {
-			resp = cApi.getXmlResponse(requestString.payload['callback_method'], payload);
-			if (!resp)
-				resp = cApi.getDefaultXmlResponse();
-			response.setContentType('application/xml');
-			response.getStreamWriter().writeString(resp.toString());
-		} else
-			resp = new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
-	return resp;
+  var helper = new NexmoHelper();
+  var resp;
+
+  var cApi = new NexmoCallbackApi();
+  if (request.pathParams.type == 'nexml') {
+    resp = cApi.getNexmlResponse(callback_method, payload);
+
+    if (resp != undefined) {
+      gs.info(JSON.stringify(resp) + " munish");
+      var text;
+      var nccotext;
+		var eventUrl;
+		var str1;
+		var str2;
+		var str3;
+		var str4;
+		if(resp._children[1]._text){
+			   eventUrl = resp._children[1]._text;
+			   str1 = eventUrl.split("?");
+			   str2 = str1[1].split("&amp;");
+			   str3 = str2[0].split("=");
+			   str4 = str2[1].split("=");
+		}
+      if (resp._children[0]._tagName == 'Gather') {
+        text = resp._children[0]._children[0]._text + ' ' + resp._children[0]._children[1]._text;
+        nccotext = '[{"action": "talk", "text":"' + text + '"},{"action": "input"}, {"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
+      } else if (resp._children[0]._tagName == 'Say') {
+        text = resp._children[0]._text;
+        nccotext = '[{"action": "talk", "text":"' + text + '"}, {"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
+      } else if (resp._children[0]._tagName == 'Dial') {
+		  nccotext = '[{"action": "talk", "text":"connecting"}, {"action": "conversation", "name":"12345769854"},{"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
+	  }
+      gs.info(text);
+
+      gs.info(nccotext + " nccotext");
+      response.setContentType('application/json');
+      response.getStreamWriter().writeString(nccotext);
+    } else {
+      if (!resp)
+        resp = cApi.getDefaultNexmlResponse();
+      response.setContentType('application/xml');
+      if (resp instanceof NexmlModel)
+        response.getStreamWriter().writeString(resp.toXml());
+      else
+        response.getStreamWriter().writeString(resp.toString());
+    }
+  } else if (request.pathParams.type == 'xml') {
+    resp = cApi.getXmlResponse(callback_method, payload);
+    if (!resp)
+      resp = cApi.getDefaultXmlResponse();
+    response.setContentType('application/xml');
+    response.getStreamWriter().writeString(resp.toString());
+  } else
+    resp = new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
+  return resp;
 
 })(request, response);]]></operation_script>
         <operation_uri>/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}</operation_uri>
@@ -135,14 +101,14 @@ gs.info(requestString.payload['callback_method'] + ' Post');
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-06-07 11:19:13</sys_created_on>
         <sys_id>1172ba0bdbf13300887e7b6039961996</sys_id>
-        <sys_mod_count>89</sys_mod_count>
+        <sys_mod_count>109</sys_mod_count>
         <sys_name>Nexmo Event Post</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_1172ba0bdbf13300887e7b6039961996</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-07-17 12:42:00</sys_updated_on>
+        <sys_updated_on>2019-07-18 11:41:20</sys_updated_on>
         <web_service_definition display_value="Nexmo Event Call">92abfbafdb513300887e7b6039961936</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>
