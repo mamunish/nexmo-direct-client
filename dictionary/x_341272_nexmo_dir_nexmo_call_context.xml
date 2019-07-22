@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element label="Nexmo Call Context" max_length="40" name="x_341272_nexmo_dir_nexmo_call_context" type="collection">
+        <element label="callId" max_length="40" name="callid" type="string"/>
+        <element label="context" max_length="40" name="context" type="string"/>
+    </element>
+</database>

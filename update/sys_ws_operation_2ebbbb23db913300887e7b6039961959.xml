@@ -10,9 +10,9 @@
         <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 	
 // 	gs.info(JSON.stringify(request.pathParams) + " ereq pp");
-	gs.info(JSON.stringify(request.queryParams) +  "  erequest.queryParams");
-// 	if(!request.queryParams.type){
-	gs.info(request.queryParams.callback_name + ' get callback name');
+// 	gs.info(JSON.stringify(request.queryParams) +  "  erequest.queryParams");
+	if(!request.queryParams.type){
+// 	gs.info(request.queryParams.callback_name + ' get callback name');
 // 	gs.info(JSON.stringify(request.body) +  "  erequest.body");
 	
 // 				response.setContentType('application/json');
@@ -95,7 +95,7 @@
 		} else
 			resp = new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
 	return resp;
-// 	}
+	}
 
 })(request, response);]]></operation_script>
         <operation_uri>/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}</operation_uri>
@@ -111,14 +111,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:25:37</sys_created_on>
         <sys_id>2ebbbb23db913300887e7b6039961959</sys_id>
-        <sys_mod_count>66</sys_mod_count>
+        <sys_mod_count>68</sys_mod_count>
         <sys_name>Nexmo Event Call</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_2ebbbb23db913300887e7b6039961959</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-07-18 11:26:56</sys_updated_on>
+        <sys_updated_on>2019-07-19 05:11:51</sys_updated_on>
         <web_service_definition display_value="Nexmo Event Call">92abfbafdb513300887e7b6039961936</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

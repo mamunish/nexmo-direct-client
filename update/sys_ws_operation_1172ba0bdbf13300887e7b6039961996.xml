@@ -9,6 +9,7 @@
         <name>Nexmo Event Post</name>
         <operation_script><![CDATA[(function process( /*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
 
+	
   var requestBody = request.body;
   var requestString = JSON.parse(requestBody.dataString);
   gs.info(JSON.stringify(requestString) + ' post respnso');
@@ -17,18 +18,52 @@
 
   var payload;
   var callback_method;
-  if (requestString.payload['callback_method'] == 'onInputReceived') {
-    payload = {
-		  "Digits": [1],
-		  "ctx": [requestString.payload['ctx']]
-    };
-    callback_method = requestString.payload['callback_method'];
-  } else {
+	
+	if (requestString.dtmf) {
+		var gr = new GlideRecord("x_341272_nexmo_dir_nexmo_call_context");
+		gr.addQuery('callid', requestString.uuid);
+		gr.query(); 
+		while(gr.next()){
+			payload = {
+			  "Digits": [requestString.dtmf],
+			  "ctx": [""+ gr.context+""]
+			};
+			callback_method = "onInputReceived";	
+		}
+  } else if (requestString.status) {
+		var grs = new GlideRecord("x_341272_nexmo_dir_nexmo_call_context");
+		grs.addQuery('callid', requestString.uuid);
+		grs.query(); 
+		while(grs.next()){
+			payload = {
+			  "ctx": [""+ grs.context+""],
+			  "status": [requestString.status],
+			  "uuid": [requestString.uuid]
+			};
+			callback_method = "primaryCallStatus";	
+		}
+		
+    
+  }
+	else {
     payload = {
       "ctx": [requestString.payload['ctx']]
     };
     callback_method = requestString.payload['callback_method'];
   }
+	gs.info(JSON.stringify(payload)  +  ' payload');
+//   if (requestString.payload['callback_method'] == 'onInputReceived') {
+//     payload = {
+// 		  "Digits": [1],
+// 		  "ctx": [requestString.payload['ctx']]
+//     };
+//     callback_method = requestString.payload['callback_method'];
+//   } else {
+//     payload = {
+//       "ctx": [requestString.payload['ctx']]
+//     };
+//     callback_method = requestString.payload['callback_method'];
+//   }
 
 
   var helper = new NexmoHelper();
@@ -47,25 +82,40 @@
 		var str2;
 		var str3;
 		var str4;
-		if(resp._children[1]._text){
+		if (resp._children[0]._tagName == 'Redirect') {
+		if(resp._children[0]._text){
+			   eventUrl = resp._children[0]._text;
+			   str1 = eventUrl.split("?");
+			   str2 = str1[1].split("&amp;");
+			   str3 = str2[0].split("=");
+			   str4 = str2[1].split("=");
+		
+		}
+		}else {
+			if(resp._children[1]._text){
 			   eventUrl = resp._children[1]._text;
 			   str1 = eventUrl.split("?");
 			   str2 = str1[1].split("&amp;");
 			   str3 = str2[0].split("=");
 			   str4 = str2[1].split("=");
+		
+		}
 		}
       if (resp._children[0]._tagName == 'Gather') {
         text = resp._children[0]._children[0]._text + ' ' + resp._children[0]._children[1]._text;
-        nccotext = '[{"action": "talk", "text":"' + text + '"},{"action": "input"}, {"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
+        nccotext = '[{"action": "talk", "text":"' + text + '"},{"action": "input"}]';
+// 		  nccotext = '[{"action": "talk", "text":"' + text + '"},{"action": "input"}, {"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
       } else if (resp._children[0]._tagName == 'Say') {
         text = resp._children[0]._text;
-        nccotext = '[{"action": "talk", "text":"' + text + '"}, {"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
+		  nccotext = '[{"action": "talk", "text":"' + text + '"}, {"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
       } else if (resp._children[0]._tagName == 'Dial') {
 		  nccotext = '[{"action": "talk", "text":"connecting"}, {"action": "conversation", "name":"12345769854"},{"action": "notify", "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
+	  } else if( resp._children[0]._tagName == 'Redirect'){
+		   nccotext = '[{"action": "hangup"}, "payload": { "ctx": "' + str3[1] + '", "callback_method": "' + str4[1] + '" }, "event_url": ["' + eventUrl + '"]}]';
 	  }
-      gs.info(text);
+//       gs.info(text);
 
-      gs.info(nccotext + " nccotext");
+//       gs.info(nccotext + " nccotext");
       response.setContentType('application/json');
       response.getStreamWriter().writeString(nccotext);
     } else {
@@ -87,6 +137,7 @@
     resp = new sn_ws_err.BadRequestError('Unknown type value specified: ' + request.pathParams.type);
   return resp;
 
+
 })(request, response);]]></operation_script>
         <operation_uri>/api/x_341272_nexmo_dir/nexmo_event_call/process/{type}</operation_uri>
         <produces>application/xml,text/xml,application/json</produces>
@@ -101,14 +152,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-06-07 11:19:13</sys_created_on>
         <sys_id>1172ba0bdbf13300887e7b6039961996</sys_id>
-        <sys_mod_count>109</sys_mod_count>
+        <sys_mod_count>150</sys_mod_count>
         <sys_name>Nexmo Event Post</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy/>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_ws_operation_1172ba0bdbf13300887e7b6039961996</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-07-18 11:41:20</sys_updated_on>
+        <sys_updated_on>2019-07-22 07:30:23</sys_updated_on>
         <web_service_definition display_value="Nexmo Event Call">92abfbafdb513300887e7b6039961936</web_service_definition>
         <web_service_version/>
     </sys_ws_operation>

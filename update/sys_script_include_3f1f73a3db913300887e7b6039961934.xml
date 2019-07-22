@@ -30,8 +30,8 @@ NotifyNexmoOutboundCallRecipe.prototype = Object.extendsObject(BaseNotifyNexmoCa
     var answerUrl = this.ctx.getNexmlUrl("callAnswered", this.getCallback('onCallAnswered'));
     var eventUrl = this.ctx.getNexmlUrl("primaryCallStatus", this.getCallback('onPrimaryCallStatus'));
 
-	gs.info(JSON.stringify(answerUrl) + 'answer');
-gs.info(JSON.stringify(eventUrl) + 'eventUrl');
+// 	gs.info(JSON.stringify(answerUrl) + 'answer');
+// gs.info(JSON.stringify(eventUrl) + 'eventUrl');
 
     var JWToken = '';
     var target = new GlideRecord('x_341272_nexmo_dir_nexmo_config');
@@ -86,6 +86,16 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
       gs.info(JSON.stringify(nexmores) + ' respnso');
       this.data.callId = nexmores.uuid;
       this.saveData();
+		var urls = eventUrl.url;   
+		var str1 = urls.split("?");
+		var str2 = str1[1].split("&");
+		var str3 = str2[0].split("=");
+		
+		var gr = new GlideRecord('x_341272_nexmo_dir_nexmo_call_context');
+		gr.initialize(); 
+		gr.context = str3[1]; 
+		gr.callid = nexmores.uuid; 
+		gr.insert();
       return this.data.callId;
     }
   },
@@ -167,13 +177,13 @@ gs.info(JSON.stringify(eventUrl) + 'eventUrl');
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2019-05-15 09:39:21</sys_created_on>
         <sys_id>3f1f73a3db913300887e7b6039961934</sys_id>
-        <sys_mod_count>63</sys_mod_count>
+        <sys_mod_count>68</sys_mod_count>
         <sys_name>NotifyNexmoOutboundCallRecipe</sys_name>
         <sys_package display_value="Nexmo Direct Driver" source="x_341272_nexmo_dir">e0ab53a7db113300887e7b60399619fa</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Nexmo Direct Driver">e0ab53a7db113300887e7b60399619fa</sys_scope>
         <sys_update_name>sys_script_include_3f1f73a3db913300887e7b6039961934</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2019-07-17 09:16:44</sys_updated_on>
+        <sys_updated_on>2019-07-22 06:25:08</sys_updated_on>
     </sys_script_include>
 </record_update>
